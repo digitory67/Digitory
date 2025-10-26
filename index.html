@@ -1,169 +1,438 @@
-<!DOCTYPE html>
+<!--
+  Digitory - One-page marketing site
+  - Single-file HTML/CSS/JS ready for static hosting (Vercel, GitHub Pages, Neocities)
+  - Colors and fonts per spec: yellow #FFD347, black #0E0E0E, bg #F7F7F7, accent blue #007AFF
+  - Contact form uses a placeholder endpoint (FORM_ENDPOINT). Replace with Formspree / Web3Forms endpoint.
+  - Presentation configurator implements pricing rules described in chat.
+
+  Deployment notes:
+  1) Buy domain (digitory.cz) and point to your hosting.
+  2) If you use Vercel, push this file as index.html in a simple project or use a static framework.
+  3) For forms: create a Formspree/Web3Forms/Getform project and replace FORM_ENDPOINT in the form element action attribute.
+  4) For emails: set up Zoho/GSuite and MX records for digitory.cz.
+
+  Author: Generated for Jakub / Digitory
+-->
+
+<!doctype html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digitory - Onepage</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Digitory — Digitální služby: weby, grafika, video, data</title>
+  <meta name="description" content="Digitory — rychlé a dostupné digitální služby: programování, grafika, střih videí, prezentace a práce s daty." />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
   <style>
-    body { margin: 0; font-family: 'Inter', sans-serif; background: #F7F7F7; color: #222222; }
-    header { background: linear-gradient(90deg, #FFD347 0%, #0E0E0E 100%); padding: 40px 20px; text-align: center; color: #fff; }
-    header h1 { font-family: 'Poppins', sans-serif; font-size: 48px; margin: 0; }
-    header p { font-size: 18px; margin-top: 10px; }
-    section { padding: 40px 20px; max-width: 1000px; margin: auto; }
-    h2 { font-family: 'Poppins', sans-serif; font-size: 32px; margin-bottom: 20px; }
-    .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .service-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-    .service-card h3 { font-family: 'Poppins', sans-serif; color: #0E0E0E; }
-    .service-card ul { padding-left: 20px; }
-    .configurator { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-top: 20px; }
-    .configurator label { display: block; margin: 10px 0 5px; }
-    .configurator input, .configurator select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; }
-    .btn { background: #007AFF; color: #fff; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-family: 'Poppins', sans-serif; margin-top: 10px; }
-    footer { background: #0E0E0E; color: #fff; text-align: center; padding: 20px; margin-top: 40px; }
+    :root{
+      --yellow:#FFD347;
+      --black:#0E0E0E;
+      --bg:#F7F7F7;
+      --accent:#007AFF;
+      --text:#222222;
+      --radius:12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* Header */
+    .header{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:16px;padding:18px 24px;background:linear-gradient(90deg,var(--yellow),var(--black));
+      color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo-circle{width:48px;height:48px;border-radius:10px;background:linear-gradient(90deg,var(--yellow),var(--black));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.12)}
+    .logo-d{font-family:Poppins,Inter;font-weight:700;color:white;font-size:22px;letter-spacing:0.5px}
+    .brand-name{font-weight:700;font-family:Poppins,Inter;color:white}
+    .nav a{color:rgba(255,255,255,0.92);text-decoration:none;margin-left:18px;font-weight:600}
+
+    /* Hero */
+    .hero{padding:56px 20px;display:grid;grid-template-columns:1fr 420px;gap:30px;align-items:center;max-width:1200px;margin:0 auto}
+    .hero h1{font-family:Poppins;font-size:40px;margin:0 0 12px}
+    .hero p{margin:0 0 18px;color:#333}
+    .cta-row{display:flex;gap:12px}
+    .btn{background:var(--black);color:white;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:700;border:none;cursor:pointer}
+    .btn-ghost{background:transparent;color:var(--black);border:2px solid var(--black);}
+
+    /* Card on right */
+    .order-card{background:white;border-radius:16px;padding:18px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+    .order-card h3{margin:0 0 8px}
+    .feature{display:flex;gap:12px;align-items:center;margin:8px 0}
+    .feature svg{width:22px;height:22px}
+
+    /* Services */
+    .services{max-width:1200px;margin:40px auto;padding:8px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:white;padding:18px;border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,0.04)}
+    .card h4{margin:0 0 8px}
+    .card p{margin:0;color:#444}
+
+    /* Configurator */
+    .config{max-width:1200px;margin:30px auto;padding:20px}
+    .config-grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .config-panel{background:white;padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.05)}
+    label{display:block;margin:8px 0 4px;font-weight:600}
+    input[type=number],select,input[type=text],textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e6e6}
+    .price{font-size:22px;font-weight:800;color:var(--black);}
+
+    /* Contact */
+    .contact-section{max-width:1200px;margin:30px auto;padding:20px}
+    .contact-grid{display:grid;grid-template-columns:1fr 420px;gap:20px}
+
+    footer{padding:28px 20px;margin-top:30px;color:#555}
+
+    /* Responsive */
+    @media (max-width:960px){
+      .hero{grid-template-columns:1fr;padding:30px 16px}
+      .services{grid-template-columns:repeat(2,1fr)}
+      .config-grid{grid-template-columns:1fr}
+      .contact-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:560px){
+      .services{grid-template-columns:1fr}
+      .nav{display:none}
+      .logo-d{font-size:20px}
+      .brand-name{font-size:14px}
+      .hero h1{font-size:28px}
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>D</h1>
-    <p>Digitory.cz - Digitální služby pro každého 💻🎨📊</p>
+
+  <header class="header">
+    <div class="brand">
+      <div class="logo-circle" aria-hidden>
+        <div class="logo-d">D</div>
+      </div>
+      <div>
+        <div class="brand-name">Digitory</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9)">digital studio • web • video • data</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#services">Služby</a>
+      <a href="#config">Kalkulátor</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
   </header>
 
-  <section>
-    <h2>Naše služby</h2>
-    <div class="services">
-      <div class="service-card">
-        <h3>Programování & Technika</h3>
-        <ul>
-          <li>Tvorba webů (HTML, CSS, JS, PHP, Python)</li>
-          <li>Automatizace a skripty</li>
-          <li>CMS systémy (WordPress, Shoptet)</li>
-          <li>Nastavení domén, hostingu, e-mailů</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>Grafika & Vizuál</h3>
-        <ul>
-          <li>Úprava fotek, retuš</li>
-          <li>Tvorba bannerů, log a ikon</li>
-          <li>Web a prezentační design</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>Video & Animace</h3>
-        <ul>
-          <li>Střih videí (TikTok, YouTube, Reels)</li>
-          <li>Animace log a textů</li>
-          <li>Krátká reklamní videa z fotek/textu</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>Prezentace</h3>
-        <ul>
-          <li>Tvorba profesionálních prezentací</li>
-          <li>Úprava stávajících prezentací</li>
-          <li>Návrh šablon a struktury</li>
-          <li>Mini-balíčky: Rychlá prezentace, Přidání slidů, Premium přechody</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>Data & Analýza</h3>
-        <ul>
-          <li>Tabulky a grafy (Excel, Google Sheets)</li>
-          <li>Čištění a úprava dat (CSV, XML, JSON)</li>
-          <li>Automatizace výpočtů a převodů</li>
-          <li>Základní statistické výpočty</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>Digitální pomoc</h3>
-        <ul>
-          <li>Nastavení systému, instalace programů</li>
-          <li>Odstranění virů, obnova dat</li>
-          <li>Vysvětlení kroků a školení</li>
-          <li>Cloudy, zálohy, propojení aplikací</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Digitory — pomůžeme vám s webem, videem i daty. Rychle a profesionálně.</h1>
+        <p>Potřebujete opravit web, sestříhat video nebo pomoct s tabulkami? Napište, co potřebujete, a my navrhneme řešení. Transparentní ceny a rychlé dodání.</p>
+        <div class="cta-row">
+          <button class="btn" onclick="scrollToSection('config')">Odhad ceny</button>
+          <a class="btn btn-ghost" href="#kontakt">Ozvěte se</a>
+        </div>
 
-  <section>
-    <h2>Konfigurátor služeb</h2>
-    <div class="configurator">
-      <label for="service">Vyber službu:</label>
-      <select id="service">
-        <option value="prezentace">Prezentace</option>
-        <option value="grafika">Grafika & Vizuál</option>
-        <option value="video">Video & Animace</option>
-        <option value="programovani">Programování & Technika</option>
-        <option value="data">Data & Analýza</option>
-        <option value="digitalni_pomoc">Digitální pomoc</option>
-      </select>
+        <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+          <div style="background:white;padding:10px;border-radius:10px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L15 8H9L12 2Z" fill="#FFD347"/></svg>
+            <div><strong>Rychle</strong><div style="font-size:13px;color:#666">První verze do 48 hodin</div></div>
+          </div>
+          <div style="background:white;padding:10px;border-radius:10px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#007AFF" stroke-width="2"/></svg>
+            <div><strong>Transparentně</strong><div style="font-size:13px;color:#666">Konfigurátor ceny</div></div>
+          </div>
+        </div>
+      </div>
 
-      <label for="slides">Počet slidů / položek (pokud relevantní):</label>
-      <input type="number" id="slides" value="10" min="1">
+      <aside class="order-card">
+        <h3>Okamžitý odhad</h3>
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(90deg,var(--yellow),var(--black));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">D</div>
+          <div>
+            <div style="font-size:13px;color:#666">Logo & brand</div>
+            <div style="font-weight:700">Digitory — creative studio</div>
+          </div>
+        </div>
+        <p style="color:#555;margin-bottom:8px">Vyplňte konfigurátor níže pro přesnější kalkulaci. Nezapomeňte přidat termín a podklady.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" onclick="scrollToSection('config')">Spustit kalkulátor</button>
+          <a class="btn btn-ghost" href="#kontakt">Kontaktovat nás</a>
+        </div>
+      </aside>
+    </section>
 
-      <label><input type="checkbox" id="basicTransitions"> Základní přechody (+0 Kč/slide)</label>
-      <label><input type="checkbox" id="premiumTransitions"> Premium přechody (+50 Kč/slide)</label>
-      <label><input type="checkbox" id="express"> Expresní dodání (+30%)</label>
+    <section id="services" class="services">
+      <div class="card">
+        <h4>Programování & Technika</h4>
+        <p>Tvorba webů, automatizace, skripty, opravy kódu a nastavení hostingu.</p>
+      </div>
+      <div class="card">
+        <h4>Grafika & Vizual</h4>
+        <p>Loga, banner, úpravy fotek, návrhy pro web a sociální sítě.</p>
+      </div>
+      <div class="card">
+        <h4>Video & Animace</h4>
+        <p>Reels, TikTok, úprava videí, přidání titulků a jednoduché animace loga.</p>
+      </div>
 
-      <button class="btn" onclick="calculatePrice()">Spočítat cenu</button>
-      <p id="priceOutput">Celková cena: 0 Kč</p>
-    </div>
-  </section>
+      <div class="card">
+        <h4>Prezentace</h4>
+        <p>Profesionální prezentace v PowerPoint / Google Slides, šablony a export do videa.</p>
+      </div>
+      <div class="card">
+        <h4>Data & Analýzy</h4>
+        <p>Práce s tabulkami, automatizace, čištění dat a reporty.</p>
+      </div>
+      <div class="card">
+        <h4>Digitální pomoc</h4>
+        <p>Rychlá online pomoc – nastavení, obnovy dat, zrychlení PC, instalace software.</p>
+      </div>
+    </section>
 
-  <section>
-    <h2>Kontaktujte nás</h2>
-    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <label for="name">Jméno:</label>
-      <input type="text" id="name" name="name" required>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-      <label for="message">Zpráva / poptávka:</label>
-      <textarea id="message" name="message" rows="5" required></textarea>
-      <button class="btn" type="submit">Odeslat</button>
-    </form>
-  </section>
+    <section id="config" class="config">
+      <div style="max-width:1200px;margin:0 auto">
+        <h2 style="font-family:Poppins;margin:0 0 8px">Kalkulátor & konfigurátor</h2>
+        <p style="margin:0 0 16px;color:#555">Sestavte si balíček a hned vidíte cenu. To je ideální pro rychlé nabídky klientům.</p>
+
+        <div class="config-grid">
+          <div class="config-panel">
+            <label for="service">Vyberte službu</label>
+            <select id="service">
+              <option value="presentation">Prezentace</option>
+              <option value="web">Web / Landing</option>
+              <option value="video">Video / Střih</option>
+              <option value="graphics">Grafika / Logo</option>
+              <option value="data">Data / Tabulky</option>
+              <option value="support">Digitální pomoc</option>
+            </select>
+
+            <!-- Presentation specific options -->
+            <div id="presentationOptions" style="margin-top:12px">
+              <label for="slides">Počet slidů</label>
+              <input type="number" id="slides" value="5" min="1" max="200">
+
+              <label for="transitions">Přechody</label>
+              <select id="transitions">
+                <option value="none">Žádné (bez přechodu)</option>
+                <option value="basic">Základní</option>
+                <option value="premium">Prémiové</option>
+              </select>
+
+              <label for="exportVideo">Export do videa (.mp4)</label>
+              <select id="exportVideo">
+                <option value="no">Ne</option>
+                <option value="yes">Ano</option>
+              </select>
+            </div>
+
+            <!-- Generic options -->
+            <div style="margin-top:12px">
+              <label for="rush">Expresní dodání (24h)</label>
+              <select id="rush">
+                <option value="no">Ne</option>
+                <option value="yes">Ano (+30%)</option>
+              </select>
+
+              <label for="extras">Další požadavky (ikony, infografiky, korektura)</label>
+              <input type="text" id="extras" placeholder="Napište stručně, např. přidat infografiku">
+            </div>
+
+            <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-size:12px;color:#666">Odhad ceny</div>
+                <div class="price" id="price">0 Kč</div>
+              </div>
+              <div>
+                <button class="btn" id="calcBtn">Spočítat</button>
+              </div>
+            </div>
+
+            <div style="margin-top:12px;font-size:13px;color:#666">Tip: Zkuste tlačítko <strong>Spočítat</strong>, a pak rovnou <em>Odeslat poptávku</em> v kontaktním formuláři.</div>
+          </div>
+
+          <div class="config-panel">
+            <h4>Jak to funguje</h4>
+            <ol style="margin:8px 0 0 16px;color:#444">
+              <li>Vyberte službu a nastavte parametry.</li>
+              <li>Klikněte na <strong>Spočítat</strong> pro rychlý odhad.</li>
+              <li>Vyplňte kontaktní formulář vpravo a pošlete poptávku.</li>
+            </ol>
+
+            <hr style="margin:12px 0">
+            <h4>Mini balíčky</h4>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+              <div style="padding:10px;border-radius:8px;background:#f8f8f8">Rychlá oprava webu — <strong>1 200 Kč</strong></div>
+              <div style="padding:10px;border-radius:8px;background:#f8f8f8">Retuš 10 fotek — <strong>900 Kč</strong></div>
+              <div style="padding:10px;border-radius:8px;background:#f8f8f8">Krátké video (30s) — <strong>1 500 Kč</strong></div>
+              <div style="padding:10px;border-radius:8px;background:#f8f8f8">Tabulka + grafy — <strong>800 Kč</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt" class="contact-section">
+      <div style="max-width:1200px;margin:0 auto">
+        <h2 style="font-family:Poppins;margin:0 0 8px">Ozvěte se nám</h2>
+        <p style="margin:0 0 12px;color:#555">Pošlete poptávku přes formulář níže a my se ozveme s návrhem a cenou.</p>
+
+        <div class="contact-grid">
+          <div class="config-panel">
+            <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+              <label for="name">Jméno</label>
+              <input type="text" id="name" name="name" required>
+
+              <label for="email">E‑mail</label>
+              <input type="text" id="email" name="email" required>
+
+              <label for="serviceType">Služba</label>
+              <select id="serviceType" name="service">
+                <option>Prezentace</option>
+                <option>Web</option>
+                <option>Video</option>
+                <option>Grafika</option>
+                <option>Data</option>
+                <option>Digitální pomoc</option>
+              </select>
+
+              <label for="message">Popište stručně, co potřebujete</label>
+              <textarea id="message" name="message" rows="5" placeholder="Přidejte termín, rozpočet, případné podklady"></textarea>
+
+              <input type="hidden" id="calcSummary" name="calcSummary" value="">
+
+              <div style="display:flex;gap:10px;margin-top:12px">
+                <button class="btn" type="submit">Odeslat poptávku</button>
+                <button class="btn btn-ghost" type="button" onclick="fillQuick()">Rychlý scénář</button>
+              </div>
+            </form>
+          </div>
+
+          <aside class="config-panel">
+            <h4>Kontakt</h4>
+            <p>Mail: <a href="mailto:kontakt@digitory.cz">kontakt@digitory.cz</a></p>
+            <p>Telefon: +420 123 456 789 (ukázka)</p>
+
+            <hr>
+            <h4>Jak pracujeme</h4>
+            <p style="color:#555">Dáme vám jasný odhad ceny, termín a 2 kola úprav u menších prací. U větších projektů navrhneme průběh a milníky.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
-    &copy; 2025 Digitory.cz
+    <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+      <div>© <strong>Digitory</strong> — digital studio • web • video • data</div>
+      <div style="color:#666">Made with ❤️ by Digitory</div>
+    </div>
   </footer>
 
   <script>
-    function calculatePrice() {
-      let service = document.getElementById('service').value;
-      let slides = parseInt(document.getElementById('slides').value);
-      let basic = document.getElementById('basicTransitions').checked;
-      let premium = document.getElementById('premiumTransitions').checked;
-      let express = document.getElementById('express').checked;
+    // Small helper to scroll to section
+    function scrollToSection(id){
+      document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+    }
 
+    // Price calculator logic
+    function calcPrice(){
+      const svc = document.getElementById('service').value;
       let price = 0;
-      if(service === 'prezentace') {
+      if(svc === 'presentation'){
+        const slides = Number(document.getElementById('slides').value) || 0;
+        const trans = document.getElementById('transitions').value;
+        const exportVideo = document.getElementById('exportVideo').value === 'yes';
+
+        // base price: up to 10 slides = 500 Kč
         price = 500;
-        if(slides > 10) {
-          price += Math.ceil((slides - 10)/2) * 50;
+        if(slides > 10){
+          // each additional 2 slides = +50 Kč
+          const extraPairs = Math.ceil((slides - 10)/2);
+          price += extraPairs * 50;
         }
-        if(premium) price += slides * 50;
-      } else if(service === 'grafika') {
-        price = 300;
-        price += slides * 20; // počet grafických položek
-      } else if(service === 'video') {
-        price = 400;
-        price += slides * 30; // počet videí / efektů
-      } else if(service === 'programovani') {
+        // transitions
+        if(trans === 'basic'){
+          price += 10 * slides; // +10 Kč/slide
+        } else if(trans === 'premium'){
+          price += 50 * slides; // +50 Kč/slide
+        }
+        if(exportVideo) price += 300; // fixed export fee
+      } else if(svc === 'web'){
+        price = 6000; // base landing price
+      } else if(svc === 'video'){
+        price = 1500; // short clip base
+      } else if(svc === 'graphics'){
+        price = 1200;
+      } else if(svc === 'data'){
+        price = 900;
+      } else if(svc === 'support'){
         price = 500;
-        price += slides * 25; // počet funkcionalit
-      } else if(service === 'data') {
-        price = 200;
-        price += slides * 15; // počet tabulek / grafů
-      } else if(service === 'digitalni_pomoc') {
-        price = 250;
-        price += slides * 10; // počet drobných úkonů
       }
 
-      if(express) price = Math.ceil(price * 1.3);
-      document.getElementById('priceOutput').innerText = 'Celková cena: ' + price + ' Kč';
+      // extras and rush
+      const rush = document.getElementById('rush').value === 'yes';
+      const extrasText = document.getElementById('extras').value.trim();
+      if(extrasText.length > 0) price += 200; // flat fee for small extras
+      if(rush) price = Math.round(price * 1.3);
+
+      document.getElementById('price').textContent = price.toLocaleString('cs-CZ') + ' Kč';
+      return price;
     }
+
+    document.getElementById('calcBtn').addEventListener('click', function(){
+      const p = calcPrice();
+      // store summary to hidden field
+      const svc = document.getElementById('service').value;
+      const slides = document.getElementById('slides').value;
+      const trans = document.getElementById('transitions').value;
+      const extras = document.getElementById('extras').value;
+      const rush = document.getElementById('rush').value;
+      const summary = `Služba: ${svc}; Slidů: ${slides}; Přechody: ${trans}; Expres: ${rush}; Poznámky: ${extras}; Cena: ${p} Kč`;
+      document.getElementById('calcSummary').value = summary;
+
+      // small visual feedback
+      const el = document.getElementById('price');
+      el.animate([{transform:'scale(0.95)'},{transform:'scale(1)'}],{duration:220})
+    });
+
+    // Show/hide presentation options depending on service
+    document.getElementById('service').addEventListener('change', function(e){
+      const v = e.target.value;
+      document.getElementById('presentationOptions').style.display = (v === 'presentation') ? 'block' : 'none';
+      calcPrice();
+    });
+
+    // Set initial
+    document.getElementById('presentationOptions').style.display = 'block';
+    calcPrice();
+
+    // Quick fill demo
+    function fillQuick(){
+      document.getElementById('name').value = 'Jméno Příjmení';
+      document.getElementById('email').value = 'zakaznik@email.cz';
+      document.getElementById('message').value = 'Potřebuji web/prezentaci. Termín: do 14 dnů. Rozpočet: dle nabídky.';
+      document.getElementById('serviceType').value = document.getElementById('service').value || 'Prezentace';
+      calcPrice();
+      alert('Formulář byl předvyplněn jako ukázka — nezapomeň upravit údaje před odesláním.');
+    }
+
+    // Optional: prevent form default and show thanks (for demo). If you use actual endpoint, remove handler.
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      // If Formspree endpoint is not set, block submission and show demo message
+      const action = e.target.getAttribute('action');
+      if(action.includes('YOUR_FORM_ID')){
+        e.preventDefault();
+        alert('Demo: formulář není připojený. Nahraďte action URL ve formu za vlastní Formspree / Web3Forms endpoint a znovu odešlete.');
+        return false;
+      }
+      // else, let it submit normally
+    });
   </script>
 </body>
 </html>
