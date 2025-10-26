@@ -1,45 +1,314 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digitory</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Digitory — sport & vybavení</title>
+  <meta name="description" content="Digitory: kvalitní sportovní vybavení. Rychlé dodání, skvělé ceny a osobní přístup." />
+
   <style>
-    body { font-family: Arial, sans-serif; margin:0; }
-    header { padding:14px 20px; border-bottom:1px solid #eee; display:flex; gap:16px; align-items:center; }
-    header a { text-decoration:none; color:#333; font-size:14px }
-    .hero { text-align:center; padding:80px 20px; background:#f7fafc; }
-    .hero h1 { font-size:40px; color:#2b6cb0; margin:0 }
-    .hero p { color:#555; margin:14px 0 24px }
-    .btn { display:inline-block; background:#2b6cb0; color:#fff; padding:12px 22px; border-radius:8px; text-decoration:none }
-    .grid { max-width:1000px; margin:40px auto; padding:0 20px; display:grid; gap:16px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
-    .card { border:1px solid #eee; border-radius:14px; padding:16px; }
-    footer { text-align:center; color:#777; font-size:12px; padding:24px 0; border-top:1px solid #eee; margin-top:40px }
+    :root{
+      --blue:#173A78; --green:#7AC142; --bg:#fafafa; --text:#1f2937;
+      --muted:#6b7280; --card:#ffffff; --border:#e5e7eb;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--max);margin:auto;padding:0 16px}
+    .btn{display:inline-block;background:var(--blue);color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;transition:.2s}
+    .btn:hover{opacity:.9;transform:translateY(-1px)}
+    .btn-outline{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+    .badge{display:inline-block;background:var(--green);color:#000;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700}
+
+    /* Topbar + Header */
+    .topbar{background:#f6f7fb;color:#333;font-size:13px;border-bottom:1px solid var(--border)}
+    .topbar .wrap{display:flex;gap:18px;align-items:center;justify-content:space-between;padding:8px 0}
+    header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:30}
+    .head{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:36px;height:36px;border-radius:999px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:800}
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{font-size:14px}
+    .search{position:relative;flex:1;max-width:480px;margin:0 16px}
+    .search input{width:100%;border:1px solid var(--border);border-radius:999px;padding:10px 40px 10px 14px;outline:none}
+    .search button{position:absolute;right:3px;top:3px;border:0;border-radius:999px;background:var(--blue);color:#fff;padding:8px 14px}
+
+    /* Hero */
+    .hero{position:relative;isolation:isolate}
+    .hero .bg{position:absolute;inset:0;z-index:-1;background:
+      radial-gradient(40rem 40rem at 120% -10%, #a78bfa 0, transparent 55%),
+      radial-gradient(45rem 45rem at -20% -10%, #60a5fa 0, transparent 60%),
+      linear-gradient(180deg,#fff, #f7fafc 60%, #fff)}
+    .hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:56px 0}
+    .hero h1{font-size:44px;line-height:1.1;margin:0}
+    .muted{color:var(--muted)}
+    .hero-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+
+    /* Sections */
+    section{padding:56px 0}
+    h2{font-size:28px;margin:0 0 10px}
+    .grid{display:grid;gap:16px}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
+    .price{font-weight:800;font-size:18px}
+    .stars{color:#f59e0b}
+
+    /* FAQ */
+    details{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px}
+    details+details{margin-top:10px}
+    summary{cursor:pointer;font-weight:600}
+
+    /* Contact */
+    .form{display:grid;gap:10px;max-width:560px}
+    .form input,.form textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:12px}
+    .form textarea{min-height:120px;resize:vertical}
+
+    footer{border-top:1px solid var(--border);padding:28px 0;color:var(--muted);font-size:14px;background:#fff}
+
+    /* Responsive */
+    .only-mobile{display:none}
+    @media (max-width:900px){
+      nav{display:none}
+      .only-mobile{display:block}
+      .hero-inner{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr 1fr}
+      .grid-4{grid-template-columns:1fr 1fr}
+      .search{display:none}
+    }
+    @media (max-width:600px){
+      .grid-3,.grid-4{grid-template-columns:1fr}
+      .hero h1{font-size:34px}
+    }
+    /* Floating cart demo bubble */
+    #cartBubble{position:fixed;right:16px;bottom:16px;background:#111;color:#fff;border-radius:999px;padding:10px 14px;font-size:14px}
   </style>
 </head>
 <body>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="container wrap">
+      <div>📞 596 633 216 &nbsp; • &nbsp; ✉️ info@digitory.cz</div>
+      <div class="only-mobile"><a href="#kontakt" class="btn" style="padding:6px 12px;font-size:12px">Kontakt</a></div>
+      <div class="hide-mobile">
+        <a href="#faq">FAQ</a> • <a href="#o-nas">O nás</a> • <a href="#kontakt">Kontakt</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
   <header>
-    <strong>Digitory</strong>
-    <nav style="margin-left:auto; display:flex; gap:12px;">
-      <a href="/">Domů</a>
-      <a href="#">Produkty</a>
-      <a href="#">Kontakt</a>
-    </nav>
+    <div class="container head">
+      <a class="brand" href="/">
+        <div class="logo">D</div>
+        <strong>Digitory</strong>
+      </a>
+
+      <div class="search">
+        <input id="q" type="text" placeholder="Hledat produkty…" />
+        <button onclick="alert('Vyhledávání je demo 🙂')">Hledat</button>
+      </div>
+
+      <nav>
+        <a href="#produkty">Produkty</a>
+        <a href="#kategorie">Kategorie</a>
+        <a href="#o-nas">O nás</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#cenik" class="badge">VÝPRODEJ</a>
+      </nav>
+
+      <button class="only-mobile btn btn-outline" onclick="document.getElementById('mobileNav').showModal()">Menu</button>
+    </div>
   </header>
 
+  <!-- Mobile nav -->
+  <dialog id="mobileNav" style="border:0;border-radius:16px;max-width:420px;width:90%">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong>Navigace</strong>
+      <button onclick="this.closest('dialog').close()">✕</button>
+    </div>
+    <div style="display:grid;gap:8px">
+      <a href="#produkty" onclick="mobileNav.close()">Produkty</a>
+      <a href="#kategorie" onclick="mobileNav.close()">Kategorie</a>
+      <a href="#o-nas" onclick="mobileNav.close()">O nás</a>
+      <a href="#kontakt" onclick="mobileNav.close()">Kontakt</a>
+    </div>
+  </dialog>
+
+  <!-- Hero -->
   <section class="hero">
-    <h1>Vítej na stránce Digitory</h1>
-    <p>Jednoduchý statický web hostovaný na Vercelu.</p>
-    <a class="btn" href="#">Začít →</a>
+    <div class="bg"></div>
+    <div class="container hero-inner">
+      <div>
+        <span class="badge">Nově spuštěno</span>
+        <h1>Vybavení pro <span style="color:var(--blue)">sport</span> a domácí posilovnu</h1>
+        <p class="muted">Kvalitní produkty, rychlé doručení a férové ceny. Sestav si domácí gym – i v malém prostoru.</p>
+        <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap">
+          <a class="btn" href="#produkty">Prohlédnout produkty →</a>
+          <a class="btn btn-outline" href="#o-nas">Proč Digitory?</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img alt="Ilustrační fotka" src="https://images.unsplash.com/photo-1554284126-aa88f22d8b74?q=80&w=1200&auto=format&fit=crop" style="border-radius:12px" />
+      </div>
+    </div>
   </section>
 
-  <section class="grid">
-    <div class="card"><strong>Rychle online</strong><p>Žádné buildy, jen HTML/CSS.</p></div>
-    <div class="card"><strong>Snadné úpravy</strong><p>Stačí upravit soubor index.html.</p></div>
-    <div class="card"><strong>Připraveno na růst</strong><p>Později lze přejít na Next.js.</p></div>
+  <!-- Kategorie -->
+  <section id="kategorie">
+    <div class="container">
+      <h2>Populární kategorie</h2>
+      <p class="muted">Vyber si oblast, která tě zajímá.</p>
+      <div class="grid grid-4" style="margin-top:16px">
+        <div class="card"><strong>Fitness a posilovna</strong><p class="muted">Rotopedy, lavice, činky, gumy…</p></div>
+        <div class="card"><strong>Parkour</strong><p class="muted">Trampolíny, airtracky, žíněnky.</p></div>
+        <div class="card"><strong>Míčové sporty</strong><p class="muted">Basket, volejbal, fotbal a další.</p></div>
+        <div class="card"><strong>Outdoor</strong><p class="muted">Camping, turistika, doplňky.</p></div>
+      </div>
+    </div>
   </section>
 
-  <footer>© <span id="y"></span> Digitory</footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  <!-- Produkty -->
+  <section id="produkty" style="background:#fff">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap">
+        <div>
+          <h2>Vybrané produkty</h2>
+          <p class="muted">Vše skladem – odesíláme do 24 hodin.</p>
+        </div>
+        <a class="btn btn-outline" href="#cenik">Ceník →</a>
+      </div>
+
+      <div class="grid grid-4" style="margin-top:16px">
+        <!-- Karta produktu 1 -->
+        <div class="card">
+          <div style="aspect-ratio:4/3;background:#f3f4f6;border-radius:10px;display:grid;place-items:center">🦾</div>
+          <div style="margin-top:10px;font-weight:700">Posilovací guma PowerBand</div>
+          <div class="muted" style="font-size:14px">Různé úrovně odporu.</div>
+          <div class="price" style="margin-top:6px">249 Kč</div>
+          <button class="btn" style="width:100%;margin-top:10px" onclick="addToCart('Posilovací guma',249)">Přidat do košíku</button>
+        </div>
+        <!-- 2 -->
+        <div class="card">
+          <div style="aspect-ratio:4/3;background:#f3f4f6;border-radius:10px;display:grid;place-items:center">🚴</div>
+          <div style="margin-top:10px;font-weight:700">Rotoped HomeFit</div>
+          <div class="muted" style="font-size:14px">Tichý chod, nastavitelný odpor.</div>
+          <div class="price" style="margin-top:6px">4 990 Kč</div>
+          <button class="btn" style="width:100%;margin-top:10px" onclick="addToCart('Rotoped',4990)">Přidat do košíku</button>
+        </div>
+        <!-- 3 -->
+        <div class="card">
+          <div style="aspect-ratio:4/3;background:#f3f4f6;border-radius:10px;display:grid;place-items:center">🏋️</div>
+          <div style="margin-top:10px;font-weight:700">Sada činek 2×10 kg</div>
+          <div class="muted" style="font-size:14px">Šroubovací uzávěry, pogumované kotouče.</div>
+          <div class="price" style="margin-top:6px">1 790 Kč</div>
+          <button class="btn" style="width:100%;margin-top:10px" onclick="addToCart('Sada činek',1790)">Přidat do košíku</button>
+        </div>
+        <!-- 4 -->
+        <div class="card">
+          <div style="aspect-ratio:4/3;background:#f3f4f6;border-radius:10px;display:grid;place-items:center">🧘</div>
+          <div style="margin-top:10px;font-weight:700">Podložka na jógu</div>
+          <div class="muted" style="font-size:14px">Protiskluzová, 6 mm.</div>
+          <div class="price" style="margin-top:6px">399 Kč</div>
+          <button class="btn" style="width:100%;margin-top:10px" onclick="addToCart('Podložka',399)">Přidat do košíku</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reference -->
+  <section>
+    <div class="container">
+      <h2>Co říkají zákazníci</h2>
+      <div class="grid grid-3" style="margin-top:16px">
+        <div class="card"><div class="stars">★★★★★</div><p>„Rychlé dodání a skvělá komunikace. Doporučuji!“</p><div class="muted">— Petra K.</div></div>
+        <div class="card"><div class="stars">★★★★★</div><p>„Rotoped tichý, montáž do 20 minut. Super.“</p><div class="muted">— Marek T.</div></div>
+        <div class="card"><div class="stars">★★★★☆</div><p>„Ceny OK, kvalita překvapila. Určitě znovu objednám.“</p><div class="muted">— Jana N.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O nás -->
+  <section id="o-nas" style="background:#fff">
+    <div class="container">
+      <h2>O nás</h2>
+      <p class="muted">Digitory je malý tým sportovců a nadšenců do domácího cvičení. Dáváme si záležet na výběru vybavení a rychlém servisu.</p>
+      <div class="grid grid-3" style="margin-top:16px">
+        <div class="card"><strong>🛒 Skladem</strong><p class="muted">90 % produktů máme hned k odeslání.</p></div>
+        <div class="card"><strong>🚚 Rychlé doručení</strong><p class="muted">Balíky odesíláme do 24 hodin.</p></div>
+        <div class="card"><strong>💬 Podpora</strong><p class="muted">Poradíme s výběrem i montáží.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2>Časté dotazy</h2>
+      <details open>
+        <summary>Jak rychle odešlete objednávku?</summary>
+        <p class="muted">Vše skladem posíláme do 24 hodin, jinak uvádíme termín u produktu.</p>
+      </details>
+      <details>
+        <summary>Jak mohu reklamovat zboží?</summary>
+        <p class="muted">Napiš nám na <a href="mailto:reklamace@digitory.cz">reklamace@digitory.cz</a> – pošleme štítek a instrukce.</p>
+      </details>
+      <details>
+        <summary>Nabízíte množstevní slevy?</summary>
+        <p class="muted">Ano, pro kluby a školy máme zvýhodněné ceny – ozvi se přes formulář.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Kontakt -->
+  <section id="kontakt" style="background:#fff">
+    <div class="container">
+      <h2>Kontakt</h2>
+      <p class="muted">Napiš krátkou zprávu – ozveme se co nejdřív.</p>
+      <form class="form" onsubmit="sendMsg(event)">
+        <input name="name" placeholder="Jméno" required />
+        <input type="email" name="email" placeholder="E-mail" required />
+        <textarea name="message" placeholder="Zpráva" required></textarea>
+        <!-- Chceš-li skutečné odesílání: nahraď URL na svoje Formspree ID -->
+        <button class="btn" type="submit">Odeslat</button>
+        <div id="msg" class="muted"></div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div>© <span id="y"></span> Digitory</div>
+      <div><a href="#">Zásady ochrany</a> • <a href="#">Cookies</a></div>
+    </div>
+  </footer>
+
+  <div id="cartBubble" title="Košík (demo)">🛒 0 Kč</div>
+
+  <script>
+    // Rok ve footeru
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Mini "košík" jen pro efekt (neukládá se)
+    let cartTotal = 0;
+    function addToCart(name, price){
+      cartTotal += price;
+      document.getElementById('cartBubble').textContent = `🛒 ${cartTotal.toLocaleString('cs-CZ')} Kč`;
+    }
+
+    // "Odeslání" kontaktu – demo (zelená hláška). Chceš-li reálné odesílání, použij Formspree:
+    // fetch('https://formspree.io/f/<TVÉ_ID>', { method:'POST', headers:{'Accept':'application/json'}, body:JSON.stringify(Object.fromEntries(new FormData(form))) })
+    function sendMsg(e){
+      e.preventDefault();
+      const form = e.currentTarget;
+      const data = Object.fromEntries(new FormData(form));
+      document.getElementById('msg').textContent = `Díky, ${data.name}! Zpráva byla odeslána (demo).`;
+      form.reset();
+    }
+  </script>
 </body>
 </html>
