@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digitory</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; }
+    header { padding:14px 20px; border-bottom:1px solid #eee; display:flex; gap:16px; align-items:center; }
+    header a { text-decoration:none; color:#333; font-size:14px }
+    .hero { text-align:center; padding:80px 20px; background:#f7fafc; }
+    .hero h1 { font-size:40px; color:#2b6cb0; margin:0 }
+    .hero p { color:#555; margin:14px 0 24px }
+    .btn { display:inline-block; background:#2b6cb0; color:#fff; padding:12px 22px; border-radius:8px; text-decoration:none }
+    .grid { max-width:1000px; margin:40px auto; padding:0 20px; display:grid; gap:16px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+    .card { border:1px solid #eee; border-radius:14px; padding:16px; }
+    footer { text-align:center; color:#777; font-size:12px; padding:24px 0; border-top:1px solid #eee; margin-top:40px }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Digitory</strong>
+    <nav style="margin-left:auto; display:flex; gap:12px;">
+      <a href="/">Domů</a>
+      <a href="#">Produkty</a>
+      <a href="#">Kontakt</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Vítej na stránce Digitory</h1>
+    <p>Jednoduchý statický web hostovaný na Vercelu.</p>
+    <a class="btn" href="#">Začít →</a>
+  </section>
+
+  <section class="grid">
+    <div class="card"><strong>Rychle online</strong><p>Žádné buildy, jen HTML/CSS.</p></div>
+    <div class="card"><strong>Snadné úpravy</strong><p>Stačí upravit soubor index.html.</p></div>
+    <div class="card"><strong>Připraveno na růst</strong><p>Později lze přejít na Next.js.</p></div>
+  </section>
+
+  <footer>© <span id="y"></span> Digitory</footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
