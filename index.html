@@ -192,6 +192,192 @@ button.secondary:hover {
 </body>
 </html>
 
+<!-- AI SEKCE -->
+<section id="ai" style="position:relative; background:#0a0a0a; color:white; overflow:hidden;">
+  <style>
+    /* pozadí s jemnou animací */
+    .ai-bg {
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(221,167,86,0.25), transparent 70%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05), transparent 60%),
+        linear-gradient(180deg, #0a0a0a, #111);
+      background-blend-mode: screen;
+      filter: blur(20px);
+      animation: aiMove 12s ease-in-out infinite alternate;
+      z-index:0;
+    }
+    @keyframes aiMove {
+      0% { transform: scale(1) translate(0,0); }
+      100% { transform: scale(1.05) translate(15px, -15px); }
+    }
+
+    .ai-container {
+      position:relative;
+      z-index:2;
+      max-width:1100px;
+      margin:auto;
+      padding:100px 20px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:40px;
+      align-items:center;
+    }
+
+    .ai-text h2 {
+      font-family:'Poppins',sans-serif;
+      font-weight:700;
+      font-size:clamp(32px,4vw,48px);
+      color:#fff;
+      margin-bottom:16px;
+      opacity:0;
+      transform:translateY(20px);
+      animation: fadeUp 1s .3s forwards;
+    }
+
+    .ai-text p {
+      font-size:18px;
+      color:#cfcfcf;
+      line-height:1.6;
+      max-width:480px;
+      opacity:0;
+      transform:translateY(20px);
+      animation: fadeUp 1s .5s forwards;
+    }
+
+    .ai-btn {
+      display:inline-block;
+      background:#DDA756;
+      color:#000;
+      padding:14px 32px;
+      font-weight:600;
+      border-radius:50px;
+      margin-top:28px;
+      transition:.3s;
+      opacity:0;
+      transform:translateY(20px);
+      animation: fadeUp 1s .7s forwards;
+      box-shadow:0 0 20px rgba(221,167,86,0.3);
+    }
+
+    .ai-btn:hover {
+      background:#f2c675;
+      transform:translateY(-3px);
+    }
+
+    /* pravý panel – AI placeholder */
+    .ai-panel {
+      background:#fff;
+      border-radius:16px;
+      color:#000;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.3);
+      transform:translateY(20px);
+      opacity:0;
+      animation: fadeUp 1s .9s forwards;
+    }
+
+    .ai-panel-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 16px;
+      border-bottom:1px solid #eee;
+    }
+
+    .ai-panel-header .dot {
+      width:10px;height:10px;border-radius:999px;background:#DDA756;margin-right:8px;
+    }
+
+    .ai-panel-body {
+      padding:16px;
+      min-height:300px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .ai-msg {
+      background:#f5f5f5;
+      padding:10px 14px;
+      border-radius:12px;
+      max-width:80%;
+    }
+
+    .ai-msg.me {
+      background:#000;
+      color:#fff;
+      align-self:flex-end;
+    }
+
+    .ai-panel-footer {
+      border-top:1px solid #eee;
+      padding:10px;
+      display:flex;
+      gap:10px;
+    }
+
+    .ai-panel-footer input {
+      flex:1;
+      border:1px solid #ccc;
+      border-radius:10px;
+      padding:10px 14px;
+      outline:none;
+    }
+
+    .ai-panel-footer button {
+      background:#000;
+      color:#fff;
+      border:0;
+      border-radius:10px;
+      padding:10px 16px;
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    @media (max-width:900px){
+      .ai-container{grid-template-columns:1fr; text-align:center;}
+      .ai-text p{margin:auto;}
+    }
+  </style>
+
+  <div class="ai-bg"></div>
+
+  <div class="ai-container">
+    <!-- Levá část -->
+    <div class="ai-text">
+      <h2>Seznamte se s <span style="color:#DDA756;">Digitory AI</span></h2>
+      <p>
+        Váš osobní digitální asistent — už brzy dostupný přímo na stránce.  
+        Pomůže vám s webem, automatizací nebo nápadem pro váš projekt.
+      </p>
+      <a href="#kontakt" class="ai-btn">AI agent — ve vývoji</a>
+    </div>
+
+    <!-- Pravá část -->
+    <div class="ai-panel">
+      <div class="ai-panel-header">
+        <div style="display:flex;align-items:center;">
+          <div class="dot"></div>
+          <strong>Digitory AI</strong>
+        </div>
+        <small style="color:#777;">verze 0.1</small>
+      </div>
+      <div class="ai-panel-body">
+        <div class="ai-msg">Ahoj, jsem <strong>Digitory AI</strong>! Už brzy ti pomůžu s weby a AI řešeními.</div>
+        <div class="ai-msg me">Zní to skvěle. Kdy budeš hotový?</div>
+        <div class="ai-msg">🛠️ Právě ve vývoji. Zatím nás můžeš kontaktovat přes formulář níže.</div>
+      </div>
+      <div class="ai-panel-footer">
+        <input disabled placeholder="AI agent je ve vývoji...">
+        <button disabled>Odeslat</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
 
 
