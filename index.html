@@ -5,108 +5,162 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Digitory — moderní digitální studio</title>
   <meta name="description" content="Digitory: weby, automatizace a design. AI agent brzy." />
+
   <style>
     :root{
-      --accent:#DDA756; /* oranžovo-žlutá */
-      --black:#000000;
+      --accent:#DDA756;  /* oranžovo-žlutá */
+      --black:#0C0C0C;   /* černá */
       --muted:#6b7280;
       --border:#e5e7eb;
       --bg:#ffffff;
       --max:1100px;
     }
+
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#111}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#111;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
     .container{max-width:var(--max);margin:auto;padding:0 16px}
-    .btn{display:inline-block;background:var(--accent);color:#000;padding:12px 20px;border-radius:12px;font-weight:700;transition:.2s}
-    .btn:hover{filter:brightness(.95);transform:translateY(-1px)}
-    .btn-dark{background:#000;color:#fff}
-    .badge{display:inline-block;background:#000;color:#fff;border:1px solid #000;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700}
+
+    /* ---------- HERO (středový) ---------- */
+    .hero{
+      position:relative;min-height:100svh;display:grid;place-items:center;text-align:center;isolation:isolate;
+    }
+    .hero-inner{opacity:0;transform:translateY(10px);animation:fadeInUp .8s .2s forwards}
+    .eyebrow{display:inline-block;background:rgba(12,12,12,.85);color:#fff;border:1px solid rgba(255,255,255,.15);padding:6px 12px;border-radius:999px;font-size:12px;letter-spacing:.04em}
+    h1{font-size: clamp(36px, 6vw, 68px); line-height:1.05; margin:18px 0 10px; color:#111}
+    h1 .accent{color:var(--accent)}
+    .sub{font-size: clamp(16px, 2.2vw, 20px); color:var(--muted); max-width:720px; margin:0 auto}
+    .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+    .btn{display:inline-block;background:var(--accent);color:#000;padding:12px 20px;border-radius:12px;font-weight:700;transition:.25s;box-shadow:0 8px 24px rgba(221,167,86,.25)}
+    .btn:hover{transform:translateY(-2px);filter:brightness(.97)}
+    .btn-dark{background:var(--black);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+
+    /* ŽivÉ POZADÍ: animované „blob“ gradienty + jiskry */
+    .bg-blobs{position:absolute;inset:-20vh -10vw;z-index:-2;filter:blur(40px);opacity:.7}
+    .blob{position:absolute;border-radius:50%;mix-blend-mode:multiply;animation:float 18s ease-in-out infinite}
+    .blob.a{width:45vw;height:45vw;left:-10vw;top:-8vh;background:radial-gradient(circle at 30% 30%, rgba(221,167,86,.85), transparent 60%);animation-delay:0s}
+    .blob.b{width:50vw;height:50vw;right:-15vw;top:-5vh;background:radial-gradient(circle at 70% 30%, rgba(12,12,12,.20), transparent 60%);animation-delay:.6s}
+    .blob.c{width:40vw;height:40vw;left:10vw;bottom:-15vh;background:radial-gradient(circle at 50% 50%, rgba(221,167,86,.55), transparent 60%);animation-delay:1.2s}
+
+    .sparks{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.45}
+    .spark{position:absolute;width:2px;height:2px;border-radius:999px;background:rgba(0,0,0,.7);animation:drift linear infinite}
+    /* náhodné rozmístění pár jisker */
+    .spark:nth-child(1){left:10%;top:20%;animation-duration:12s}
+    .spark:nth-child(2){left:25%;top:70%;animation-duration:15s}
+    .spark:nth-child(3){left:55%;top:30%;animation-duration:14s}
+    .spark:nth-child(4){left:65%;top:65%;animation-duration:18s}
+    .spark:nth-child(5){left:80%;top:40%;animation-duration:16s}
+
+    @keyframes drift{
+      0%{transform:translateY(0) translateX(0);opacity:.2}
+      50%{opacity:.6}
+      100%{transform:translateY(-40px) translateX(30px);opacity:.2}
+    }
+    @keyframes float{
+      0%,100%{transform:translateY(0) translateX(0) scale(1)}
+      50%{transform:translateY(-6vh) translateX(2vw) scale(1.05)}
+    }
+    @keyframes fadeInUp{
+      to{opacity:1;transform:none}
+    }
+
+    /* ---------- SECTIONS ---------- */
+    section{padding:72px 0}
+    h2{font-size: clamp(22px,3.2vw,32px); margin:0 0 8px}
     .muted{color:var(--muted)}
-    header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:30}
-    .nav{display:flex;align-items:center;gap:16px;padding:14px 0}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
-    .brand-dot{width:28px;height:28px;border-radius:999px;background:var(--black);color:#fff;display:grid;place-items:center}
-    nav{display:flex;gap:18px;margin-left:auto}
-    nav a{font-size:14px}
-    .cta{margin-left:8px}
-    /* HERO */
-    .hero{position:relative;isolation:isolate}
-    .hero-bg{position:absolute;inset:0;z-index:-1;background:
-      radial-gradient(40rem 40rem at 120% -10%, rgba(221,167,86,.25) 0, transparent 55%),
-      radial-gradient(35rem 35rem at -10% -20%, rgba(0,0,0,.08) 0, transparent 60%),
-      linear-gradient(180deg,#fff,#fff)}
-    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:56px 0}
-    .hero h1{font-size:48px;line-height:1.1;margin:0}
-    .hero h1 .accent{color:var(--accent)}
-    .hero p{font-size:18px;margin:14px 0 0}
-    .actions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-    /* AI panel placeholder */
+    .grid{display:grid;gap:16px}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;transform:translateY(10px);opacity:0}
+    .reveal{transition:transform .6s ease, opacity .6s ease}
+
+    /* AI placeholder */
     .panel{border:1px solid var(--border);border-radius:16px;background:#fff;overflow:hidden}
     .panel-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
     .dot{width:8px;height:8px;border-radius:999px;background:var(--accent);margin-right:8px}
     .panel-title{display:flex;align-items:center;gap:10px;font-weight:700}
-    .panel-body{padding:14px;display:grid;gap:10px;min-height:300px}
+    .panel-body{padding:14px;display:grid;gap:10px;min-height:280px}
     .msg{align-self:flex-start;max-width:85%;padding:10px 12px;border-radius:12px;background:#f6f7fb}
     .msg.me{justify-self:end;background:#111;color:#fff}
     .panel-foot{border-top:1px solid var(--border);padding:10px;display:flex;gap:8px}
     .panel-foot input{flex:1;border:1px solid var(--border);border-radius:10px;padding:10px 12px;outline:none}
     .panel-foot button{background:#000;color:#fff;border:0;border-radius:10px;padding:10px 14px}
     .disabled{opacity:.6;cursor:not-allowed}
-    /* responsive */
+
+    /* ---------- RESPONSIVE ---------- */
     @media (max-width:900px){
-      nav{display:none}
-      .hero-grid{grid-template-columns:1fr}
-      .hero h1{font-size:38px}
+      .grid-3{grid-template-columns:1fr}
+      .hero{min-height:92svh}
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="container nav">
-      <a class="brand" href="#">
-        <div class="brand-dot">D</div> Digitory
-      </a>
-      <nav>
-        <a href="#home">Domů</a>
-        <a href="#sluzby">Služby</a>
-        <a href="#projekty">Projekty</a>
-        <a href="#kontakt">Kontakt</a>
-        <a class="btn cta" href="#kontakt">Nezávazně poptat</a>
-      </nav>
+  <!-- HERO (střed) -->
+  <section class="hero" id="home">
+    <!-- animované pozadí -->
+    <div class="bg-blobs">
+      <div class="blob a"></div>
+      <div class="blob b"></div>
+      <div class="blob c"></div>
     </div>
-  </header>
+    <div class="sparks">
+      <div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div>
+    </div>
 
-  <!-- Hero -->
-  <section id="home" class="hero">
-    <div class="hero-bg"></div>
-    <div class="container hero-grid">
-      <!-- Text vlevo -->
-      <div>
-        <span class="badge">Nově • 2025</span>
-        <h1>Digitory — <span class="accent">tvoříme projekty</span>, které fungují i vypadají skvěle.</h1>
-        <p class="muted">Weby, automatizace a AI řešení. Technologie, design a výkon bez kompromisů.</p>
-        <div class="actions">
-          <a class="btn" href="#sluzby">Zjistit více ↓</a>
-          <a class="btn btn-dark" href="#kontakt">Kontaktovat nás</a>
+    <div class="hero-inner container">
+      <span class="eyebrow">Digitory • moderní digitální studio</span>
+      <h1>Tvůj projekt,<br><span class="accent">promyšlený a krásný</span> od první obrazovky.</h1>
+      <p class="sub">Weby, automatizace a design. Technologie a estetika bez kompromisů. AI agent je součástí – už brzy.</p>
+      <div class="actions">
+        <a class="btn" href="#sluzby">Zjistit více</a>
+        <a class="btn btn-dark" href="#kontakt">Kontaktovat nás</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLUŽBY -->
+  <section id="sluzby">
+    <div class="container">
+      <h2>Co děláme</h2>
+      <p class="muted">Jasné výsledky, čistý design, chytré technologie.</p>
+
+      <div class="grid grid-3" style="margin-top:18px">
+        <div class="card reveal">
+          <div style="font-size:28px">💡</div>
+          <h3 style="margin:8px 0 6px">Weby & e-shopy</h3>
+          <p class="muted">Rychlé, moderní a přehledné. Mobile-first, SEO základ.</p>
+        </div>
+        <div class="card reveal">
+          <div style="font-size:28px">🤖</div>
+          <h3 style="margin:8px 0 6px">AI & Automatizace</h3>
+          <p class="muted">Propojujeme nástroje, šetříme čas. Agent brzy k dispozici.</p>
+        </div>
+        <div class="card reveal">
+          <div style="font-size:28px">🎨</div>
+          <h3 style="margin:8px 0 6px">Brand & Design</h3>
+          <p class="muted">Logo, identita, vizuální systém. Silný první dojem.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- AI Agent placeholder vpravo -->
-      <div class="panel" aria-labelledby="ai-title">
+  <!-- AI AGENT (placeholder) -->
+  <section id="ai">
+    <div class="container">
+      <h2>Digitory AI</h2>
+      <p class="muted">Tvůj osobní asistent přímo na webu. Zeptejte se na cokoliv — <strong>momentálně ve vývoji</strong>.</p>
+
+      <div class="panel reveal" style="margin-top:18px">
         <div class="panel-head">
-          <div class="panel-title">
-            <span class="dot"></span> <span id="ai-title">Digitory AI</span>
-          </div>
+          <div class="panel-title"><span class="dot"></span>Digitory AI</div>
           <span class="muted" style="font-size:12px">verze 0.1</span>
         </div>
         <div class="panel-body">
           <div class="msg">Ahoj! Jsem <strong>Digitory AI</strong> — už brzy ti poradím s webem, automatizací i designem.</div>
           <div class="msg me">Super, těším se. Kdy budeš dostupný?</div>
-          <div class="msg">🛠️ <strong>Právě ve vývoji.</strong> Plná verze se spustí brzy. Zatím nás kontaktuj přes formulář níže.</div>
+          <div class="msg">🛠️ Právě ve vývoji. Zatím nás kontaktuj přes formulář níže.</div>
         </div>
         <div class="panel-foot">
           <input class="disabled" disabled placeholder="AI agent je ve vývoji…" />
@@ -116,32 +170,55 @@
     </div>
   </section>
 
-  <!-- Placeholder další sekce, ať je kam odscrollovat -->
-  <section id="sluzby" class="container" style="padding:56px 16px">
-    <h2 style="margin:0 0 6px">Služby</h2>
-    <p class="muted" style="margin:0">Krátký přehled toho, co umíme. (Obsah doplníme.)</p>
-  </section>
+  <!-- KONTAKT -->
+  <section id="kontakt" style="border-top:1px solid var(--border)">
+    <div class="container">
+      <h2>Napište nám</h2>
+      <p class="muted">Ozveme se obvykle do 24 hodin.</p>
 
-  <section id="kontakt" class="container" style="padding:56px 16px;border-top:1px solid var(--border)">
-    <h2 style="margin:0 0 6px">Kontakt</h2>
-    <p class="muted" style="margin:0 0 12px">Ozveme se obvykle do 24 hodin.</p>
-    <form onsubmit="event.preventDefault(); alert('Díky! Brzy se ozveme.');" style="display:grid;gap:10px;max-width:520px">
-      <input required placeholder="Jméno" style="padding:12px;border:1px solid var(--border);border-radius:10px">
-      <input required type="email" placeholder="E-mail" style="padding:12px;border:1px solid var(--border);border-radius:10px">
-      <textarea required placeholder="Zpráva" style="min-height:120px;padding:12px;border:1px solid var(--border);border-radius:10px"></textarea>
-      <button class="btn btn-dark" type="submit">Odeslat</button>
-    </form>
+      <form onsubmit="event.preventDefault(); ok();"
+            style="display:grid;gap:10px;max-width:520px;margin-top:12px">
+        <input required placeholder="Jméno"
+               style="padding:12px;border:1px solid var(--border);border-radius:10px">
+        <input required type="email" placeholder="E-mail"
+               style="padding:12px;border:1px solid var(--border);border-radius:10px">
+        <textarea required placeholder="Zpráva"
+                  style="min-height:120px;padding:12px;border:1px solid var(--border);border-radius:10px"></textarea>
+        <button class="btn btn-dark" type="submit">Odeslat</button>
+        <div id="msg" class="muted"></div>
+      </form>
+    </div>
   </section>
 
   <footer style="border-top:1px solid var(--border);padding:28px 0;color:#777">
     <div class="container" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
       <div>© <span id="y"></span> Digitory</div>
-      <div><a href="#home">Domů</a> • <a href="#sluzby">Služby</a> • <a href="#kontakt">Kontakt</a></div>
+      <div><a href="#home">Domů</a> • <a href="#sluzby">Služby</a> • <a href="#ai">AI</a> • <a href="#kontakt">Kontakt</a></div>
     </div>
   </footer>
 
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  <script>
+    // rok ve footeru
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // potvrzení odeslání
+    function ok(){
+      const box = document.getElementById('msg');
+      box.textContent = "Díky! Brzy se ozveme.";
+      box.style.color = "#16a34a";
+    }
+
+    // scroll-reveal animace pro .reveal prvky
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.style.opacity = 1;
+          e.target.style.transform = "translateY(0)";
+          io.unobserve(e.target);
+        }
+      })
+    }, {threshold: .15});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
 </body>
 </html>
-
-
