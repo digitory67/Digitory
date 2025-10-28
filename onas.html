@@ -6,134 +6,84 @@
   <title>O nás — Digitory</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --accent: #DDA756;
-      --bg: #0A0A0A;
-      --text: #F5F5F6;
-      --muted: #B9BDC3;
-      --max: 1100px;
+    :root{
+      --accent:#DDA756;
+      --bg:#0A0A0A;
+      --text:#F5F5F6;
+      --muted:#B9BDC3;
+      --max:1100px;
+      --glass:rgba(255,255,255,.06);
     }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+    a{color:inherit}
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
+    /* NAVBAR */
+    header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.05)}
+    nav{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-links{display:flex;gap:24px}
+    .nav-links a{font-weight:500;font-size:15px;text-decoration:none;position:relative}
+    .nav-links a:hover{color:var(--accent)}
+    .nav-links a.active{color:var(--accent)}
+    .nav-logo img{height:38px;filter:drop-shadow(0 0 8px rgba(221,167,86,.3))}
+    @media (max-width:850px){nav{flex-direction:column;gap:10px}}
+
+    /* HERO MINI */
+    .hero{position:relative;overflow:hidden}
+    .hero .bg{
+      position:absolute;inset:-40% -10% 0 -10%;z-index:-1;filter:blur(60px);opacity:.9;
+      background:
+        radial-gradient(34rem 34rem at 20% 10%, rgba(255,195,90,.45), transparent 60%),
+        radial-gradient(26rem 26rem at 80% 15%, rgba(255,215,130,.22), transparent 55%),
+        linear-gradient(180deg,#0A0A0A,#0C0C0C);
+      animation:float 16s ease-in-out infinite alternate;
     }
+    @keyframes float{to{transform:translateY(-20px)}}
+    .hero-inner{max-width:var(--max);margin:0 auto;padding:72px 16px 42px;text-align:center}
+    .eyebrow{display:inline-block;font-size:12px;letter-spacing:.08em;color:#d9d9d9;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:6px 10px;border-radius:999px}
+    h1{margin:12px 0 10px;font-size:clamp(42px,6vw,72px);line-height:1.05;color:var(--accent)}
+    .lead{max-width:780px;margin:0 auto;color:#dcdcdc;font-size:18px;line-height:1.65}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(10,10,10,0.7);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
+    /* CONTENT */
+    main{max-width:var(--max);margin:0 auto;padding:28px 16px 90px}
+    .two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start;margin-top:36px}
+    .box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px}
+    .box h2{margin:0 0 10px;font-size:24px;color:var(--accent)}
+    .box p{margin:0;color:#d2d2d2;line-height:1.65}
+    @media (max-width:960px){.two-col{grid-template-columns:1fr}}
 
-    nav {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 14px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    /* VALUES */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;margin-top:28px}
+    .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px;transition:.25s}
+    .card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 0 18px rgba(221,167,86,.15)}
+    .card .icon{font-size:30px;margin-bottom:8px}
+    .card h3{margin:0 0 6px;font-size:20px;color:var(--accent)}
+    .card p{margin:0;color:#cfcfcf;line-height:1.6}
 
-    .nav-links {
-      display: flex;
-      gap: 24px;
-    }
+    /* STATS + CTA */
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:32px 0}
+    .stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;text-align:center}
+    .stat .n{font-size:28px;font-weight:800;color:#fff}
+    .stat .l{color:#c9c9c9;font-size:13px;margin-top:4px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-block;border-radius:999px;padding:12px 22px;font-weight:600;text-decoration:none;border:2px solid transparent}
+    .btn-accent{background:var(--accent);color:#111;box-shadow:0 0 18px rgba(221,167,86,.25)}
+    .btn-ghost{border-color:var(--accent);color:var(--accent);background:transparent}
 
-    .nav-links a {
-      color: #f2f2f2;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 15px;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover { color: var(--accent); }
-
-    .nav-logo img {
-      height: 38px;
-      filter: drop-shadow(0 0 8px rgba(221,167,86,0.3));
-    }
-
-    main {
-      padding: 100px 16px;
-      max-width: var(--max);
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: clamp(42px, 6vw, 72px);
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-
-    p {
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 0 auto 40px;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 28px;
-      margin-top: 60px;
-    }
-
-    .about-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 32px 24px;
-      transition: 0.3s;
-    }
-
-    .about-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 20px rgba(221,167,86,0.15);
-      transform: translateY(-4px);
-    }
-
-    .icon {
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
-
-    .about-card h3 {
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 50px 20px;
-      color: #777;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
+    footer{text-align:center;padding:40px 16px;color:#888;border-top:1px solid rgba(255,255,255,.05)}
   </style>
 </head>
-
 <body>
 
-  <!-- Navigace -->
+  <!-- NAV -->
   <header>
     <nav>
       <div class="nav-links">
         <a href="index.html">Domů</a>
-        <a href="onas.html">O nás</a>
-        <a href="#">Služby</a>
-        <a href="#">AI</a>
-        <a href="#">Kontakt</a>
+        <a href="onas.html" class="active">O nás</a>
+        <a href="sluzby.html">Služby</a>
+        <a href="ai.html">AI</a>
+        <a href="kontakt.html">Kontakt</a>
       </div>
       <div class="nav-logo">
         <img src="assets/digitory-logoo.png" alt="Digitory logo">
@@ -141,38 +91,65 @@
     </nav>
   </header>
 
-  <!-- Obsah stránky O nás -->
-  <main>
-    <h1>O nás</h1>
-    <p>
-      Jsme tým, který propojuje technologie, kreativitu a automatizaci.  
-      Pomáháme lidem i firmám zjednodušit práci pomocí chytrých digitálních řešení.
-    </p>
+  <!-- HERO MINI -->
+  <section class="hero">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <span class="eyebrow">Digitory • kdo jsme</span>
+      <h1>O nás</h1>
+      <p class="lead">Propojujeme kreativitu a technologie tak, aby vám každý den šetřily čas a dávaly práci smysl.</p>
+    </div>
+  </section>
 
-    <div class="about-grid">
-      <div class="about-card">
+  <!-- CONTENT -->
+  <main>
+    <div class="two-col">
+      <div class="box">
+        <h2>Naše mise</h2>
+        <p>
+          Z nápadu do reality — pomáháme lidem i firmám proměnit myšlenky v praktická digitální řešení.
+          Stavíme věci jednoduše, srozumitelně a udržitelně, aby technologie sloužily vám, ne naopak.
+        </p>
+      </div>
+      <div class="box">
+        <h2>Náš přístup</h2>
+        <p>
+          Začínáme pochopením cíle, pokračujeme rychlými prototypy a končíme vyhlazením detailů.
+          Každý krok děláme společně s vámi, transparentně a bez složitostí.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
         <div class="icon">💡</div>
         <h3>Inovace</h3>
-        <p>Hledáme nové a efektivní způsoby, jak věci dělat lépe a chytřeji.</p>
+        <p>Hledáme nové a efektivní cesty, jak zjednodušit práci a posunout projekty dál.</p>
       </div>
-
-      <div class="about-card">
+      <div class="card">
         <div class="icon">⚙️</div>
         <h3>Jednoduchost</h3>
-        <p>Technologie mají pomáhat, ne komplikovat. Vše stavíme srozumitelně a přehledně.</p>
+        <p>Technologie mají být srozumitelné a užitečné. Stavíme řešení, která dávají smysl.</p>
       </div>
-
-      <div class="about-card">
+      <div class="card">
         <div class="icon">🤝</div>
-        <h3>Spolupráce</h3>
-        <p>Každý projekt tvoříme jako partnerství — společně s klientem od nápadu po realizaci.</p>
+        <h3>Partnerství</h3>
+        <p>Pracujeme spolu s vámi — otevřeně, rychle a s důrazem na výsledek.</p>
       </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">48h</div><div class="l">první návrh řešení</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">klíčové kroky: cíl → prototyp → nasazení</div></div>
+      <div class="stat"><div class="n">∞</div><div class="l">prostor pro růst a iterace</div></div>
+    </div>
+
+    <div class="cta">
+      <a class="btn btn-accent" href="kontakt.html">Chci spolupracovat</a>
+      <a class="btn btn-ghost" href="index.html">Zpět na úvod</a>
     </div>
   </main>
 
-  <footer>
-    © 2025 Digitory — Všechna práva vyhrazena
-  </footer>
-
+  <footer>© 2025 Digitory — Všechna práva vyhrazena</footer>
 </body>
 </html>
