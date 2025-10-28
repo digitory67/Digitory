@@ -159,20 +159,97 @@
 
 <body>
 
-  <!-- NAVBAR -->
-  <header>
-    <div class="nav">
-      <div class="nav-left">
-        <a href="#">Test</a>
-        <a href="#">Test</a>
-        <a href="#">Test</a>
-      </div>
-      <div class="nav-right">
-        <span class="beta">BETA</span>
-        <img class="logo" src="assets/digitory-logo.png" alt="Digitory logo">
-      </div>
+  <!-- NOVÁ HORNÍ LIŠTA -->
+<header>
+  <nav class="nav">
+    <div class="nav-links">
+      <a href="#">Domů</a>
+      <a href="#">O nás</a>
+      <a href="#">Služby</a>
+      <a href="#">AI</a>
+      <a href="#">Kontakt</a>
     </div>
-  </header>
+
+    <!-- jen logo, bez textu -->
+    <div class="nav-logo">
+      <img src="assets/digitory-logo.png" alt="Digitory logo">
+    </div>
+  </nav>
+</header>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.65);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .nav-links a {
+    color: #f2f2f2;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: #DDA756;
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    color: #DDA756;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+
+  .nav-logo img {
+    height: 38px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(221,167,86,0.3));
+    transition: transform 0.3s ease;
+  }
+
+  .nav-logo img:hover {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 850px) {
+    .nav {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .nav-links {
+      gap: 16px;
+    }
+  }
+</style>
 
   <!-- HERO SEKCE -->
   <div class="bg" aria-hidden="true"></div>
@@ -192,6 +269,7 @@
 
 </body>
 </html>
+
 
 
 
