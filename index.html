@@ -17,10 +17,63 @@
       --glass:rgba(255,255,255,.06);
       --max:1100px;
     }
+    /* --- Globální base barva stránky --- */
+body {
+  background: #0A0A0A; /* jednotná černá všude */
+}
+
+/* --- Jedno společné ambientní pozadí pod celou stránkou --- */
+.page-ambient{
+  position: fixed;
+  inset: -40% -20% -40% -20%; /* přetáhne i mimo viewport, aby nikdy nebyly hrany */
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: .95;
+  /* stejné „oranžové mlhy“ jako jinde, ale pouze JEDNOU pro celou stránku */
+  background:
+    radial-gradient(44rem 44rem at 18% 12%, rgba(255,190,90,.50), transparent 65%),
+    radial-gradient(36rem 36rem at 82% 16%, rgba(255,210,130,.24), transparent 62%),
+    radial-gradient(30rem 30rem at 60% 80%, rgba(221,167,86,.24), transparent 65%),
+    linear-gradient(180deg,#0A0A0A,#0C0C0C);
+  animation: ambientFloat 16s ease-in-out infinite alternate;
+}
+@keyframes ambientFloat { to { transform: translateY(-24px) } }
+
+/* --- Zruš per-sekční pozadí/gradienty, aby nekolidovaly s globálním --- */
+.hero,
+.ai-full,
+.ai-fullscreen,
+section[id="ai"] {
+  background: transparent !important;
+}
+
+/* Pokud jsi měl uvnitř sekcí vygenerované vnitřní gradientové vrstvy (.hero-bg, .ai-bg), vypneme je: */
+.hero .hero-bg,
+.ai-bg {
+  display: none !important;
+}
+
+/* Opatrně s hranami: žádné „čáry“ mezi sekcemi */
+section {
+  border-top: none !important;
+  box-shadow: none !important;
+}
+
+/* Pokud nějaký kontejner měl odlišné černé pozadí, sjednotíme: */
+.some-section-class-with-black,  /* pokud něco takového máš */
+.ai-layout,
+.chat,
+.estimate {
+  /* Uvnitř karet klidně necháme poloprůhledné glass pozadí – nevytváří šev přes celou šířku */
+  /* nic zde neměň, spíš hlídáme, aby nikde nebylo čisté #111 přes 100% šířky */
+}
+
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
+      <div class="page-ambient" aria-hidden="true"></div>
       margin:0;
       font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg);
@@ -471,6 +524,7 @@
 
 </body>
 </html>
+
 
 
 
