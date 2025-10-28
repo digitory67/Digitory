@@ -6,16 +6,20 @@
   <title>Digitory — z nápadu do reality</title>
   <meta name="description" content="Digitory: z nápadu do reality. Weby, AI a automatizace v moderním designu." />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --accent:#DDA756;
+      --accent2:#ffb84d;
       --bg:#0A0A0A;
       --text:#F5F5F6;
       --muted:#B9BDC3;
-      --glass:rgba(10,10,10,.65);
+      --glass:rgba(10,10,10,.6);
       --max:1100px;
     }
-    *{box-sizing:border-box} html{scroll-behavior:smooth}
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
       margin:0;
       font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial,sans-serif;
@@ -24,14 +28,14 @@
       overflow-x:hidden;
     }
 
-    /* NAVBAR */
+    /* --- NAVBAR --- */
     header{
       position:sticky;
       top:0;
       z-index:50;
       background:var(--glass);
       backdrop-filter:blur(10px);
-      border-bottom:1px solid rgba(255,255,255,.06);
+      border-bottom:1px solid rgba(255,255,255,.08);
     }
     .nav{
       max-width:var(--max);
@@ -50,8 +54,16 @@
       border-radius:999px;
       transition:.2s;
     }
-    .nav-left a:hover{border-color:rgba(255,255,255,.25);transform:translateY(-1px)}
-    .nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+    .nav-left a:hover{
+      border-color:rgba(255,255,255,.25);
+      transform:translateY(-1px);
+    }
+    .nav-right{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
     .beta{
       background:var(--accent);
       color:#111;
@@ -69,72 +81,82 @@
     }
     @media(max-width:900px){.nav-left{display:none}}
 
-    /* HERO */
+    /* --- HERO (NADPIS NAHOŘE) --- */
     .hero{
       position:relative;
-      min-height:90svh;
-      display:grid;
-      place-items:center;
-      text-align:center;
-      isolation:isolate;
-      overflow:hidden;
-    }
-    .hero-inner{
+      padding:120px 16px 80px;
       max-width:var(--max);
       margin:auto;
-      padding:64px 16px;
+      text-align:center;
     }
-    h1{
-      margin:16px 0 8px;
-      font-size:clamp(48px,8vw,100px);
+    .hero h1{
+      margin:0;
+      font-size:clamp(48px,8vw,92px);
       line-height:1.05;
       font-weight:800;
       letter-spacing:-.02em;
+      color:var(--text);
       opacity:0;
       transform:translateY(14px);
-      animation:up .8s .2s forwards;
+      animation:fadeUp .8s .1s forwards;
     }
-    h1 .accent{color:var(--accent)}
-    .slogan{
-      font-size:clamp(20px,3vw,30px);
+    .hero .slogan{
+      font-size:clamp(22px,3vw,32px);
       font-weight:500;
-      color:var(--accent);
+      color:var(--accent2);
+      margin-top:8px;
       opacity:0;
       transform:translateY(14px);
-      animation:up .9s .3s forwards;
+      animation:fadeUp .9s .25s forwards;
     }
-    .sub{
-      margin:16px auto 0;
-      max-width:760px;
-      font-size:clamp(16px,2vw,20px);
-      color:#DADDE2;
+    .hero .sub{
+      margin:28px auto 0;
+      max-width:750px;
+      font-size:18px;
+      color:var(--muted);
+      line-height:1.6;
       opacity:0;
       transform:translateY(16px);
-      animation:up 1s .4s forwards;
+      animation:fadeUp 1s .4s forwards;
     }
 
-    @keyframes up{to{opacity:1;transform:none}}
+    @keyframes fadeUp{
+      to{opacity:1;transform:none}
+    }
 
-    /* POZADÍ */
+    /* --- POZADÍ --- */
     .bg{
-      position:absolute;
+      position:fixed;
       inset:-25vh -10vw;
       z-index:-2;
-      filter:blur(48px);
-      opacity:.9;
+      filter:blur(64px);
+      opacity:.95;
       background:
-        radial-gradient(42rem 42rem at 15% 25%, rgba(221,167,86,.30), transparent 60%),
-        radial-gradient(36rem 36rem at 85% 20%, rgba(255,255,255,.10), transparent 60%),
-        radial-gradient(28rem 28rem at 60% 80%, rgba(221,167,86,.20), transparent 60%),
-        linear-gradient(180deg,#0A0A0A,#0D0D0D);
-      animation:floatBg 16s ease-in-out infinite alternate;
+        radial-gradient(40rem 40rem at 20% 15%, rgba(255,180,70,.45), transparent 65%),
+        radial-gradient(30rem 30rem at 75% 10%, rgba(255,200,100,.25), transparent 60%),
+        radial-gradient(25rem 25rem at 60% 75%, rgba(221,167,86,.25), transparent 65%),
+        linear-gradient(180deg,#0A0A0A,#0C0C0C);
+      animation:floatBg 14s ease-in-out infinite alternate;
     }
     @keyframes floatBg{
       0%{transform:translateY(0)}
-      100%{transform:translateY(-24px)}
+      100%{transform:translateY(-20px)}
+    }
+
+    /* --- REZERVA PRO DALŠÍ OBSAH (Služby, AI, atd.) --- */
+    section{
+      max-width:var(--max);
+      margin:80px auto;
+      padding:0 16px;
+      text-align:center;
+    }
+    section h2{
+      font-size:clamp(28px,5vw,48px);
+      color:var(--accent);
     }
   </style>
 </head>
+
 <body>
 
   <!-- NAVBAR -->
@@ -152,18 +174,21 @@
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- HERO SEKCE -->
+  <div class="bg" aria-hidden="true"></div>
   <main class="hero" id="home">
-    <div class="bg" aria-hidden="true"></div>
-    <div class="hero-inner">
-      <h1>Digitory</h1>
-      <div class="slogan">Z nápadu do reality</div>
-      <p class="sub">
-        Tvoříme weby, navrhujeme značky a zapojujeme automatizaci i AI asistenty.  
-        Přetváříme nápady v realitu — funkční, estetickou a moderní.
-      </p>
-    </div>
+    <h1>Digitory</h1>
+    <div class="slogan">Z nápadu do reality</div>
+    <p class="sub">
+      Spojujeme technologie, automatizaci a umělou inteligenci s precizním designem.  
+      Dáváme nápadům tvář, funkčnost a život.
+    </p>
   </main>
+
+  <!-- PROSTOR PRO DALŠÍ SEKCE -->
+  <section>
+    <h2>(Tady potom přidáme služby nebo Digitory AI)</h2>
+  </section>
 
 </body>
 </html>
