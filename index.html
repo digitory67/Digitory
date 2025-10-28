@@ -19,6 +19,56 @@
       --max:1200px;
       --radius:16px;
     }
+    /* === FIX: odstranit jakékoliv lokální pozadí/bordery za nadpisem v #ai === */
+#ai,
+#ai * {
+  background-image: none !important;
+}
+
+#ai,
+#ai .ai-wrap,
+#ai .ai-headline {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* zlikvidovat pseudo-elementy, co dělají pás/čáru */
+#ai .ai-headline::before,
+#ai .ai-headline::after,
+#ai .ai-wrap::before,
+#ai .ai-wrap::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* kdyby tam byl hr/divider pod nadpisem */
+#ai hr,
+#ai .divider,
+#ai .section-divider {
+  display: none !important;
+  border: 0 !important;
+}
+
+/* pro jistotu typičtí “viníci” v šablonách */
+#ai .section,
+#ai .panel,
+#ai .box,
+#ai .container,
+#ai .wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* samotné karty (chat, odhad) necháme glass – ty švy nedělají */
+#ai .chat,
+#ai .estimate {
+  background: rgba(255,255,255,.05) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  box-shadow: 0 20px 48px rgba(0,0,0,.35) !important;
+}
+
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -302,3 +352,4 @@
   </script>
 </body>
 </html>
+
