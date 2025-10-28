@@ -201,159 +201,277 @@
     </div>
   </section>
 
-  <!-- DIGITORY AI – ODHAD PROJEKTU -->
-<section id="ai" class="ai-fullscreen">
-  <div class="ai-bg"></div>
+ <!-- DIGITORY AI — CHAT + ODHAD (FULLSCREEN) -->
+<section id="ai" class="ai-full">
+  <div class="ai-bg" aria-hidden="true"></div>
 
-  <div class="ai-center">
-    <h2><span>Digitory AI</span> – odhad projektu</h2>
-    <p class="ai-lead">
-      Napište, co potřebujete – web, aplikaci nebo automatizaci.  
-      Digitory AI vám odhadne čas, cenu a náročnost projektu.  
-      (Zatím ukázková verze 🛠️)
-    </p>
+  <div class="ai-wrap">
+    <header class="ai-headline">
+      <h2><span>Digitory AI</span> — napište, co potřebujete</h2>
+      <p>Popište svůj záměr v chatu (klidně po částech). Potom klikněte na <b>Vypočítat odhad</b> a uvidíte čas, cenu a náročnost. (Ukázková logika, bez napojení na backend.)</p>
+    </header>
 
-    <div class="ai-box">
-      <textarea id="ai-input" placeholder="Popište svůj projekt…"></textarea>
-      <button id="ai-submit">Získat odhad</button>
-
-      <div id="ai-output" class="ai-output">
-        <p>✍️ Zadejte zadání a stiskněte <b>Získat odhad</b>.</p>
+    <div class="ai-layout">
+      <!-- CHAT OKNO -->
+      <div class="chat">
+        <div class="chat-stream" id="chatStream">
+          <div class="msg bot">
+            <b>Digitory AI:</b> Ahoj! Co potřebuješ vyřešit? Klidně napiš: „automatizace faktur“, „e-shop s 6 stránkami“, „AI doporučování“, „napojení na CRM“, „CZ+EN“ atd.
+          </div>
+        </div>
+        <div class="chat-input">
+          <input id="chatInput" type="text" placeholder="Napiš zprávu a stiskni Enter…" />
+          <button id="sendBtn" type="button" aria-label="Odeslat">Odeslat</button>
+        </div>
       </div>
+
+      <!-- ODHAD -->
+      <aside class="estimate">
+        <div class="est-head">
+          <h3>Odhad projektu</h3>
+          <button id="calcBtn" class="btn-accent" type="button">Vypočítat odhad</button>
+        </div>
+
+        <div id="estEmpty" class="est-empty">
+          ✍️ Až dopíšete zadání do chatu, klikněte na <b>Vypočítat odhad</b>.
+        </div>
+
+        <div id="estResult" class="est-result" hidden>
+          <table class="est-table">
+            <tbody>
+              <tr><th>Odhadovaný čas</th><td id="estDays">—</td></tr>
+              <tr><th>Předběžná cena</th><td id="estPrice">—</td></tr>
+              <tr><th>Náročnost</th><td id="estLevel">—</td></tr>
+            </tbody>
+          </table>
+
+          <div class="est-notes">
+            <h4>Co jsme zohlednili</h4>
+            <ul id="estFactors"></ul>
+          </div>
+
+          <div class="est-cta">
+            <a href="kontakt.html" class="btn-ghost">Domluvit konzultaci</a>
+            <a href="kontakt.html" class="btn-accent">Chci upřesnit nabídku</a>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
 
 <style>
-  /* --- Pozadí přes celou obrazovku --- */
-  .ai-fullscreen{
-    position:relative;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#f5f5f5;
-    overflow:hidden;
+  :root{
+    --accent:#DDA756;
+    --bg:#0A0A0A;
+    --text:#F5F5F6;
+    --muted:#B9BDC3;
+    --border:rgba(255,255,255,.10);
+    --glass:rgba(255,255,255,.06);
+    --radius:16px;
+    --max:1200px;
+  }
+
+  /* Fullscreen sekce + plynulé oranžové pozadí (bez ostrých skoků) */
+  .ai-full{
+    position:relative; min-height:100vh; display:flex; align-items:center;
+    color:var(--text); overflow:hidden; padding:72px 16px 48px;
   }
   .ai-bg{
-    position:absolute;
-    inset:-30% -10%;
-    z-index:-1;
+    position:absolute; inset:-35% -12% -10% -12%; z-index:-1; filter:blur(70px); opacity:.95;
     background:
-      radial-gradient(40rem 40rem at 20% 15%, rgba(255,190,90,.45), transparent 65%),
-      radial-gradient(32rem 32rem at 75% 10%, rgba(255,210,120,.25), transparent 60%),
-      radial-gradient(28rem 28rem at 60% 75%, rgba(221,167,86,.25), transparent 65%),
+      radial-gradient(44rem 44rem at 18% 12%, rgba(255,190,90,.50), transparent 65%),
+      radial-gradient(36rem 36rem at 82% 16%, rgba(255,210,130,.24), transparent 62%),
+      radial-gradient(30rem 30rem at 60% 80%, rgba(221,167,86,.24), transparent 65%),
       linear-gradient(180deg,#0A0A0A,#0C0C0C);
-    filter:blur(70px);
-    opacity:.95;
-    animation:floatBg 14s ease-in-out infinite alternate;
+    animation:aiFloat 16s ease-in-out infinite alternate;
   }
-  @keyframes floatBg{0%{transform:translateY(0)}100%{transform:translateY(-20px)}}
+  @keyframes aiFloat{to{transform:translateY(-24px)}}
 
-  .ai-center{
-    text-align:center;
-    max-width:900px;
-    width:100%;
-    padding:40px 16px;
-    animation:fadeIn .9s ease;
-  }
-  .ai-center h2{
-    font-size:clamp(30px,4.5vw,46px);
-    margin-bottom:10px;
-  }
-  .ai-center h2 span{color:var(--accent)}
-  .ai-lead{
-    font-size:18px;
-    color:#d7d7d7;
-    margin-bottom:36px;
-    line-height:1.6;
-  }
+  .ai-wrap{width:100%; max-width:var(--max); margin:0 auto; animation:fadeIn .7s ease}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
 
-  /* --- Box AI --- */
-  .ai-box{
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:16px;
-    backdrop-filter:blur(12px);
-    padding:28px;
-    max-width:800px;
-    margin:0 auto;
-    box-shadow:0 0 24px rgba(0,0,0,0.4);
-  }
-  textarea#ai-input{
-    width:100%;
-    min-height:130px;
-    resize:none;
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.1);
-    color:#fff;
-    border-radius:10px;
-    padding:14px;
-    font-size:16px;
-    font-family:'Poppins',sans-serif;
-    outline:none;
-  }
-  textarea#ai-input::placeholder{color:#999}
-  button#ai-submit{
-    margin-top:16px;
-    padding:12px 26px;
-    font-weight:600;
-    border:none;
-    border-radius:999px;
-    background:var(--accent);
-    color:#111;
-    cursor:pointer;
-    transition:.25s;
-  }
-  button#ai-submit:hover{transform:translateY(-2px);filter:saturate(1.05) brightness(1.05)}
+  .ai-headline{text-align:center; margin-bottom:18px}
+  .ai-headline h2{font-size:clamp(28px,4.6vw,44px); margin:0 0 6px}
+  .ai-headline h2 span{color:var(--accent)}
+  .ai-headline p{color:#d7d7d7; max-width:860px; margin:0 auto; line-height:1.6}
 
-  .ai-output{
-    margin-top:26px;
-    text-align:left;
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.07);
-    border-radius:10px;
-    padding:18px 16px;
-    font-size:15px;
-    color:#ddd;
-    line-height:1.6;
-    min-height:90px;
+  .ai-layout{
+    display:grid; grid-template-columns:1.25fr .85fr; gap:22px; align-items:stretch;
   }
+  @media (max-width:1024px){ .ai-layout{grid-template-columns:1fr} }
 
-  @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* Chat window — přes celou výšku v rámci layoutu */
+  .chat{
+    display:flex; flex-direction:column; height:68vh; min-height:520px;
+    background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:var(--radius);
+    backdrop-filter:blur(10px); box-shadow:0 20px 48px rgba(0,0,0,.35);
+  }
+  .chat-stream{
+    flex:1; overflow:auto; padding:18px; display:flex; flex-direction:column; gap:10px;
+  }
+  .msg{
+    max-width:80%; border-radius:14px; padding:10px 14px; line-height:1.45; font-size:15px;
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.10); align-self:flex-start;
+  }
+  .msg.bot b{color:#fff}
+  .msg.user{
+    background:rgba(0,0,0,.35); color:#fff; border-color:rgba(255,255,255,.18); align-self:flex-end;
+  }
+  .chat-input{
+    display:flex; gap:10px; padding:12px; border-top:1px solid var(--border); background:rgba(255,255,255,.04);
+  }
+  .chat-input input{
+    flex:1; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.05);
+    color:#fff; border-radius:10px; padding:12px 14px; outline:none;
+  }
+  .chat-input input::placeholder{color:#aaa}
+  .chat-input button{
+    border:none; border-radius:10px; padding:12px 16px; font-weight:600; cursor:pointer;
+    background:var(--accent); color:#111; transition:.2s;
+  }
+  .chat-input button:hover{transform:translateY(-1px)}
+
+  /* Estimate panel */
+  .estimate{
+    display:flex; flex-direction:column; gap:14px; height:68vh; min-height:520px;
+    background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--radius);
+    backdrop-filter:blur(10px); padding:16px; box-shadow:0 20px 48px rgba(0,0,0,.35);
+  }
+  .est-head{display:flex; align-items:center; justify-content:space-between}
+  .est-head h3{margin:0; font-size:20px}
+  .btn-accent{
+    display:inline-block; border-radius:999px; padding:10px 16px; font-weight:700;
+    border:2px solid transparent; background:var(--accent); color:#111; text-decoration:none;
+    box-shadow:0 0 18px rgba(221,167,86,.22); transition:.2s;
+  }
+  .btn-accent:hover{transform:translateY(-1px)}
+  .btn-ghost{
+    display:inline-block; border-radius:999px; padding:10px 16px; font-weight:700;
+    border:2px solid var(--accent); color:var(--accent); background:transparent; text-decoration:none; transition:.2s;
+  }
+  .btn-ghost:hover{background:var(--accent); color:#111}
+
+  .est-empty{
+    flex:1; display:grid; place-items:center; color:#cfcfcf; text-align:center; padding:10px 12px;
+  }
+  .est-result{flex:1; display:flex; flex-direction:column; gap:14px}
+  .est-table{
+    width:100%; border-collapse:separate; border-spacing:0; overflow:hidden;
+    border:1px solid var(--border); border-radius:12px; background:rgba(255,255,255,.03);
+  }
+  .est-table th, .est-table td{padding:12px 14px; text-align:left; border-bottom:1px solid rgba(255,255,255,.06)}
+  .est-table th{width:40%; color:#e9e9e9}
+  .est-table tr:last-child th, .est-table tr:last-child td{border-bottom:0}
+
+  .est-notes h4{margin:0 0 6px; color:#eaeaea}
+  .est-notes ul{margin:0; padding-left:18px; color:#d5d5d5; line-height:1.55}
+
+  .est-cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:auto}
 </style>
 
 <script>
-  const btn=document.getElementById('ai-submit');
-  const input=document.getElementById('ai-input');
-  const output=document.getElementById('ai-output');
+  // ====== Chat UI ======
+  const stream = document.getElementById('chatStream');
+  const input = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendBtn');
 
-  btn.addEventListener('click',()=>{
-    const text=input.value.trim();
-    if(!text){
-      output.innerHTML="<p>⚠️ Zadejte prosím popis vašeho projektu.</p>";
+  function addMsg(text, who='user'){
+    const div = document.createElement('div');
+    div.className = 'msg ' + (who==='user' ? 'user':'bot');
+    div.innerHTML = (who==='bot' ? '<b>Digitory AI:</b> ' : '') + text;
+    stream.appendChild(div);
+    stream.scrollTop = stream.scrollHeight;
+  }
+
+  function handleSend(){
+    const t = input.value.trim();
+    if(!t) return;
+    addMsg(t,'user');
+    input.value = '';
+  }
+
+  input.addEventListener('keydown', e => { if(e.key==='Enter'){ handleSend(); }});
+  sendBtn.addEventListener('click', handleSend);
+
+  // ====== Heuristický výpočet odhadu z konverzace (DEMO) ======
+  const calcBtn = document.getElementById('calcBtn');
+  const estEmpty = document.getElementById('estEmpty');
+  const estRes = document.getElementById('estResult');
+  const estDays = document.getElementById('estDays');
+  const estPrice = document.getElementById('estPrice');
+  const estLevel = document.getElementById('estLevel');
+  const estFactors = document.getElementById('estFactors');
+
+  function extractConversationText(){
+    return Array.from(stream.querySelectorAll('.msg.user')).map(n=>n.textContent).join(' ').toLowerCase();
+  }
+
+  function numberFromText(re, text){
+    const m = text.match(re);
+    return m ? parseInt(m[1],10) : 0;
+  }
+
+  calcBtn.addEventListener('click', ()=>{
+    const txt = extractConversationText();
+    if(!txt){
+      estEmpty.textContent = '⚠️ Napište nejdřív něco do chatu (co potřebujete).';
+      estRes.hidden = true;
       return;
     }
 
-    // Simulovaný výsledek
-    output.innerHTML="<p>🧠 Analyzuji zadání...</p>";
-    setTimeout(()=>{
-      const time=Math.floor(Math.random()*10)+2;   // 2–12 dní
-      const price=(Math.floor(Math.random()*40)+10)*1000; // 10–50 tis.
-      output.innerHTML=`
-        <p>📋 Odhad projektu:</p>
-        <ul>
-          <li><b>Odhadovaný čas:</b> ${time} dní</li>
-          <li><b>Předběžná cena:</b> ${price.toLocaleString('cs-CZ')} Kč</li>
-          <li><b>Úroveň náročnosti:</b> ${time>8?"🔴 vysoká":"🟢 střední"}</li>
-        </ul>
-        <p>➡️ Tento výsledek je pouze ukázkový. V reálné verzi vám AI připraví i detailní rozpis práce.</p>
-      `;
-    },1000);
+    let days = 2;           // základ
+    let price = 12000;      // základ (Kč)
+    const notes = [];
+
+    // Klíčová slova → přirážky
+    if(/e-?shop|eshop|shop/i.test(txt)){ days+=7; price+=40000; notes.push('E-shop / košík / objednávky'); }
+    if(/\bweb(?!socket)\b|stránk/i.test(txt)){ days+=3; price+=18000; notes.push('Web / prezentační část'); }
+    if(/ai|machine learning|doporučován/i.test(txt)){ days+=5; price+=35000; notes.push('AI / doporučování'); }
+    if(/automatizac/i.test(txt)){ days+=4; price+=22000; notes.push('Automatizace procesů'); }
+    if(/integrac/i.test(txt)){ days+=3; price+=15000; notes.push('Integrace na externí systémy'); }
+    if(/crm|erp|pohoda|sap|salesforce|shopify|shoptet|woo|woocommerce/i.test(txt)){
+      days+=3; price+=20000; notes.push('Napojení na CRM/ERP/e-shop platformu');
+    }
+    if(/platebn/i.test(txt)){ days+=2; price+=12000; notes.push('Platební brány'); }
+    if(/sklad|logistik/i.test(txt)){ days+=3; price+=15000; notes.push('Sklad/Logistika'); }
+
+    // Počet stránek (např. "6 stran/stránek/strany/pages")
+    const pages = numberFromText(/(\d+)\s*(stran|stránek|strany|pages?)/i, txt);
+    if(pages>0){ days += Math.ceil(pages*0.8); price += pages*3000; notes.push(`Rozsah: ~${pages} stránek`); }
+
+    // Počet jazyků (CZ, EN, SK, PL…)
+    const langs = (txt.match(/\b(cs|cz|česky|sk|slovak|en|eng|anglicky|pl|polsk|de|německy|hu|maďar)/gi)||[]).length;
+    if(langs>1){ const extra = Math.max(0,langs-1); days += extra*1; price += extra*5000; notes.push(`Vícejazyčnost: +${extra}`); }
+
+    // Termín / urgenty
+    if(/urgent|rychle|co nejdřív|dnes|zítra|express|expres/i.test(txt)){
+      price = Math.round(price*1.35); days = Math.max(2, Math.ceil(days*0.85));
+      notes.push('Expresní požadavek (příplatek)');
+    }
+
+    // Náročnost
+    let level = '🟢 střední';
+    if(days >= 12 || price >= 70000) level = '🟠 vyšší';
+    if(days >= 18 || price >= 120000) level = '🔴 vysoká';
+
+    // Výstup
+    estDays.textContent = `${days} dní`;
+    estPrice.textContent = `${price.toLocaleString('cs-CZ')} Kč`;
+    estLevel.textContent = level;
+
+    estFactors.innerHTML = notes.length
+      ? notes.map(n=>`<li>${n}</li>`).join('')
+      : '<li>Základní rozsah (upřesníme na konzultaci)</li>';
+
+    estEmpty.hidden = true;
+    estRes.hidden = false;
   });
 </script>
+
 </body>
 </html>
+
 
 
 
