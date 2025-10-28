@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>O nás — Digitory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #DDA756;
+      --bg: #0A0A0A;
+      --text: #F5F5F6;
+      --muted: #B9BDC3;
+      --max: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.7);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      color: #f2f2f2;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-logo img {
+      height: 38px;
+      filter: drop-shadow(0 0 8px rgba(221,167,86,0.3));
+    }
+
+    main {
+      padding: 100px 16px;
+      max-width: var(--max);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(42px, 6vw, 72px);
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      margin-top: 60px;
+    }
+
+    .about-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 32px 24px;
+      transition: 0.3s;
+    }
+
+    .about-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(221,167,86,0.15);
+      transform: translateY(-4px);
+    }
+
+    .icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .about-card h3 {
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 50px 20px;
+      color: #777;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigace -->
+  <header>
+    <nav>
+      <div class="nav-links">
+        <a href="index.html">Domů</a>
+        <a href="onas.html">O nás</a>
+        <a href="#">Služby</a>
+        <a href="#">AI</a>
+        <a href="#">Kontakt</a>
+      </div>
+      <div class="nav-logo">
+        <img src="assets/digitory-logoo.png" alt="Digitory logo">
+      </div>
+    </nav>
+  </header>
+
+  <!-- Obsah stránky O nás -->
+  <main>
+    <h1>O nás</h1>
+    <p>
+      Jsme tým, který propojuje technologie, kreativitu a automatizaci.  
+      Pomáháme lidem i firmám zjednodušit práci pomocí chytrých digitálních řešení.
+    </p>
+
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="icon">💡</div>
+        <h3>Inovace</h3>
+        <p>Hledáme nové a efektivní způsoby, jak věci dělat lépe a chytřeji.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="icon">⚙️</div>
+        <h3>Jednoduchost</h3>
+        <p>Technologie mají pomáhat, ne komplikovat. Vše stavíme srozumitelně a přehledně.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="icon">🤝</div>
+        <h3>Spolupráce</h3>
+        <p>Každý projekt tvoříme jako partnerství — společně s klientem od nápadu po realizaci.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Digitory — Všechna práva vyhrazena
+  </footer>
+
+</body>
+</html>
