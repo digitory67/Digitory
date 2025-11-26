@@ -76,10 +76,12 @@
     /* --- Jednotná base barva (pod ambient) --- */
     body{
       margin:0;
-      background:#0A0A0A;
+      background:var(--bg);
       color:var(--text);
       font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial,sans-serif;
       overflow-x:hidden;
+      /* Zablokovat vertikální scroll celé stránky (přepínání sekcí přes navbar) */
+      overflow-y: hidden;
     }
 
     /* --- JEDNO společné ambientní pozadí pro CELÝ web --- */
@@ -101,27 +103,59 @@
 
     /* --- NAVBAR --- */
     header{
-      position:sticky; top:0; z-index:100;
+      position:fixed; top:0; left:0; right:0; z-index:200;
       background:rgba(10,10,10,.65);
       backdrop-filter:blur(10px);
       border-bottom:1px solid rgba(255,255,255,.05);
     }
     .nav{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
     .nav-links{display:flex;gap:24px}
-    .nav-links a{color:#f2f2f2;text-decoration:none;font-weight:500;font-size:15px;position:relative;transition:color .3s}
-    .nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--accent);transition:width .3s}
-    .nav-links a:hover{color:var(--accent)} .nav-links a:hover::after{width:100%}
+    /* odkazy přes data-page (JS je zpracuje) */
+    .nav-links a{color:#f2f2f2;text-decoration:none;font-weight:600;font-size:15px;position:relative;transition:color .28s, transform .2s; padding:6px 8px; border-radius:8px}
+    /* animované podtržení + posun a gradient při aktivním stavu */
+    .nav-links a::after{content:"";position:absolute;left:8px;right:8px;bottom:6px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transform:scaleX(0);transform-origin:left;transition:opacity .28s, transform .28s}
+    .nav-links a:hover{color:var(--accent); transform:translateY(-2px)}
+    .nav-links a:hover::after{opacity:1;transform:scaleX(1)}
+    .nav-links a.active{color:var(--accent); font-weight:700}
+    .nav-links a.active::after{opacity:1;transform:scaleX(1)}
+
     .nav-logo img{height:38px;width:auto;filter:drop-shadow(0 0 8px rgba(221,167,86,.3));transition:transform .3s}
     .nav-logo img:hover{transform:scale(1.05)}
-    @media (max-width:850px){.nav{flex-direction:column;gap:10px}.nav-links{gap:16px}}
+    @media (max-width:850px){.nav{flex-direction:row;gap:12px}.nav-links{gap:12px}}
 
-    /* --- HERO --- */
-    .hero{position:relative;padding:96px 16px 24px;max-width:1100px;margin:auto;text-align:center}
-    h1{margin:0 0 6px;font-size:clamp(48px,8vw,92px);line-height:1.05;font-weight:800;letter-spacing:-.02em;opacity:0;transform:translateY(14px);animation:fadeUp .8s .1s forwards}
-    .slogan{font-size:clamp(22px,3vw,32px);font-weight:500;color:var(--accent2);opacity:0;transform:translateY(14px);animation:fadeUp .9s .25s forwards}
-    .sub{margin:14px auto 0;max-width:750px;font-size:18px;color:#DADDE2;line-height:1.6;opacity:0;transform:translateY(16px);animation:fadeUp 1s .35s forwards}
-    @keyframes fadeUp{to{opacity:1;transform:none}}
+    /* --- Každá sekce jako "karta" (full viewport) --- */
+    .page {
+      position:fixed;
+      inset:0;
+      padding-top:92px; /* aby navbar nepřekrýval obsah */
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      overflow:hidden;
+      background:transparent;
+      pointer-events:none;
+      opacity:0;
+      transform: translateY(18px) scale(.995);
+      transition:opacity .45s ease, transform .45s ease;
+    }
+    .page.active {
+      pointer-events:auto;
+      opacity:1;
+      transform: translateY(0) scale(1);
+    }
+    .page-inner{
+      width:100%;
+      max-width:1100px;
+      padding:36px 20px 60px;
+    }
 
+    /* --- HERO (beze změny viz tvůj originál) --- */
+    .hero{position:relative;padding:96px 16px 24px;max-width:1100px;margin:0 auto;text-align:center}
+    .hero h1{margin:0 0 6px;font-size:clamp(48px,8vw,92px);line-height:1.05;font-weight:800;letter-spacing:-.02em;opacity:1;transform:none}
+    .slogan{font-size:clamp(22px,3vw,32px);font-weight:500;color:var(--accent2)}
+    .sub{margin:14px auto 0;max-width:750px;font-size:18px;color:#DADDE2;line-height:1.6}
+
+    /* CTA pod hero přenecháno */
     .cta-hero-extension{padding:10px 16px 18px}
     .cta-wrap{max-width:1100px;margin:0 auto;text-align:center}
     .cta-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
@@ -131,7 +165,66 @@
     .btn-outline{background:transparent;border-color:var(--accent);color:var(--accent)}
     .btn-outline:hover{background:var(--accent);color:#111;transform:translateY(-2px)}
 
-    /* --- AI (bez vlastního pozadí; jen glass uvnitř) --- */
+    /* --- Sekce O nás (obsahnější textbox ve stejném glass stylu) --- */
+    #onas .about-box{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:28px;
+      line-height:1.6;
+      color:#ddd;
+      box-shadow:0 20px 48px rgba(0,0,0,.35);
+    }
+    #onas h2{font-size:clamp(28px,4.6vw,44px);margin-bottom:12px;text-align:center}
+    #onas p.lead{color:#d7d7d7;text-align:center;margin-bottom:18px}
+
+    /* --- Služby (karty) --- */
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:20px;
+      margin-top:20px;
+    }
+    .service-card{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:20px;
+      transition:.25s;
+      box-shadow:0 18px 40px rgba(0,0,0,.3);
+    }
+    .service-card:hover{transform:translateY(-6px);border-color:var(--accent)}
+    .service-card h3{color:var(--accent);margin-top:0}
+    .service-card p{color:#d7d7d7;font-size:15px;line-height:1.5}
+
+    /* --- Kontakt --- */
+    #contact .contact-box{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:28px;
+      max-width:720px;
+      margin:20px auto 0;
+      color:#ddd;
+      text-align:center;
+      box-shadow:0 20px 48px rgba(0,0,0,.35);
+    }
+    #contact .emails{margin:14px 0;color:#fff;line-height:1.8;font-size:16px}
+    #contact .insta-btn{
+      display:inline-block;
+      margin-top:12px;
+      background:var(--accent);
+      color:#111;
+      font-weight:700;
+      padding:12px 22px;
+      border-radius:999px;
+      text-decoration:none;
+      transition:transform .18s;
+      box-shadow:0 0 18px rgba(221,167,86,.25);
+    }
+    #contact .insta-btn:hover{transform:translateY(-3px)}
+
+    /* --- AI sekce (ponecháno) --- */
     section#ai{background:transparent !important;padding:52px 16px 80px}
     .ai-wrap{width:100%;max-width:var(--max);margin:0 auto;animation:fadeIn .7s ease}
     .ai-headline{text-align:center;margin-bottom:18px}
@@ -168,6 +261,14 @@
     .est-notes h4{margin:0 0 6px;color:#eaeaea}
     .est-notes ul{margin:0;padding-left:18px;color:#d5d5d5;line-height:1.55}
     .est-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+
+    /* malé responsivity */
+    @media (max-width:700px){
+      .nav{padding:12px}
+      .page-inner{padding:20px}
+      .chat{min-height:420px;height:52vh}
+      .hero{padding:56px 12px 18px}
+    }
   </style>
 </head>
 
@@ -178,12 +279,13 @@
   <!-- NAVBAR -->
   <header>
     <nav class="nav">
-      <div class="nav-links">
-        <a href="#">Domů</a>
-        <a href="onas.html">O nás</a>
-        <a href="#">Služby</a>
-        <a href="#ai">AI</a>
-        <a href="#">Kontakt</a>
+      <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
+        <!-- data-page odpovídá id sekce níže -->
+        <a href="#" data-page="home" class="active">Domů</a>
+        <a href="#" data-page="onas">O nás</a>
+        <a href="#" data-page="sluzby">Služby</a>
+        <a href="#" data-page="ai">AI</a>
+        <a href="#" data-page="kontakt">Kontakt</a>
       </div>
       <div class="nav-logo">
         <img src="assets/digitory-logoo.png" alt="Digitory logo">
@@ -191,85 +293,233 @@
     </nav>
   </header>
 
-  <!-- HERO -->
-  <main class="hero" id="home">
-    <h1>Digitory</h1>
-    <div class="slogan">Z nápadu do reality</div>
-    <p class="sub">
-      Pomáháme lidem a firmám proměnit nápady v digitální realitu.
-      Naše řešení šetří čas, zjednodušují procesy a otevírají nové možnosti.
-    </p>
+  <!-- ========== SEKCJE / "KARTY" ========== -->
+  <!-- DOMŮ (hero) -->
+  <main id="home" class="page active" aria-hidden="false">
+    <div class="page-inner">
+      <main class="hero" id="home-hero">
+        <h1>Digitory</h1>
+        <div class="slogan">Z nápadu do reality</div>
+        <p class="sub">
+          Pomáháme lidem a firmám proměnit nápady v digitální realitu.
+          Naše řešení šetří čas, zjednodušují procesy a otevírají nové možnosti.
+        </p>
+      </main>
+
+      <!-- CTA pod hero -->
+      <section class="cta-hero-extension" aria-hidden="true">
+        <div class="cta-wrap">
+          <div class="cta-buttons">
+            <a href="#" class="btn btn-accent" data-page-link="sluzby">Služby</a>
+            <a href="#" class="btn btn-outline" data-page-link="kontakt">Kontakt</a>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <!-- CTA pod hero -->
-  <section class="cta-hero-extension">
-    <div class="cta-wrap">
-      <div class="cta-buttons">
-        <a href="#what" class="btn btn-accent">Služby</a>
-        <a href="#contact" class="btn btn-outline">Kontakt</a>
+  <!-- O NÁS -->
+  <section id="onas" class="page" aria-hidden="true">
+    <div class="page-inner">
+      <h2><span>O nás</span></h2>
+      <p class="lead">Jsme mladý tým studentů, kteří mají technologii doslova v krvi.</p>
+
+      <div class="about-box" role="article">
+        <p>
+          Digitory vzniklo z jednoduché myšlenky — že i studenti mohou tvořit profesionální digitální projekty.
+          Jsme skupina lidí, které spojuje vášeň pro inovace, design a moderní technologie. Sledujeme trendy, zkoušíme nové postupy a dáváme do práce energii i kreativitu, kterou nám generace Z přináší přirozeně.
+        </p>
+        <p>
+          Naší silou je přístup — rychlý, otevřený a autentický. Nejsme velká agentura, která má na všechno tabulku a schvalování na tři týdny.
+          Jsme studenti, kteří rozumí tomu, co funguje dnes — od umělé inteligence přes webdesign až po automatizaci procesů.
+          Každý projekt bereme osobně a snažíme se, aby měl duši, vizuální styl a hlavně smysl.
+        </p>
+        <p>
+          Digitory je o lidech, nápadech a technologii, která posouvá věci kupředu.
+          Ať už potřebujete web, branding, aplikaci nebo konzultaci, pomůžeme vám proměnit nápad v realitu — rychle, efektivně a moderně.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- DIGITORY AI — CHAT + ODHAD (bez vlastního pozadí) -->
-  <section id="ai">
-    <div class="ai-wrap">
-      <header class="ai-headline">
-        <h2><span>Digitory AI</span> — napište, co potřebujete</h2>
-        <p>Popište svůj záměr v chatu (klidně po částech). Potom klikněte na <b>Vypočítat odhad</b> a uvidíte čas, cenu a náročnost. (Ukázková logika, bez napojení na backend.)</p>
-      </header>
+  <!-- SLUŽBY -->
+  <section id="sluzby" class="page" aria-hidden="true">
+    <div class="page-inner">
+      <h2><span>Služby</span></h2>
+      <p class="lead">Od nápadu po hotové řešení — nabízíme služby, které dávají technologii i design do rovnováhy.</p>
 
-      <div class="ai-layout">
-        <!-- CHAT -->
-        <div class="chat">
-          <div class="chat-stream" id="chatStream">
-            <div class="msg">
-              <b>Digitory AI:</b> Ahoj! Co potřebuješ vyřešit? Klidně napiš: „automatizace faktur“, „e-shop se 6 stránkami“, „AI doporučování“, „napojení na CRM“, „CZ+EN“ atd.
-            </div>
-          </div>
-          <div class="chat-input">
-            <input id="chatInput" type="text" placeholder="Napiš zprávu a stiskni Enter…" />
-            <button id="sendBtn" type="button" aria-label="Odeslat">Odeslat</button>
-          </div>
+      <div class="services-grid" role="list">
+        <div class="service-card" role="listitem">
+          <h3>Webové stránky</h3>
+          <p>Moderní a responzivní weby na míru — od osobních portfolií po firemní prezentace. Rychlé načítání, bezpečnost a čistý design.</p>
         </div>
 
-        <!-- ODHAD -->
-        <aside class="estimate">
-          <div class="est-head">
-            <h3>Odhad projektu</h3>
-            <button id="calcBtn" class="btn-accent" type="button">Vypočítat odhad</button>
+        <div class="service-card" role="listitem">
+          <h3>E-shopy</h3>
+          <p>Kompletní řešení internetových obchodů včetně platebních bran, skladových systémů a automatizace objednávek.</p>
+        </div>
+
+        <div class="service-card" role="listitem">
+          <h3>Automatizace</h3>
+          <p>Propojíme vaše systémy tak, aby pracovaly za vás. Automatizujeme procesy, fakturaci i komunikaci mezi nástroji.</p>
+        </div>
+
+        <div class="service-card" role="listitem">
+          <h3>Umělá inteligence</h3>
+          <p>Implementujeme AI asistenty, doporučovací systémy nebo generativní modely. Zjednodušíme vaši práci pomocí moderních nástrojů.</p>
+        </div>
+
+        <div class="service-card" role="listitem">
+          <h3>Branding & design</h3>
+          <p>Pomůžeme vytvořit vizuální identitu, která zaujme. Logo, barvy, styl i grafika, která komunikuje vaši značku autenticky.</p>
+        </div>
+
+        <div class="service-card" role="listitem">
+          <h3>Konzultace</h3>
+          <p>Nejste si jistí, jak začít? Nabízíme konzultace, kde společně vymyslíme ideální směr pro váš projekt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI (ponecháno, ale přenastaveno jako karta) -->
+  <section id="ai" class="page" aria-hidden="true">
+    <div class="page-inner">
+      <div class="ai-wrap">
+        <header class="ai-headline">
+          <h2><span>Digitory AI</span> — napište, co potřebujete</h2>
+          <p>Popište svůj záměr v chatu (klidně po částech). Potom klikněte na <b>Vypočítat odhad</b> a uvidíte čas, cenu a náročnost. (Ukázková logika, bez napojení na backend.)</p>
+        </header>
+
+        <div class="ai-layout">
+          <!-- CHAT -->
+          <div class="chat" aria-live="polite" aria-label="Chat s Digitory AI">
+            <div class="chat-stream" id="chatStream">
+              <div class="msg">
+                <b>Digitory AI:</b> Ahoj! Co potřebuješ vyřešit? Klidně napiš: „automatizace faktur“, „e-shop se 6 stránkami“, „AI doporučování“, „napojení na CRM“, „CZ+EN“ atd.
+              </div>
+            </div>
+            <div class="chat-input">
+              <input id="chatInput" type="text" placeholder="Napiš zprávu a stiskni Enter…" />
+              <button id="sendBtn" type="button" aria-label="Odeslat">Odeslat</button>
+            </div>
           </div>
 
-          <div id="estEmpty" class="est-empty">
-            ✍️ Až dopíšete zadání do chatu, klikněte na <b>Vypočítat odhad</b>.
-          </div>
-
-          <div id="estResult" class="est-result" hidden>
-            <table class="est-table">
-              <tbody>
-                <tr><th>Odhadovaný čas</th><td id="estDays">—</td></tr>
-                <tr><th>Předběžná cena</th><td id="estPrice">—</td></tr>
-                <tr><th>Náročnost</th><td id="estLevel">—</td></tr>
-              </tbody>
-            </table>
-
-            <div class="est-notes">
-              <h4>Co jsme zohlednili</h4>
-              <ul id="estFactors"></ul>
+          <!-- ODHAD -->
+          <aside class="estimate" aria-label="Odhad projektu">
+            <div class="est-head">
+              <h3>Odhad projektu</h3>
+              <button id="calcBtn" class="btn-accent" type="button">Vypočítat odhad</button>
             </div>
 
-            <div class="est-cta">
-              <a href="kontakt.html" class="btn-ghost">Domluvit konzultaci</a>
-              <a href="kontakt.html" class="btn-accent">Chci upřesnit nabídku</a>
+            <div id="estEmpty" class="est-empty">
+              ✍️ Až dopíšete zadání do chatu, klikněte na <b>Vypočítat odhad</b>.
             </div>
-          </div>
-        </aside>
+
+            <div id="estResult" class="est-result" hidden>
+              <table class="est-table">
+                <tbody>
+                  <tr><th>Odhadovaný čas</th><td id="estDays">—</td></tr>
+                  <tr><th>Předběžná cena</th><td id="estPrice">—</td></tr>
+                  <tr><th>Náročnost</th><td id="estLevel">—</td></tr>
+                </tbody>
+              </table>
+
+              <div class="est-notes">
+                <h4>Co jsme zohlednili</h4>
+                <ul id="estFactors"></ul>
+              </div>
+
+              <div class="est-cta">
+                <a href="#" class="btn-ghost">Domluvit konzultaci</a>
+                <a href="#" class="btn-accent">Chci upřesnit nabídku</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt" class="page" aria-hidden="true">
+    <div class="page-inner">
+      <h2><span>Kontakt</span></h2>
+      <p class="lead">Napište nám — rádi se ozveme zpět a pomůžeme vám rozjet váš nápad.</p>
+
+      <div class="contact-box">
+        <div class="emails" aria-label="E-mailové kontakty">
+          <div><strong>smatera@digitory.cz</strong> — obecné dotazy</div>
+          <div><strong>zizka@digitory.cz</strong> — technická podpora</div>
+          <div><strong>kontakt@digitory.cz</strong> — nabídky a obchod</div>
+        </div>
+
+        <a href="https://www.instagram.com/digitory.cz/" target="_blank" rel="noopener" class="insta-btn">📷 Sleduj nás na Instagramu</a>
       </div>
     </div>
   </section>
 
   <script>
-    // Chat UI
+    /* ---------- Přepínání "karet" přes navbar ---------- */
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const pages = document.querySelectorAll('.page');
+
+    function showPage(id) {
+      pages.forEach(p => {
+        if (p.id === id) {
+          p.classList.add('active');
+          p.setAttribute('aria-hidden', 'false');
+        } else {
+          p.classList.remove('active');
+          p.setAttribute('aria-hidden', 'true');
+        }
+      });
+      // zvýraznit aktivní link
+      navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
+      // pokud je chat uvnitř aktivní, zaostřit input
+      if (id === 'ai') {
+        setTimeout(()=> {
+          const chatInput = document.getElementById('chatInput');
+          if (chatInput) chatInput.focus();
+        }, 320);
+      }
+    }
+
+    // click handlery
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.dataset.page;
+        if (target) showPage(target);
+      });
+    });
+
+    // CTA tlačítka (v hero) která vedou na sekce - najdou data-page-link atribut
+    document.querySelectorAll('[data-page-link]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        const tgt = btn.getAttribute('data-page-link');
+        if (tgt) showPage(tgt);
+      });
+    });
+
+    /* Zamezit kolečku myši posouvat rodičovské elementy (ale povolit scroll uvnitř .chat-stream) */
+    // pokud uživatel použije kolečko nad chat-streamem, necháme scroll v něm, jinak zrušíme scroll
+    window.addEventListener('wheel', (e) => {
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      if (!el) {
+        e.preventDefault();
+        return;
+      }
+      // pokud je kolečko nad elementem, který umožňuje scroll (např. .chat-stream), necháme to
+      const scrollable = el.closest && el.closest('.chat-stream');
+      if (!scrollable) {
+        // zabránit default chování scrollu celé stránky
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    /* ---------- AI chat UI (ponecháno, drobné opravy) ---------- */
     const stream = document.getElementById('chatStream');
     const input  = document.getElementById('chatInput');
     const sendBtn= document.getElementById('sendBtn');
@@ -287,10 +537,10 @@
       addMsg(t,'user');
       input.value = '';
     }
-    input.addEventListener('keydown', e=>{ if(e.key==='Enter') handleSend(); });
-    sendBtn.addEventListener('click', handleSend);
+    input && input.addEventListener('keydown', e=>{ if(e.key==='Enter') handleSend(); });
+    sendBtn && sendBtn.addEventListener('click', handleSend);
 
-    // Heuristický výpočet (demo)
+    /* ---------- Heuristický výpočet (opravené stringy/template) ---------- */
     const calcBtn    = document.getElementById('calcBtn');
     const estEmpty   = document.getElementById('estEmpty');
     const estRes     = document.getElementById('estResult');
@@ -300,15 +550,18 @@
     const estFactors = document.getElementById('estFactors');
 
     function extractConversationText(){
+      // vezmeme pouze uživatelské zprávy (bez prefixů)
       return Array.from(stream.querySelectorAll('.msg.user'))
-                  .map(n=>n.textContent).join(' ').toLowerCase();
+                  .map(n=>n.textContent.replace(/^Digitory AI:|^Digitory AI: /gi,'').trim())
+                  .join(' ')
+                  .toLowerCase();
     }
     function numberFromText(re, text){
       const m = text.match(re);
       return m ? parseInt(m[1],10) : 0;
     }
 
-    calcBtn.addEventListener('click', ()=>{
+    calcBtn && calcBtn.addEventListener('click', ()=>{
       const txt = extractConversationText();
       if(!txt){
         estEmpty.textContent = '⚠️ Napište nejdřív něco do chatu (co potřebujete).';
@@ -349,7 +602,9 @@
       estEmpty.hidden = true;
       estRes.hidden = false;
     });
+
+    /* ---------- Inicializace: zajistit že AI input nebude scrollovat celou stránku kolečkem (spoiler: už řeší wheel listener) ---------- */
+    // pokud chceš, můžeme přidat i šipky pro navigaci mezi kartami (např. left/right)
   </script>
 </body>
 </html>
-
