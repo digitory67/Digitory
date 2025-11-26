@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="utf-8" />
@@ -19,56 +19,44 @@
       --max:1200px;
       --radius:16px;
     }
+
     /* === FIX: odstranit jakékoliv lokální pozadí/bordery za nadpisem v #ai === */
-#ai,
-#ai * {
-  background-image: none !important;
-}
-
-#ai,
-#ai .ai-wrap,
-#ai .ai-headline {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* zlikvidovat pseudo-elementy, co dělají pás/čáru */
-#ai .ai-headline::before,
-#ai .ai-headline::after,
-#ai .ai-wrap::before,
-#ai .ai-wrap::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* kdyby tam byl hr/divider pod nadpisem */
-#ai hr,
-#ai .divider,
-#ai .section-divider {
-  display: none !important;
-  border: 0 !important;
-}
-
-/* pro jistotu typičtí “viníci” v šablonách */
-#ai .section,
-#ai .panel,
-#ai .box,
-#ai .container,
-#ai .wrapper {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* samotné karty (chat, odhad) necháme glass – ty švy nedělají */
-#ai .chat,
-#ai .estimate {
-  background: rgba(255,255,255,.05) !important;
-  border: 1px solid rgba(255,255,255,.10) !important;
-  box-shadow: 0 20px 48px rgba(0,0,0,.35) !important;
-}
-
+    #ai, #ai * {
+      background-image: none !important;
+    }
+    #ai, #ai .ai-wrap, #ai .ai-headline {
+      background-color: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    #ai .ai-headline::before,
+    #ai .ai-headline::after,
+    #ai .ai-wrap::before,
+    #ai .ai-wrap::after {
+      content: none !important;
+      display: none !important;
+    }
+    #ai hr,
+    #ai .divider,
+    #ai .section-divider {
+      display: none !important;
+      border: 0 !important;
+    }
+    #ai .section,
+    #ai .panel,
+    #ai .box,
+    #ai .container,
+    #ai .wrapper {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    #ai .chat,
+    #ai .estimate {
+      background: rgba(255,255,255,.05) !important;
+      border: 1px solid rgba(255,255,255,.10) !important;
+      box-shadow: 0 20px 48px rgba(0,0,0,.35) !important;
+    }
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -109,7 +97,7 @@
       border-bottom:1px solid rgba(255,255,255,.05);
     }
     .nav{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-    .nav-links{display:flex;gap:24px}
+    .nav-links{display:flex;gap:24px; align-items:center}
     /* odkazy přes data-page (JS je zpracuje) */
     .nav-links a{color:#f2f2f2;text-decoration:none;font-weight:600;font-size:15px;position:relative;transition:color .28s, transform .2s; padding:6px 8px; border-radius:8px}
     /* animované podtržení + posun a gradient při aktivním stavu */
@@ -121,7 +109,39 @@
 
     .nav-logo img{height:38px;width:auto;filter:drop-shadow(0 0 8px rgba(221,167,86,.3));transition:transform .3s}
     .nav-logo img:hover{transform:scale(1.05)}
-    @media (max-width:850px){.nav{flex-direction:row;gap:12px}.nav-links{gap:12px}}
+
+    /* HAMBURGER (mobile) */
+    .nav-toggle{
+      display:none;
+      background:transparent;
+      border:1px solid rgba(255,255,255,.06);
+      padding:8px 10px;
+      border-radius:8px;
+      color:var(--text);
+      cursor:pointer;
+    }
+    .nav-mobile-panel{
+      display:none;
+      position:fixed;
+      top:64px;
+      left:12px;
+      right:12px;
+      background:rgba(10,10,10,.92);
+      border-radius:12px;
+      padding:12px;
+      z-index:250;
+      box-shadow:0 20px 40px rgba(0,0,0,.6);
+      border:1px solid rgba(255,255,255,.04);
+      backdrop-filter:blur(8px);
+    }
+    .nav-mobile-panel a{display:block;padding:10px;border-radius:8px;margin-bottom:6px}
+
+    @media (max-width:850px){
+      .nav{flex-direction:row;gap:12px}
+      .nav-links{gap:12px}
+      .nav-links{display:none} /* hide desktop links on small screens; show via mobile panel */
+      .nav-toggle{display:inline-flex}
+    }
 
     /* --- Každá sekce jako "karta" (full viewport) --- */
     .page {
@@ -268,6 +288,16 @@
       .page-inner{padding:20px}
       .chat{min-height:420px;height:52vh}
       .hero{padding:56px 12px 18px}
+      /* show mobile nav panel when active */
+      .nav-mobile-panel{left:12px; right:12px}
+    }
+
+    /* ensure mobile friendly sizes */
+    @media (max-width:480px){
+      .hero h1{font-size:36px}
+      .cta-buttons .btn{padding:10px 14px}
+      .service-card{padding:16px}
+      .est-head{flex-direction:column; gap:8px; align-items:flex-start}
     }
   </style>
 </head>
@@ -279,17 +309,30 @@
   <!-- NAVBAR -->
   <header>
     <nav class="nav">
-      <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
-        <!-- data-page odpovídá id sekce níže -->
-        <a href="#" data-page="home" class="active">Domů</a>
-        <a href="#" data-page="onas">O nás</a>
-        <a href="#" data-page="sluzby">Služby</a>
-        <a href="#" data-page="kontakt">Kontakt</a>
+      <div class="nav-left" style="display:flex;align-items:center;gap:12px;">
+        <button class="nav-toggle" id="navToggle" aria-label="Otevřít menu">☰</button>
+        <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
+          <!-- data-page odpovídá id sekce níže -->
+          <a href="#" data-page="home" class="active">Domů</a>
+          <a href="#" data-page="onas">O nás</a>
+          <a href="#" data-page="sluzby">Služby</a>
+          <a href="#" data-page="kontakt">Kontakt</a>
+        </div>
       </div>
+
       <div class="nav-logo">
         <img src="assets/digitory-logoo.png" alt="Digitory logo">
       </div>
     </nav>
+
+    <!-- Mobile nav panel (hidden by default) -->
+    <div class="nav-mobile-panel" id="navMobilePanel" aria-hidden="true">
+      <a href="#" data-page="home">Domů</a>
+      <a href="#" data-page="onas">O nás</a>
+      <a href="#" data-page="sluzby">Služby</a>
+      <a href="#" data-page="ai">Digitory AI</a>
+      <a href="#" data-page="kontakt">Kontakt</a>
+    </div>
   </header>
 
   <!-- ========== SEKCJE / "KARTY" ========== -->
@@ -459,8 +502,15 @@
   </section>
 
   <script>
+    /* ---------- Device detection & mobile UX ---------- */
+    const isTouchDevice = (('ontouchstart' in window) || navigator.maxTouchPoints > 0);
+    if (isTouchDevice) {
+      document.body.classList.add('is-touch');
+    }
+
     /* ---------- Přepínání "karet" přes navbar ---------- */
     const navLinks = document.querySelectorAll('.nav-links a');
+    const mobilePanelLinks = document.querySelectorAll('#navMobilePanel a');
     const pages = document.querySelectorAll('.page');
 
     function showPage(id) {
@@ -473,8 +523,10 @@
           p.setAttribute('aria-hidden', 'true');
         }
       });
-      // zvýraznit aktivní link
+      // zvýraznit aktivní link (desktop)
       navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
+      // zvýraznit active v mobilním panel
+      mobilePanelLinks.forEach(a => a.classList.toggle('active', a.dataset ? a.dataset.page === id : a.getAttribute('data-page') === id));
       // pokud je chat uvnitř aktivní, zaostřit input
       if (id === 'ai') {
         setTimeout(()=> {
@@ -482,13 +534,24 @@
           if (chatInput) chatInput.focus();
         }, 320);
       }
+      // close mobile panel on navigation
+      closeMobilePanel();
     }
 
-    // click handlery
+    // click handlery (desktop nav)
     navLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const target = link.dataset.page;
+        if (target) showPage(target);
+      });
+    });
+
+    // mobile panel links
+    mobilePanelLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.getAttribute('data-page');
         if (target) showPage(target);
       });
     });
@@ -500,6 +563,34 @@
         const tgt = btn.getAttribute('data-page-link');
         if (tgt) showPage(tgt);
       });
+    });
+
+    /* ---------- Mobile nav toggle ---------- */
+    const navToggle = document.getElementById('navToggle');
+    const navMobilePanel = document.getElementById('navMobilePanel');
+
+    function openMobilePanel(){
+      navMobilePanel.style.display = 'block';
+      navMobilePanel.setAttribute('aria-hidden','false');
+      navToggle.classList.add('open');
+    }
+    function closeMobilePanel(){
+      navMobilePanel.style.display = 'none';
+      navMobilePanel.setAttribute('aria-hidden','true');
+      navToggle.classList.remove('open');
+    }
+
+    navToggle && navToggle.addEventListener('click', (e)=>{
+      if (navMobilePanel.style.display === 'block') closeMobilePanel();
+      else openMobilePanel();
+    });
+
+    // close mobile panel when clicking outside
+    document.addEventListener('click', (e)=>{
+      const inside = e.target.closest('.nav') || e.target.closest('#navMobilePanel');
+      if(!inside && navMobilePanel.style.display === 'block'){
+        closeMobilePanel();
+      }
     });
 
     /* Zamezit kolečku myši posouvat rodičovské elementy (ale povolit scroll uvnitř .chat-stream) */
@@ -550,6 +641,7 @@
 
     function extractConversationText(){
       // vezmeme pouze uživatelské zprávy (bez prefixů)
+      if(!stream) return '';
       return Array.from(stream.querySelectorAll('.msg.user'))
                   .map(n=>n.textContent.replace(/^Digitory AI:|^Digitory AI: /gi,'').trim())
                   .join(' ')
@@ -604,9 +696,99 @@
 
     /* ---------- Inicializace: zajistit že AI input nebude scrollovat celou stránku kolečkem (spoiler: už řeší wheel listener) ---------- */
     // pokud chceš, můžeme přidat i šipky pro navigaci mezi kartami (např. left/right)
-  </script>
+ 
+ </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // --- tvůj AI chat kód sem ---
+  const stream = document.getElementById('chatStream');
+  const input  = document.getElementById('chatInput');
+  const sendBtn= document.getElementById('sendBtn');
+
+  function addMsg(text, who='user'){
+    const div = document.createElement('div');
+    div.className = 'msg' + (who==='user' ? ' user' : '');
+    div.innerHTML = (who==='bot' ? '<b>Digitory AI:</b> ' : '') + text;
+    stream.appendChild(div);
+    stream.scrollTop = stream.scrollHeight;
+  }
+  function handleSend(){
+    const t = input.value.trim();
+    if(!t) return;
+    addMsg(t,'user');
+    input.value = '';
+  }
+  input && input.addEventListener('keydown', e=>{ if(e.key==='Enter') handleSend(); });
+  sendBtn && sendBtn.addEventListener('click', handleSend);
+
+  // --- můj skript pro navbar / mobile ---
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const mobilePanelLinks = document.querySelectorAll('#navMobilePanel a');
+  const pages = document.querySelectorAll('.page');
+  const navToggle = document.getElementById('navToggle');
+  const navMobilePanel = document.getElementById('navMobilePanel');
+
+  function showPage(id) {
+    pages.forEach(p => {
+      if (p.id === id) {
+        p.classList.add('active');
+        p.setAttribute('aria-hidden', 'false');
+      } else {
+        p.classList.remove('active');
+        p.setAttribute('aria-hidden', 'true');
+      }
+    });
+    navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
+    mobilePanelLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
+    if (id === 'ai') {
+      setTimeout(()=> {
+        if(input) input.focus();
+      }, 320);
+    }
+    closeMobilePanel();
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      showPage(link.dataset.page);
+    });
+  });
+
+  mobilePanelLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      showPage(link.dataset.page);
+    });
+  });
+
+  document.querySelectorAll('[data-page-link]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      showPage(btn.getAttribute('data-page-link'));
+    });
+  });
+
+  function openMobilePanel(){
+    navMobilePanel.style.display = 'block';
+    navMobilePanel.setAttribute('aria-hidden','false');
+    navToggle.classList.add('open');
+  }
+  function closeMobilePanel(){
+    navMobilePanel.style.display = 'none';
+    navMobilePanel.setAttribute('aria-hidden','true');
+    navToggle.classList.remove('open');
+  }
+  navToggle && navToggle.addEventListener('click', ()=> {
+    if (navMobilePanel.style.display==='block') closeMobilePanel();
+    else openMobilePanel();
+  });
+  document.addEventListener('click', (e)=>{
+    if(!e.target.closest('.nav') && !e.target.closest('#navMobilePanel')){
+      if(navMobilePanel.style.display==='block') closeMobilePanel();
+    }
+  });
+});
+</script>
 </body>
 </html>
-
-
-
