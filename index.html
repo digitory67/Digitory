@@ -330,7 +330,6 @@
       <a href="#" data-page="home">Domů</a>
       <a href="#" data-page="onas">O nás</a>
       <a href="#" data-page="sluzby">Služby</a>
-      <a href="#" data-page="ai">Digitory AI</a>
       <a href="#" data-page="kontakt">Kontakt</a>
     </div>
   </header>
@@ -580,12 +579,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ---------- Scroll ochrana pro kolečko myši ---------- */
-  window.addEventListener('wheel', (e) => {
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    if (!el) { e.preventDefault(); return; }
-    const scrollable = el.closest && el.closest('.chat-stream');
-    if (!scrollable) e.preventDefault();
-  }, { passive: false });
+// Scroll uvnitř chatu povolen, zbytek necháme scrollovat normálně
+const chatStream = document.querySelector('.chat-stream');
+if (chatStream) {
+  chatStream.addEventListener('wheel', e => {
+    e.stopPropagation(); // jen chat scrolluje, zbytek stránky normálně
+  });
+}
+
 
 });
 </script>
