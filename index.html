@@ -501,232 +501,16 @@
     </div>
   </section>
 
-  <script>
-    /* ---------- Device detection & mobile UX ---------- */
-    const isTouchDevice = (('ontouchstart' in window) || navigator.maxTouchPoints > 0);
-    if (isTouchDevice) {
-      document.body.classList.add('is-touch');
-    }
-
-    /* ---------- Přepínání "karet" přes navbar ---------- */
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const mobilePanelLinks = document.querySelectorAll('#navMobilePanel a');
-    const pages = document.querySelectorAll('.page');
-
-    function showPage(id) {
-      pages.forEach(p => {
-        if (p.id === id) {
-          p.classList.add('active');
-          p.setAttribute('aria-hidden', 'false');
-        } else {
-          p.classList.remove('active');
-          p.setAttribute('aria-hidden', 'true');
-        }
-      });
-      // zvýraznit aktivní link (desktop)
-      navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
-      // zvýraznit active v mobilním panel
-      mobilePanelLinks.forEach(a => a.classList.toggle('active', a.dataset ? a.dataset.page === id : a.getAttribute('data-page') === id));
-      // pokud je chat uvnitř aktivní, zaostřit input
-      if (id === 'ai') {
-        setTimeout(()=> {
-          const chatInput = document.getElementById('chatInput');
-          if (chatInput) chatInput.focus();
-        }, 320);
-      }
-      // close mobile panel on navigation
-      closeMobilePanel();
-    }
-
-    // click handlery (desktop nav)
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.dataset.page;
-        if (target) showPage(target);
-      });
-    });
-
-    // mobile panel links
-    mobilePanelLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.getAttribute('data-page');
-        if (target) showPage(target);
-      });
-    });
-
-    // CTA tlačítka (v hero) která vedou na sekce - najdou data-page-link atribut
-    document.querySelectorAll('[data-page-link]').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        const tgt = btn.getAttribute('data-page-link');
-        if (tgt) showPage(tgt);
-      });
-    });
-
-    /* ---------- Mobile nav toggle ---------- */
-    const navToggle = document.getElementById('navToggle');
-    const navMobilePanel = document.getElementById('navMobilePanel');
-
-    function openMobilePanel(){
-      navMobilePanel.style.display = 'block';
-      navMobilePanel.setAttribute('aria-hidden','false');
-      navToggle.classList.add('open');
-    }
-    function closeMobilePanel(){
-      navMobilePanel.style.display = 'none';
-      navMobilePanel.setAttribute('aria-hidden','true');
-      navToggle.classList.remove('open');
-    }
-
-    navToggle && navToggle.addEventListener('click', (e)=>{
-      if (navMobilePanel.style.display === 'block') closeMobilePanel();
-      else openMobilePanel();
-    });
-
-    // close mobile panel when clicking outside
-    document.addEventListener('click', (e)=>{
-      const inside = e.target.closest('.nav') || e.target.closest('#navMobilePanel');
-      if(!inside && navMobilePanel.style.display === 'block'){
-        closeMobilePanel();
-      }
-    });
-
-    /* Zamezit kolečku myši posouvat rodičovské elementy (ale povolit scroll uvnitř .chat-stream) */
-    // pokud uživatel použije kolečko nad chat-streamem, necháme scroll v něm, jinak zrušíme scroll
-    window.addEventListener('wheel', (e) => {
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      if (!el) {
-        e.preventDefault();
-        return;
-      }
-      // pokud je kolečko nad elementem, který umožňuje scroll (např. .chat-stream), necháme to
-      const scrollable = el.closest && el.closest('.chat-stream');
-      if (!scrollable) {
-        // zabránit default chování scrollu celé stránky
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    /* ---------- AI chat UI (ponecháno, drobné opravy) ---------- */
-    const stream = document.getElementById('chatStream');
-    const input  = document.getElementById('chatInput');
-    const sendBtn= document.getElementById('sendBtn');
-
-    function addMsg(text, who='user'){
-      const div = document.createElement('div');
-      div.className = 'msg' + (who==='user' ? ' user' : '');
-      div.innerHTML = (who==='bot' ? '<b>Digitory AI:</b> ' : '') + text;
-      stream.appendChild(div);
-      stream.scrollTop = stream.scrollHeight;
-    }
-    function handleSend(){
-      const t = input.value.trim();
-      if(!t) return;
-      addMsg(t,'user');
-      input.value = '';
-    }
-    input && input.addEventListener('keydown', e=>{ if(e.key==='Enter') handleSend(); });
-    sendBtn && sendBtn.addEventListener('click', handleSend);
-
-    /* ---------- Heuristický výpočet (opravené stringy/template) ---------- */
-    const calcBtn    = document.getElementById('calcBtn');
-    const estEmpty   = document.getElementById('estEmpty');
-    const estRes     = document.getElementById('estResult');
-    const estDays    = document.getElementById('estDays');
-    const estPrice   = document.getElementById('estPrice');
-    const estLevel   = document.getElementById('estLevel');
-    const estFactors = document.getElementById('estFactors');
-
-    function extractConversationText(){
-      // vezmeme pouze uživatelské zprávy (bez prefixů)
-      if(!stream) return '';
-      return Array.from(stream.querySelectorAll('.msg.user'))
-                  .map(n=>n.textContent.replace(/^Digitory AI:|^Digitory AI: /gi,'').trim())
-                  .join(' ')
-                  .toLowerCase();
-    }
-    function numberFromText(re, text){
-      const m = text.match(re);
-      return m ? parseInt(m[1],10) : 0;
-    }
-
-    calcBtn && calcBtn.addEventListener('click', ()=>{
-      const txt = extractConversationText();
-      if(!txt){
-        estEmpty.textContent = '⚠️ Napište nejdřív něco do chatu (co potřebujete).';
-        estRes.hidden = true; return;
-      }
-
-      let days = 2, price = 12000; const notes = [];
-
-      if(/e-?shop|eshop|shop/i.test(txt)){ days+=7; price+=40000; notes.push('E-shop / košík / objednávky'); }
-      if(/\bweb(?!socket)\b|stránk/i.test(txt)){ days+=3; price+=18000; notes.push('Web / prezentační část'); }
-      if(/ai|machine learning|doporučován/i.test(txt)){ days+=5; price+=35000; notes.push('AI / doporučování'); }
-      if(/automatizac/i.test(txt)){ days+=4; price+=22000; notes.push('Automatizace procesů'); }
-      if(/integrac/i.test(txt)){ days+=3; price+=15000; notes.push('Integrace na externí systémy'); }
-      if(/crm|erp|pohoda|sap|salesforce|shopify|shoptet|woo|woocommerce/i.test(txt)){ days+=3; price+=20000; notes.push('Napojení na CRM/ERP/e-shop platformu'); }
-      if(/platebn/i.test(txt)){ days+=2; price+=12000; notes.push('Platební brány'); }
-      if(/sklad|logistik/i.test(txt)){ days+=3; price+=15000; notes.push('Sklad/Logistika'); }
-
-      const pages = numberFromText(/(\d+)\s*(stran|stránek|strany|pages?)/i, txt);
-      if(pages>0){ days += Math.ceil(pages*0.8); price += pages*3000; notes.push(`Rozsah: ~${pages} stránek`); }
-
-      const langs = (txt.match(/\b(cs|cz|česky|sk|slovak|en|eng|anglicky|pl|polsk|de|německy|hu|maďar)/gi)||[]).length;
-      if(langs>1){ const extra = Math.max(0,langs-1); days += extra*1; price += extra*5000; notes.push(`Vícejazyčnost: +${extra}`); }
-
-      if(/urgent|rychle|co nejdřív|dnes|zítra|express|expres/i.test(txt)){
-        price = Math.round(price*1.35); days = Math.max(2, Math.ceil(days*0.85)); notes.push('Expresní požadavek (příplatek)');
-      }
-
-      let level = '🟢 střední';
-      if(days >= 12 || price >= 70000) level = '🟠 vyšší';
-      if(days >= 18 || price >= 120000) level = '🔴 vysoká';
-
-      estDays.textContent  = `${days} dní`;
-      estPrice.textContent = `${price.toLocaleString('cs-CZ')} Kč`;
-      estLevel.textContent = level;
-
-      estFactors.innerHTML = notes.length ? notes.map(n=>`<li>${n}</li>`).join('') : '<li>Základní rozsah (upřesníme na konzultaci)</li>';
-
-      estEmpty.hidden = true;
-      estRes.hidden = false;
-    });
-
-    /* ---------- Inicializace: zajistit že AI input nebude scrollovat celou stránku kolečkem (spoiler: už řeší wheel listener) ---------- */
-    // pokud chceš, můžeme přidat i šipky pro navigaci mezi kartami (např. left/right)
- 
- </script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // --- tvůj AI chat kód sem ---
-  const stream = document.getElementById('chatStream');
-  const input  = document.getElementById('chatInput');
-  const sendBtn= document.getElementById('sendBtn');
+  /* ---------- Device detection & mobile UX ---------- */
+  const isTouchDevice = (('ontouchstart' in window) || navigator.maxTouchPoints > 0);
+  if (isTouchDevice) document.body.classList.add('is-touch');
 
-  function addMsg(text, who='user'){
-    const div = document.createElement('div');
-    div.className = 'msg' + (who==='user' ? ' user' : '');
-    div.innerHTML = (who==='bot' ? '<b>Digitory AI:</b> ' : '') + text;
-    stream.appendChild(div);
-    stream.scrollTop = stream.scrollHeight;
-  }
-  function handleSend(){
-    const t = input.value.trim();
-    if(!t) return;
-    addMsg(t,'user');
-    input.value = '';
-  }
-  input && input.addEventListener('keydown', e=>{ if(e.key==='Enter') handleSend(); });
-  sendBtn && sendBtn.addEventListener('click', handleSend);
-
-  // --- můj skript pro navbar / mobile ---
+  /* ---------- Přepínání "karet" přes navbar ---------- */
   const navLinks = document.querySelectorAll('.nav-links a');
   const mobilePanelLinks = document.querySelectorAll('#navMobilePanel a');
   const pages = document.querySelectorAll('.page');
-  const navToggle = document.getElementById('navToggle');
-  const navMobilePanel = document.getElementById('navMobilePanel');
 
   function showPage(id) {
     pages.forEach(p => {
@@ -738,13 +522,11 @@ document.addEventListener('DOMContentLoaded', () => {
         p.setAttribute('aria-hidden', 'true');
       }
     });
+    // zvýraznit aktivní link (desktop)
     navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
+    // zvýraznit aktivní link v mobilním panelu
     mobilePanelLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
-    if (id === 'ai') {
-      setTimeout(()=> {
-        if(input) input.focus();
-      }, 320);
-    }
+    // zavřít mobilní panel
     closeMobilePanel();
   }
 
@@ -769,26 +551,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ---------- Mobile nav toggle ---------- */
+  const navToggle = document.getElementById('navToggle');
+  const navMobilePanel = document.getElementById('navMobilePanel');
+
   function openMobilePanel(){
     navMobilePanel.style.display = 'block';
     navMobilePanel.setAttribute('aria-hidden','false');
     navToggle.classList.add('open');
   }
+
   function closeMobilePanel(){
     navMobilePanel.style.display = 'none';
     navMobilePanel.setAttribute('aria-hidden','true');
     navToggle.classList.remove('open');
   }
-  navToggle && navToggle.addEventListener('click', ()=> {
-    if (navMobilePanel.style.display==='block') closeMobilePanel();
+
+  navToggle && navToggle.addEventListener('click', () => {
+    if (navMobilePanel.style.display === 'block') closeMobilePanel();
     else openMobilePanel();
   });
-  document.addEventListener('click', (e)=>{
-    if(!e.target.closest('.nav') && !e.target.closest('#navMobilePanel')){
-      if(navMobilePanel.style.display==='block') closeMobilePanel();
+
+  // zavřít mobilní panel při kliknutí mimo
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav') && !e.target.closest('#navMobilePanel')) {
+      if (navMobilePanel.style.display === 'block') closeMobilePanel();
     }
   });
+
+  /* ---------- Scroll ochrana pro kolečko myši ---------- */
+  window.addEventListener('wheel', (e) => {
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    if (!el) { e.preventDefault(); return; }
+    const scrollable = el.closest && el.closest('.chat-stream');
+    if (!scrollable) e.preventDefault();
+  }, { passive: false });
+
 });
 </script>
+
 </body>
 </html>
