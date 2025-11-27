@@ -69,7 +69,7 @@
       font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial,sans-serif;
       overflow-x:hidden;
       /* Zablokovat vertikální scroll celé stránky (přepínání sekcí přes navbar) */
-      overflow-y: hidden;
+      overflow-y: auto;
     }
 
     /* --- JEDNO společné ambientní pozadí pro CELÝ web --- */
@@ -144,20 +144,27 @@
     }
 
     /* --- Každá sekce jako "karta" (full viewport) --- */
-    .page {
-      position:fixed;
-      inset:0;
-      padding-top:92px; /* aby navbar nepřekrýval obsah */
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      overflow:hidden;
-      background:transparent;
-      pointer-events:none;
-      opacity:0;
-      transform: translateY(18px) scale(.995);
-      transition:opacity .45s ease, transform .45s ease;
-    }
+.page {
+  position:fixed;
+  top:92px;
+  left:0;
+  right:0;
+  bottom:0;
+
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+
+  overflow-y:auto;       /* ← umožní scroll */
+  overflow-x:hidden;
+
+  background:transparent;
+  pointer-events:none;
+  opacity:0;
+  transform: translateY(18px) scale(.995);
+  transition:opacity .45s ease, transform .45s ease;
+}
+
     .page.active {
       pointer-events:auto;
       opacity:1;
@@ -500,95 +507,60 @@
     </div>
   </section>
 
+  <footer>
+    &copy; Digitory<br>
+    Všechna práva vyhrazena
+  </footer>
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  /* ---------- Device detection & mobile UX ---------- */
-  const isTouchDevice = (('ontouchstart' in window) || navigator.maxTouchPoints > 0);
-  if (isTouchDevice) document.body.classList.add('is-touch');
-
-  /* ---------- Přepínání "karet" přes navbar ---------- */
-  const navLinks = document.querySelectorAll('.nav-links a');
-  const mobilePanelLinks = document.querySelectorAll('#navMobilePanel a');
+  // --- Přepínání sekcí (stránek) ---
+  const links = document.querySelectorAll('[data-page]');
   const pages = document.querySelectorAll('.page');
-
-  function showPage(id) {
-    pages.forEach(p => {
-      if (p.id === id) {
-        p.classList.add('active');
-        p.setAttribute('aria-hidden', 'false');
-      } else {
-        p.classList.remove('active');
-        p.setAttribute('aria-hidden', 'true');
-      }
-    });
-    // zvýraznit aktivní link (desktop)
-    navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
-    // zvýraznit aktivní link v mobilním panelu
-    mobilePanelLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
-    // zavřít mobilní panel
-    closeMobilePanel();
-  }
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      showPage(link.dataset.page);
-    });
-  });
-
-  mobilePanelLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      showPage(link.dataset.page);
-    });
-  });
-
-  document.querySelectorAll('[data-page-link]').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      showPage(btn.getAttribute('data-page-link'));
-    });
-  });
-
-  /* ---------- Mobile nav toggle ---------- */
+  const mobilePanel = document.getElementById('navMobilePanel');
   const navToggle = document.getElementById('navToggle');
-  const navMobilePanel = document.getElementById('navMobilePanel');
 
-  function openMobilePanel(){
-    navMobilePanel.style.display = 'block';
-    navMobilePanel.setAttribute('aria-hidden','false');
-    navToggle.classList.add('open');
-  }
-
-  function closeMobilePanel(){
-    navMobilePanel.style.display = 'none';
-    navMobilePanel.setAttribute('aria-hidden','true');
-    navToggle.classList.remove('open');
-  }
-
-  navToggle && navToggle.addEventListener('click', () => {
-    if (navMobilePanel.style.display === 'block') closeMobilePanel();
-    else openMobilePanel();
-  });
-
-  // zavřít mobilní panel při kliknutí mimo
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav') && !e.target.closest('#navMobilePanel')) {
-      if (navMobilePanel.style.display === 'block') closeMobilePanel();
+  function openPage(id){
+    pages.forEach(p => {
+      p.classList.remove('active');
+      p.setAttribute('aria-hidden','true');
+    });
+    const target = document.getElementById(id);
+    if(target){
+      target.classList.add('active');
+      target.setAttribute('aria-hidden','false');
     }
+
+    // zvýraznit aktivní odkaz
+    links.forEach(a => {
+      a.classList.toggle('active', a.dataset.page === id);
+    });
+
+    // zavřít mobilní menu
+    mobilePanel.style.display = "none";
+  }
+
+  // kliknutí na odkazy v navbaru + mobilním panelu
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = a.dataset.page;
+      if(id) openPage(id);
+    });
   });
 
-  /* ---------- Scroll ochrana pro kolečko myši ---------- */
-// Scroll uvnitř chatu povolen, zbytek necháme scrollovat normálně
-const chatStream = document.querySelector('.chat-stream');
-if (chatStream) {
-  chatStream.addEventListener('wheel', e => {
-    e.stopPropagation(); // jen chat scrolluje, zbytek stránky normálně
+  // --- Mobilní přepínání ---
+  navToggle.addEventListener('click', () => {
+    const visible = mobilePanel.style.display === "block";
+    mobilePanel.style.display = visible ? "none" : "block";
   });
-}
 
-
-});
+  // --- CTA tlačítka ---
+  document.querySelectorAll("[data-page-link]").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      e.preventDefault();
+      openPage(btn.dataset.pageLink);
+    });
+  });
 </script>
 
 </body>
