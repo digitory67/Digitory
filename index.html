@@ -306,6 +306,22 @@
       .service-card{padding:16px}
       .est-head{flex-direction:column; gap:8px; align-items:flex-start}
     }
+  
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+text-align: center;
+padding: 18px 0;
+background: rgba(10,10,10,0.8);
+backdrop-filter: blur(10px);
+border-top: 1px solid rgba(255,255,255,0.1);
+color: #aaa;
+font-size: 14px;
+z-index: 999;
+}
+
   </style>
 </head>
 
@@ -317,7 +333,11 @@
   <header>
     <nav class="nav">
       <div class="nav-left" style="display:flex;align-items:center;gap:12px;">
-        <button class="nav-toggle" id="navToggle" aria-label="Otevřít menu">☰</button>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
         <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
           <!-- data-page odpovídá id sekce níže -->
           <a href="#" data-page="home" class="active">Domů</a>
@@ -507,8 +527,8 @@
     </div>
   </section>
 
-  <footer>
-    &copy; Digitory<br>
+  <footer>     
+    2025 &copy; Digitory<br>  
     Všechna práva vyhrazena
   </footer>
 
