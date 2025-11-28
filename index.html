@@ -18,6 +18,8 @@
       --glass:rgba(255,255,255,.06);
       --max:1200px;
       --radius:16px;
+      /* Přidána proměnná pro výšku headeru pro snadné přepočty */
+      --header-height: 66px; 
     }
 
     /* === FIX: odstranit jakékoliv lokální pozadí/bordery za nadpisem v #ai === */
@@ -68,8 +70,10 @@
       color:var(--text);
       font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial,sans-serif;
       overflow-x:hidden;
-      /* Zablokovat vertikální scroll celé stránky (přepínání sekcí přes navbar) */
       overflow-y: auto;
+      /* Klíčové: Nastavit body jako rodiče pro position: absolute a zamezit marginům */
+      position: relative; 
+      min-height: 100vh; /* Aby se body roztáhlo na celou výšku okna */
     }
 
     /* --- JEDNO společné ambientní pozadí pro CELÝ web --- */
@@ -95,6 +99,8 @@
       background:rgba(10,10,10,.65);
       backdrop-filter:blur(10px);
       border-bottom:1px solid rgba(255,255,255,.05);
+      /* Zajištění správné výšky pro odečtení v JS */
+      height: var(--header-height); 
     }
     .nav{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
     .nav-links{display:flex;gap:24px; align-items:center}
@@ -123,7 +129,7 @@
     .nav-mobile-panel{
       display:none;
       position:fixed;
-      top:64px;
+      top:var(--header-height); /* Použít proměnnou */
       left:12px;
       right:12px;
       background:rgba(10,10,10,.92);
@@ -144,37 +150,37 @@
     }
 
     /* --- Každá sekce jako "karta" (full viewport) --- */
-.page {
-  position:fixed;
-  top:92px;
-  left:0;
-  right:0;
-  bottom:0;
+    .page {
+      position: absolute; 
+      top: 0;             
+      left: 0;
+      display: block;     
+      width: 100%;
 
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
+      /* Použít proměnnou a odečíst výšku headeru */
+      padding-top: calc(var(--header-height) + 26px); 
+      box-sizing: border-box;
 
-  overflow-y:auto;       /* ← umožní scroll */
-  overflow-x:hidden;
-
-  background:transparent;
-  pointer-events:none;
-  opacity:0;
-  transform: translateY(18px) scale(.995);
-  transition:opacity .45s ease, transform .45s ease;
-}
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(18px) scale(.995);
+      transition: opacity .45s ease, transform .45s ease;
+    }
 
     .page.active {
-      pointer-events:auto;
-      opacity:1;
+      pointer-events: auto;
+      opacity: 1;
       transform: translateY(0) scale(1);
     }
-    .page-inner{
-      width:100%;
-      max-width:1100px;
-      padding:36px 20px 60px;
+
+    .page-inner {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+      box-sizing: border-box;
     }
+
 
     /* --- HERO (beze změny viz tvůj originál) --- */
     .hero{position:relative;padding:96px 16px 24px;max-width:1100px;margin:0 auto;text-align:center}
@@ -308,28 +314,71 @@
     }
   
 footer {
-position: fixed;
+position: static;
 bottom: 0;
 left: 0;
 right: 0;
 text-align: center;
 padding: 18px 0;
-background: rgba(10,10,10,0.8);
+background: transparent;
 backdrop-filter: blur(10px);
-border-top: 1px solid rgba(255,255,255,0.1);
+border-top: transparent;
 color: #aaa;
 font-size: 14px;
 z-index: 999;
 }
 
+     .cookies {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ffffff;
+        padding: 20px;
+        width: 320px;
+        border-radius: 14px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        z-index: 99999;
+        display: none;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .cookies h3 {
+        margin-top: 0;
+        font-size: 18px;
+    }
+
+    .cookies button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .cookies .accept {
+        background: #28a745;
+        color: white;
+    }
+
+    .cookies .necessary {
+        background: #007bff;
+        color: white;
+    }
+
+    .cookies .deny {
+        background: #ccc;
+    }
+ 
   </style>
 </head>
 
 <body>
-  <!-- JEDINÁ AMBIENTNÍ VRSTVA POZADÍ -->
   <div class="page-ambient" aria-hidden="true"></div>
 
-  <!-- NAVBAR -->
   <header>
     <nav class="nav">
       <div class="nav-left" style="display:flex;align-items:center;gap:12px;">
@@ -339,7 +388,6 @@ z-index: 999;
   <span></span>
 </button>
         <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
-          <!-- data-page odpovídá id sekce níže -->
           <a href="#" data-page="home" class="active">Domů</a>
           <a href="#" data-page="onas">O nás</a>
           <a href="#" data-page="sluzby">Služby</a>
@@ -352,7 +400,6 @@ z-index: 999;
       </div>
     </nav>
 
-    <!-- Mobile nav panel (hidden by default) -->
     <div class="nav-mobile-panel" id="navMobilePanel" aria-hidden="true">
       <a href="#" data-page="home">Domů</a>
       <a href="#" data-page="onas">O nás</a>
@@ -361,8 +408,6 @@ z-index: 999;
     </div>
   </header>
 
-  <!-- ========== SEKCJE / "KARTY" ========== -->
-  <!-- DOMŮ (hero) -->
   <main id="home" class="page active" aria-hidden="false">
     <div class="page-inner">
       <main class="hero" id="home-hero">
@@ -374,7 +419,6 @@ z-index: 999;
         </p>
       </main>
 
-      <!-- CTA pod hero -->
       <section class="cta-hero-extension" aria-hidden="true">
         <div class="cta-wrap">
           <div class="cta-buttons">
@@ -386,7 +430,6 @@ z-index: 999;
     </div>
   </main>
 
-  <!-- O NÁS -->
   <section id="onas" class="page" aria-hidden="true">
     <div class="page-inner">
       <h2><span>O nás</span></h2>
@@ -417,21 +460,21 @@ z-index: 999;
 
       <div class="about-box" role="article">
         <p>
-<h3>Web používá následující typy cookies:</h3><br>
+<h3>Web používá následující typy cookies:</h3>
 
-- Nezbytné technické cookies (nutné pro provoz)<br>
+- Nezbytné technické cookies (nutné pro provoz)
 
-- Preferenční / funkční cookies<br>
+- Preferenční / funkční cookies
 
-- Analytické cookies (např. Vercel Analytics) – ukládány pouze na základě souhlasu Uživatele<br>
+- Analytické cookies (např. Vercel Analytics) – ukládány pouze na základě souhlasu Uživatele
 
-<h3>Uživatel může:</h3><br>
+<h3>Uživatel může:</h3>
 
-- přijmout všechny cookies,<br>
+- přijmout všechny cookies,
 
-- odmítnout všechny cookies kromě nezbytných,<br>
+- odmítnout všechny cookies kromě nezbytných,
 
-- upravit své preference prostřednictvím cookies lišty.<br>
+- upravit své preference prostřednictvím cookies lišty.
         </p>
 
       </div>
@@ -445,141 +488,143 @@ z-index: 999;
 
       <div class="about-box" role="article">
         <p>
-       <h3> 1. Správce osobních údajů </h3>  <br>
+       <h3> 1. Správce osobních údajů </h3>  
 
 
-Správcem osobních údajů je provozovatel této webové stránky (dále jen „Správce“).<br>
+Správcem osobních údajů je provozovatel této webové stránky (dále jen „Správce“).
 
-Kontaktní e-mail Správce je: [doplň svůj e-mail].<br>
+Kontaktní e-mail Správce je: [doplň svůj e-mail].
 
-Správce vystupuje jako fyzická nebo právnická osoba dle charakteru provozování stránek.<br>
+Správce vystupuje jako fyzická nebo právnická osoba dle charakteru provozování stránek.
         </p>
         <p>
-<h2> 2. Rozsah zpracovávaných osobních údajů</h2><br>
+<h2> 2. Rozsah zpracovávaných osobních údajů</h2>
 
 
-<h3>Správce může na základě použití Webových stránek zpracovávat následující typy osobních údajů:</h3><br>
+<h3>Správce může na základě použití Webových stránek zpracovávat následující typy osobních údajů:</h3>
 
 
 
 <h3>a) Údaje zadávané Uživatelem prostřednictvím formuláře
-jméno, příjmení (nebo jiný identifikátor)</h3><br>
+jméno, příjmení (nebo jiný identifikátor)</h3>
 
-- e-mailová adresa<br>
+- e-mailová adresa
 
-- obsah zprávy či popis požadavku<br>
+- obsah zprávy či popis požadavku
 
-- případně další dobrovolně vyplněné údaje<br>
+- případně další dobrovolně vyplněné údaje
 
 
 
 <h3>b) Údaje automaticky shromažďované při používání Webu
-IP adresa a geografická oblast přibližné polohy</h3><br>
+IP adresa a geografická oblast přibližné polohy</h3>
 
-- technické údaje o zařízení a prohlížeči<br>
+- technické údaje o zařízení a prohlížeči
 
-- cookies nezbytné pro fungování stránek<br>
+- cookies nezbytné pro fungování stránek
 
-- analytické cookies (např. Vercel Analytics) používané pouze s příslušným souhlasem<br>
+- analytické cookies (např. Vercel Analytics) používané pouze s příslušným souhlasem
+
 
 
 <h3>c) Další provozní a protokolové údaje
-datum a čas odeslání formuláře</h3><br>
+datum a čas odeslání formuláře</h3>
 
-- metadata přenesených dotazů<br>
+- metadata přenesených dotazů
 
-- případné údaje nutné pro systémové logování<br>
+- případné údaje nutné pro systémové logování
         </p>
         <p>
-<h2>3. Účely zpracování osobních údajů</h2><br>
+<h2>3. Účely zpracování osobních údajů</h2>
 
 
-<h3>Zpracování osobních údajů probíhá výhradně za těmito účely:</h3><br>
+<h3>Zpracování osobních údajů probíhá výhradně za těmito účely:</h3>
 
-1. Reakce na dotazy uživatelů – vyřízení požadavku, odpovědi na zprávu.<br>
+1. Reakce na dotazy uživatelů – vyřízení požadavku, odpovědi na zprávu.
 
-2. Vedení interní evidence formulářů – archivace, přehled komunikace.<br>
+2. Vedení interní evidence formulářů – archivace, přehled komunikace.
 
-3. Zlepšování funkčnosti webu – technické analyzování návštěvnosti a provozu.<br>
+3. Zlepšování funkčnosti webu – technické analyzování návštěvnosti a provozu.
 
-4. Plnění právních povinností – vedení dokumentace, řešení incidentů.<br>
+4. Plnění právních povinností – vedení dokumentace, řešení incidentů.
 
-5. Oprávněný zájem správce – ochrana webu, předcházení zneužití, bezpečnostní opatření.<br>
+5. Oprávněný zájem správce – ochrana webu, předcházení zneužití, bezpečnostní opatření.
         </p>
-     <p><h2>4. Právní titul zpracování (dle GDPR)</h2><br>
+     <p><h2>4. Právní titul zpracování (dle GDPR)</h2>
 
 
-<h3>Zpracování osobních údajů probíhá na základě:</h3><br>
+<h3>Zpracování osobních údajů probíhá na základě:</h3>
 
-- čl. 6 odst. 1 písm. b) GDPR – plnění smlouvy či jednání před jejím uzavřením, tj. vyřízení dotazu;<br>
+- čl. 6 odst. 1 písm. b) GDPR – plnění smlouvy či jednání před jejím uzavřením, tj. vyřízení dotazu;
 
-- čl. 6 odst. 1 písm. f) GDPR – oprávněný zájem Správce, zejména ochrana systému;<br>
+- čl. 6 odst. 1 písm. f) GDPR – oprávněný zájem Správce, zejména ochrana systému;
 
-- čl. 6 odst. 1 písm. a) GDPR – souhlas, pokud jde o nepovinné analytické cookies.<br>
+- čl. 6 odst. 1 písm. a) GDPR – souhlas, pokud jde o nepovinné analytické cookies.
      </p>
-     <p> <h2>5. Doba uchovávání osobních údajů</h2><br>
+     <p> <h2>5. Doba uchovávání osobních údajů</h2>
 
 
-<h3>Osobní údaje získané kontaktním formulářem jsou uchovávány po dobu nezbytně nutnou k vyřízení dotazu, nejdéle však po dobu 2 let od jejich získání, pokud právní předpis nestanoví delší dobu nebo nedojde k udělení dalšího souhlasu.<br>
+<h3>Osobní údaje získané kontaktním formulářem jsou uchovávány po dobu nezbytně nutnou k vyřízení dotazu, nejdéle však po dobu 2 let od jejich získání, pokud právní předpis nestanoví delší dobu nebo nedojde k udělení dalšího souhlasu.
 
 
 
-Analytická a statistická data mohou být uchovávána po dobu definovanou příslušnou službou (typicky 12–24 měsíců).</h3><br>
+Analytická a statistická data mohou být uchovávána po dobu definovanou příslušnou službou (typicky 12–24 měsíců).</h3>
      </p> 
-     <p><h2>6. Příjemci osobních údajů a třetí strany</h2><br>
+     <p><h2>6. Příjemci osobních údajů a třetí strany</h2>
 
 
-<h3>Osobní údaje mohou být zpřístupněny následujícím kategoriím příjemců:</h3><br>
+<h3>Osobní údaje mohou být zpřístupněny následujícím kategoriím příjemců:</h3>
 
-- technickým poskytovatelům hostingu a infrastruktury<br>
+- technickým poskytovatelům hostingu a infrastruktury
 
-- poskytovateli e-mailových služeb<br>
+- poskytovateli e-mailových služeb
 
-- případně externím zpracovatelům, s nimiž má Správce uzavřenou smlouvu dle čl. 28 GDPR<br>
+- případně externím zpracovatelům, s nimiž má Správce uzavřenou smlouvu dle čl. 28 GDPR
 
 
 
-<h3>Osobní údaje nejsou předávány třetím osobám za účelem marketingu.</h3><br>
+<h3>Osobní údaje nejsou předávány třetím osobám za účelem marketingu.</h3>
      </p>
-     <p><h2>7. Práva Uživatelů dle GDPR</h2><br>
+     <p><h2>7. Práva Uživatelů dle GDPR</h2>
 
 
-<h3>Uživatel má právo požadovat:</h3><br>
+<h3>Uživatel má právo požadovat:</h3>
 
-- přístup ke svým osobním údajům,<br>
+- přístup ke svým osobním údajům,
 
-- opravu nepřesných údajů,<br>
+- opravu nepřesných údajů,
 
-- výmaz osobních údajů („právo být zapomenut“),<br>
+- výmaz osobních údajů („právo být zapomenut“),
 
-- omezení zpracování,<br>
+- omezení zpracování,
 
-- námitku proti zpracování,<br>
+- námitku proti zpracování,
 
-- přenositelnost dat,<br>
+- přenositelnost dat,
 
-- podání stížnosti u Úřadu pro ochranu osobních údajů.<br>
+- podání stížnosti u Úřadu pro ochranu osobních údajů.
      </p> 
-     <p><h2>8. Bezpečnost zpracování</h2><br>
+     <p><h2>8. Bezpečnost zpracování</h2>
 
 
 <h3>Správce prohlašuje, že přijímá veškerá vhodná technická, organizační a administrativní opatření k ochraně osobních údajů, která zahrnují například:
-</h3><br>
-- zabezpečené přenosy dat<br>
-- řízený přístup k datům<br>
+</h3>
+- zabezpečené přenosy dat
 
-- pravidelnou kontrolu a audit používaných systémů<br>
+- řízený přístup k datům
 
-- protokolování bezpečnostních událostí<br>
+- pravidelnou kontrolu a audit používaných systémů
 
-- ochranu před neoprávněným přístupem</p><br>
-        <p><h2>9. Automatizované rozhodování a profilování</h2><br>
+- protokolování bezpečnostních událostí
+
+- ochranu před neoprávněným přístupem</p>
+        <p><h2>9. Automatizované rozhodování a profilování</h2>
 
 
-<h3>Správce neprovádí žádné automatizované rozhodování, které by mělo právní účinky vůči Uživateli. Nedochází ani k profilování za účelem marketingu.</h3><br>
+<h3>Správce neprovádí žádné automatizované rozhodování, které by mělo právní účinky vůči Uživateli. Nedochází ani k profilování za účelem marketingu.</h3>
         </p>
-     <p><h2>10. Změny Prohlášení<br>
-</h2>
+     <p><h2>10. Změny Prohlášení
+</h3>
 
 <h3>Správce si vyhrazuje právo kdykoli toto Prohlášení aktualizovat, zejména v souvislosti s legislativními změnami, úpravou služeb nebo interních procesů. Aktualizovaná verze je vždy dostupná na Webových stránkách a nabývá účinnosti dnem zveřejnění.</h3></p>
       
@@ -587,7 +632,6 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     </div>
   </section>
   
-  <!-- SLUŽBY -->
   <section id="sluzby" class="page" aria-hidden="true">
     <div class="page-inner">
       <h2><span>Služby</span></h2>
@@ -627,7 +671,6 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     </div>
   </section>
 
-  <!-- AI (ponecháno, ale přenastaveno jako karta) -->
   <section id="ai" class="page" aria-hidden="true">
     <div class="page-inner">
       <div class="ai-wrap">
@@ -637,7 +680,6 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
         </header>
 
         <div class="ai-layout">
-          <!-- CHAT -->
           <div class="chat" aria-live="polite" aria-label="Chat s Digitory AI">
             <div class="chat-stream" id="chatStream">
               <div class="msg">
@@ -650,7 +692,6 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
             </div>
           </div>
 
-          <!-- ODHAD -->
           <aside class="estimate" aria-label="Odhad projektu">
             <div class="est-head">
               <h3>Odhad projektu</h3>
@@ -686,7 +727,6 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     </div>
   </section>
 
-  <!-- KONTAKT -->
   <section id="kontakt" class="page" aria-hidden="true">
     <div class="page-inner">
       <h2><span>Kontakt</span></h2>
@@ -704,6 +744,18 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     </div>
   </section>
 
+<div id="page-sizer"></div>
+
+<div id="cookieBox" class="cookies">
+    <h3>Správa cookies</h3>
+    <p>Tento web používá cookies. Vyberte, jaké chcete povolit.</p>
+
+    <button class="accept" onclick="setCookies('all')">Přijmout vše</button>
+    <button class="necessary" onclick="setCookies('necessary')">Povolit pouze nezbytné</button>
+    <button class="deny" onclick="setCookies('deny')">Zakázat</button>
+</div>
+
+
 <footer>     
   &copy; 2025 Digitory - Všechna práva vyhrazena <br>
   <a href="#gdpr" data-page-link="gdpr">Ochrana osobních údajů</a> |
@@ -716,6 +768,34 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
   const pages = document.querySelectorAll('.page');
   const mobilePanel = document.getElementById('navMobilePanel');
   const navToggle = document.getElementById('navToggle');
+  const spacer = document.getElementById('page-sizer'); 
+  // ZMĚNA 1: Načtení headeru a footeru pro přesné výpočty
+  const header = document.querySelector('header');
+  const footer = document.querySelector('footer');
+
+  // Funkce pro nastavení výšky spaceru (vyvolaná při změně stránky a resize)
+  function setSpacerHeight(target) {
+    if (!spacer || !header || !footer) return;
+
+    // Počkáme 500ms, aby se dokončily všechny CSS animace (.45s)
+    setTimeout(() => {
+        const headerHeight = header.offsetHeight;
+        const footerHeight = footer.offsetHeight;
+        const activePageHeight = target.offsetHeight;
+
+        // Vypočítáme minimální potřebnou výšku pro spacer, aby se footer dotkl spodní hrany okna
+        const requiredMinHeight = window.innerHeight - headerHeight - footerHeight;
+        
+        // Použijeme buď skutečnou výšku obsahu, nebo minimální výšku okna (pro sticky footer)
+        // Použijeme větší hodnotu z obsahu nebo z výpočtu sticky footer
+        const newSpacerHeight = Math.max(activePageHeight, requiredMinHeight);
+        
+        // Nastavíme výšku
+        spacer.style.height = newSpacerHeight + 'px';
+        
+    }, 500); 
+  }
+
 
   function openPage(id){
     pages.forEach(p => {
@@ -726,6 +806,12 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     if(target){
       target.classList.add('active');
       target.setAttribute('aria-hidden','false');
+      
+      // ZMĚNA 2: Volání nové funkce pro nastavení výšky
+      setSpacerHeight(target); 
+      
+      // Při každé změně stránky posuneme scroll nahoru
+      window.scrollTo(0, 0); 
     }
 
     // zvýraznit aktivní odkaz
@@ -759,12 +845,41 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
       openPage(btn.dataset.pageLink);
     });
   });
+
+  // ZMĚNA 3: Při načtení stránky a změně velikosti okna přepočítat výšku
+  const initialPageId = document.querySelector('.page.active')?.id || 'home';
+
+  window.onload = () => {
+    const choice = localStorage.getItem("cookieChoice");
+    if (!choice) {
+        document.getElementById("cookieBox").style.display = "block";
+    }
+    
+    // Zajištění, že se po načtení nastaví správná výška pro aktivní sekci
+    openPage(initialPageId); 
+  };
+
+  // ZMĚNA 4: Důležité pro responzivitu - přepočet výšky po změně velikosti okna
+  window.addEventListener('resize', () => {
+      const activePage = document.querySelector('.page.active');
+      if (activePage) {
+          // Použijeme zkrácený setTimeout bez animace, protože resize je synchronní
+          setTimeout(() => setSpacerHeight(activePage), 0); 
+      }
+  });
+
+
+    function setCookies(type) {
+        localStorage.setItem("cookieChoice", type);
+        document.getElementById("cookieBox").style.display = "none";
+        // Po přijetí cookies znovu přepočítáme výšku pro případ, že cookie lišta zmizí
+        const activePage = document.querySelector('.page.active');
+        if (activePage) {
+             setTimeout(() => setSpacerHeight(activePage), 0); 
+        }
+    }
+
 </script>
 
 </body>
 </html>
-
-
-
-
-
