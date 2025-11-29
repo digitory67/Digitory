@@ -18,65 +18,39 @@
       --glass:rgba(255,255,255,.06);
       --max:1200px;
       --radius:16px;
-      /* Přidána proměnná pro výšku headeru pro snadné přepočty */
       --header-height: 66px; 
     }
 
     /* === FIX: odstranit jakékoliv lokální pozadí/bordery za nadpisem v #ai === */
-    #ai, #ai * {
-      background-image: none !important;
-    }
-    #ai, #ai .ai-wrap, #ai .ai-headline {
-      background-color: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-    }
-    #ai .ai-headline::before,
-    #ai .ai-headline::after,
-    #ai .ai-wrap::before,
-    #ai .ai-wrap::after {
-      content: none !important;
-      display: none !important;
-    }
-    #ai hr,
-    #ai .divider,
-    #ai .section-divider {
-      display: none !important;
-      border: 0 !important;
-    }
-    #ai .section,
-    #ai .panel,
-    #ai .box,
-    #ai .container,
-    #ai .wrapper {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-    }
-    #ai .chat,
-    #ai .estimate {
+    #ai, #ai * { background-image: none !important; }
+    #ai, #ai .ai-wrap, #ai .ai-headline { background-color: transparent !important; border: none !important; box-shadow: none !important; }
+    #ai .ai-headline::before, #ai .ai-headline::after, #ai .ai-wrap::before, #ai .ai-wrap::after { content: none !important; display: none !important; }
+    #ai hr, #ai .divider, #ai .section-divider { display: none !important; border: 0 !important; }
+    #ai .section, #ai .panel, #ai .box, #ai .container, #ai .wrapper { background: transparent !important; border: none !important; box-shadow: none !important; }
+    #ai .chat, #ai .estimate {
       background: rgba(255,255,255,.05) !important;
       border: 1px solid rgba(255,255,255,.10) !important;
       box-shadow: 0 20px 48px rgba(0,0,0,.35) !important;
     }
 
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
+    
+    html{
+        scroll-behavior:smooth;
+        overflow-x: hidden; 
+    }
 
-    /* --- Jednotná base barva (pod ambient) --- */
     body{
       margin:0;
       background:var(--bg);
       color:var(--text);
       font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial,sans-serif;
       overflow-x:hidden;
-      overflow-y: auto;
-      /* Klíčové: Nastavit body jako rodiče pro position: absolute a zamezit marginům */
+      min-height: 100dvh; 
       position: relative; 
-      min-height: 100vh; /* Aby se body roztáhlo na celou výšku okna */
     }
 
-    /* --- JEDNO společné ambientní pozadí pro CELÝ web --- */
+    /* --- Ambientní pozadí --- */
     .page-ambient{
       position:fixed;
       inset:-40% -20% -40% -20%;
@@ -99,14 +73,11 @@
       background:rgba(10,10,10,.65);
       backdrop-filter:blur(10px);
       border-bottom:1px solid rgba(255,255,255,.05);
-      /* Zajištění správné výšky pro odečtení v JS */
       height: var(--header-height); 
     }
     .nav{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
     .nav-links{display:flex;gap:24px; align-items:center}
-    /* odkazy přes data-page (JS je zpracuje) */
     .nav-links a{color:#f2f2f2;text-decoration:none;font-weight:600;font-size:15px;position:relative;transition:color .28s, transform .2s; padding:6px 8px; border-radius:8px}
-    /* animované podtržení + posun a gradient při aktivním stavu */
     .nav-links a::after{content:"";position:absolute;left:8px;right:8px;bottom:6px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transform:scaleX(0);transform-origin:left;transition:opacity .28s, transform .28s}
     .nav-links a:hover{color:var(--accent); transform:translateY(-2px)}
     .nav-links a:hover::after{opacity:1;transform:scaleX(1)}
@@ -116,61 +87,152 @@
     .nav-logo img{height:38px;width:auto;filter:drop-shadow(0 0 8px rgba(221,167,86,.3));transition:transform .3s}
     .nav-logo img:hover{transform:scale(1.05)}
 
-    /* HAMBURGER (mobile) */
-    .nav-toggle{
-      display:none;
-      background:transparent;
-      border:1px solid rgba(255,255,255,.06);
-      padding:8px 10px;
-      border-radius:8px;
-      color:var(--text);
-      cursor:pointer;
+    /* --- NOVÝ HAMBURGER S ANIMACÍ --- */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 44px; /* Větší touch target */
+      height: 44px;
+      padding: 12px 8px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 260; /* Musí být nad menu */
+      transition: border-color 0.3s;
     }
-    .nav-mobile-panel{
-      display:none;
-      position:fixed;
-      top:var(--header-height); /* Použít proměnnou */
-      left:12px;
-      right:12px;
-      background:rgba(10,10,10,.92);
-      border-radius:12px;
-      padding:12px;
-      z-index:250;
-      box-shadow:0 20px 40px rgba(0,0,0,.6);
-      border:1px solid rgba(255,255,255,.04);
-      backdrop-filter:blur(8px);
+    
+    .nav-toggle:hover {
+      border-color: var(--accent);
     }
-    .nav-mobile-panel a{display:block;padding:10px;border-radius:8px;margin-bottom:6px}
 
+    .nav-toggle span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Pružný efekt */
+      transform-origin: center;
+    }
+
+    /* Stav aktivní (křížek) */
+    .nav-toggle.is-active span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .nav-toggle.is-active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-10px); /* Odletí do strany */
+    }
+    .nav-toggle.is-active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* --- NOVÉ ANIMOVANÉ MOBILNÍ MENU --- */
+    .nav-mobile-panel {
+      display: block; /* Vždy v DOMu, jen skryté vizuálně */
+      position: fixed;
+      top: calc(var(--header-height) + 10px);
+      left: 10px;
+      right: 10px;
+      background: rgba(15, 15, 15, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 20px;
+      z-index: 250;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      
+      /* Animace */
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px) scale(0.96);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: top center;
+    }
+
+    .nav-mobile-panel.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Stylování odkazů jako tlačítka */
+    .nav-mobile-panel a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.02em;
+      transition: all 0.2s ease;
+      
+      /* Pro kaskádovitý efekt příletu */
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s, border-color 0.2s;
+    }
+
+    .nav-mobile-panel.open a {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger delay (postupné nabíhání) */
+    .nav-mobile-panel.open a:nth-child(1) { transition-delay: 0.1s; }
+    .nav-mobile-panel.open a:nth-child(2) { transition-delay: 0.15s; }
+    .nav-mobile-panel.open a:nth-child(3) { transition-delay: 0.2s; }
+    .nav-mobile-panel.open a:nth-child(4) { transition-delay: 0.25s; }
+
+    .nav-mobile-panel a:last-child { margin-bottom: 0; }
+
+    .nav-mobile-panel a:hover,
+    .nav-mobile-panel a.active {
+      background: rgba(221, 167, 86, 0.15); /* Akcentní barva s průhledností */
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: scale(1.02);
+    }
+
+    /* Responsivita */
     @media (max-width:850px){
       .nav{flex-direction:row;gap:12px}
       .nav-links{gap:12px}
-      .nav-links{display:none} /* hide desktop links on small screens; show via mobile panel */
-      .nav-toggle{display:inline-flex}
+      .nav-links{display:none} 
+      .nav-toggle{display:flex} /* Použijeme flex pro centrování čárek */
     }
 
-    /* --- Každá sekce jako "karta" (full viewport) --- */
+    /* --- PAGE STYLING --- */
     .page {
       position: absolute; 
       top: 0;             
       left: 0;
       display: block;     
       width: 100%;
-
-      /* Použít proměnnou a odečíst výšku headeru */
       padding-top: calc(var(--header-height) + 26px); 
       box-sizing: border-box;
-
       pointer-events: none;
       opacity: 0;
       transform: translateY(18px) scale(.995);
       transition: opacity .45s ease, transform .45s ease;
+      visibility: hidden; 
     }
 
     .page.active {
       pointer-events: auto;
       opacity: 1;
       transform: translateY(0) scale(1);
+      visibility: visible;
     }
 
     .page-inner {
@@ -181,14 +243,12 @@
       box-sizing: border-box;
     }
 
-
-    /* --- HERO (beze změny viz tvůj originál) --- */
+    /* --- HERO --- */
     .hero{position:relative;padding:96px 16px 24px;max-width:1100px;margin:0 auto;text-align:center}
     .hero h1{margin:0 0 6px;font-size:clamp(48px,8vw,92px);line-height:1.05;font-weight:800;letter-spacing:-.02em;opacity:1;transform:none}
     .slogan{font-size:clamp(22px,3vw,32px);font-weight:500;color:var(--accent2)}
     .sub{margin:14px auto 0;max-width:750px;font-size:18px;color:#DADDE2;line-height:1.6}
 
-    /* CTA pod hero přenecháno */
     .cta-hero-extension{padding:10px 16px 18px}
     .cta-wrap{max-width:1100px;margin:0 auto;text-align:center}
     .cta-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
@@ -198,76 +258,30 @@
     .btn-outline{background:transparent;border-color:var(--accent);color:var(--accent)}
     .btn-outline:hover{background:var(--accent);color:#111;transform:translateY(-2px)}
 
-    /* --- Sekce O nás (obsahnější textbox ve stejném glass stylu) --- */
-    #onas .about-box{
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:28px;
-      line-height:1.6;
-      color:#ddd;
-      box-shadow:0 20px 48px rgba(0,0,0,.35);
-    }
+    /* --- Sekce Ostatní --- */
+    #onas .about-box{ background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--radius); padding:28px; line-height:1.6; color:#ddd; box-shadow:0 20px 48px rgba(0,0,0,.35); }
     #onas h2{font-size:clamp(28px,4.6vw,44px);margin-bottom:12px;text-align:center}
     #onas p.lead{color:#d7d7d7;text-align:center;margin-bottom:18px}
 
-    /* --- Služby (karty) --- */
-    .services-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:20px;
-      margin-top:20px;
-    }
-    .service-card{
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:20px;
-      transition:.25s;
-      box-shadow:0 18px 40px rgba(0,0,0,.3);
-    }
+    .services-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; margin-top:20px; }
+    .service-card{ background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:14px; padding:20px; transition:.25s; box-shadow:0 18px 40px rgba(0,0,0,.3); }
     .service-card:hover{transform:translateY(-6px);border-color:var(--accent)}
     .service-card h3{color:var(--accent);margin-top:0}
     .service-card p{color:#d7d7d7;font-size:15px;line-height:1.5}
 
-    /* --- Kontakt --- */
-    #contact .contact-box{
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:28px;
-      max-width:720px;
-      margin:20px auto 0;
-      color:#ddd;
-      text-align:center;
-      box-shadow:0 20px 48px rgba(0,0,0,.35);
-    }
+    #contact .contact-box{ background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--radius); padding:28px; max-width:720px; margin:20px auto 0; color:#ddd; text-align:center; box-shadow:0 20px 48px rgba(0,0,0,.35); }
     #contact .emails{margin:14px 0;color:#fff;line-height:1.8;font-size:16px}
-    #contact .insta-btn{
-      display:inline-block;
-      margin-top:12px;
-      background:var(--accent);
-      color:#111;
-      font-weight:700;
-      padding:12px 22px;
-      border-radius:999px;
-      text-decoration:none;
-      transition:transform .18s;
-      box-shadow:0 0 18px rgba(221,167,86,.25);
-    }
+    #contact .insta-btn{ display:inline-block; margin-top:12px; background:var(--accent); color:#111; font-weight:700; padding:12px 22px; border-radius:999px; text-decoration:none; transition:transform .18s; box-shadow:0 0 18px rgba(221,167,86,.25); }
     #contact .insta-btn:hover{transform:translateY(-3px)}
 
-    /* --- AI sekce (ponecháno) --- */
     section#ai{background:transparent !important;padding:52px 16px 80px}
     .ai-wrap{width:100%;max-width:var(--max);margin:0 auto;animation:fadeIn .7s ease}
     .ai-headline{text-align:center;margin-bottom:18px}
     .ai-headline h2{font-size:clamp(28px,4.6vw,44px);margin:0 0 6px}
     .ai-headline h2 span{color:var(--accent)}
     .ai-headline p{color:#d7d7d7;max-width:860px;margin:0 auto;line-height:1.6}
-
     .ai-layout{display:grid;grid-template-columns:1.25fr .85fr;gap:22px;align-items:stretch}
     @media (max-width:1024px){.ai-layout{grid-template-columns:1fr}}
-
     .chat{display:flex;flex-direction:column;height:68vh;min-height:520px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(10px);box-shadow:0 20px 48px rgba(0,0,0,.35)}
     .chat-stream{flex:1;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:10px}
     .msg{max-width:80%;border-radius:14px;padding:10px 14px;line-height:1.45;font-size:15px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);align-self:flex-start}
@@ -277,7 +291,6 @@
     .chat-input input::placeholder{color:#aaa}
     .chat-input button{border:none;border-radius:10px;padding:12px 16px;font-weight:600;cursor:pointer;background:var(--accent);color:#111;transition:.2s}
     .chat-input button:hover{transform:translateY(-1px)}
-
     .estimate{display:flex;flex-direction:column;gap:14px;height:68vh;min-height:520px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(10px);padding:16px;box-shadow:0 20px 48px rgba(0,0,0,.35)}
     .est-head{display:flex;align-items:center;justify-content:space-between}
     .est-head h3{margin:0;font-size:20px}
@@ -295,17 +308,13 @@
     .est-notes ul{margin:0;padding-left:18px;color:#d5d5d5;line-height:1.55}
     .est-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
 
-    /* malé responsivity */
     @media (max-width:700px){
       .nav{padding:12px}
       .page-inner{padding:20px}
       .chat{min-height:420px;height:52vh}
       .hero{padding:56px 12px 18px}
-      /* show mobile nav panel when active */
-      .nav-mobile-panel{left:12px; right:12px}
+      /* Mobilní panel je nastaven v sekci nahoře */
     }
-
-    /* ensure mobile friendly sizes */
     @media (max-width:480px){
       .hero h1{font-size:36px}
       .cta-buttons .btn{padding:10px 14px}
@@ -313,20 +322,20 @@
       .est-head{flex-direction:column; gap:8px; align-items:flex-start}
     }
   
-footer {
-position: static;
-bottom: 0;
-left: 0;
-right: 0;
-text-align: center;
-padding: 18px 0;
-background: transparent;
-backdrop-filter: blur(10px);
-border-top: transparent;
-color: #aaa;
-font-size: 14px;
-z-index: 999;
-}
+    footer {
+        position: static;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 18px 0;
+        background: transparent;
+        backdrop-filter: blur(10px);
+        border-top: transparent;
+        color: #aaa;
+        font-size: 14px;
+        z-index: 999;
+    }
 
      .cookies {
         position: fixed;
@@ -343,35 +352,11 @@ z-index: 999;
         text-align: center;
         font-family: Arial, sans-serif;
     }
-
-    .cookies h3 {
-        margin-top: 0;
-        font-size: 18px;
-    }
-
-    .cookies button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 15px;
-    }
-
-    .cookies .accept {
-        background: #28a745;
-        color: white;
-    }
-
-    .cookies .necessary {
-        background: #007bff;
-        color: white;
-    }
-
-    .cookies .deny {
-        background: #ccc;
-    }
+    .cookies h3 {margin-top: 0;font-size: 18px;}
+    .cookies button {width: 100%;padding: 10px;margin-top: 10px;border: none;border-radius: 8px;cursor: pointer;font-size: 15px;}
+    .cookies .accept {background: #28a745;color: white;}
+    .cookies .necessary {background: #007bff;color: white;}
+    .cookies .deny {background: #ccc;}
  
   </style>
 </head>
@@ -383,10 +368,8 @@ z-index: 999;
     <nav class="nav">
       <div class="nav-left" style="display:flex;align-items:center;gap:12px;">
         <button class="nav-toggle" id="navToggle" aria-label="Menu">
-  <span></span>
-  <span></span>
-  <span></span>
-</button>
+          <span></span><span></span><span></span>
+        </button>
         <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
           <a href="#" data-page="home" class="active">Domů</a>
           <a href="#" data-page="onas">O nás</a>
@@ -453,181 +436,60 @@ z-index: 999;
     </div>
   </section>
 
-
   <section id="cookies" class="page" >
     <div class="page-inner">
       <h2><span>Cookies</span></h2>
-
       <div class="about-box" role="article">
         <p>
-<h3>Web používá následující typy cookies:</h3>
-
-- Nezbytné technické cookies (nutné pro provoz)
-
-- Preferenční / funkční cookies
-
-- Analytické cookies (např. Vercel Analytics) – ukládány pouze na základě souhlasu Uživatele
-
-<h3>Uživatel může:</h3>
-
-- přijmout všechny cookies,
-
-- odmítnout všechny cookies kromě nezbytných,
-
-- upravit své preference prostřednictvím cookies lišty.
+          <h3>Web používá následující typy cookies:</h3>
+          - Nezbytné technické cookies (nutné pro provoz)<br>
+          - Preferenční / funkční cookies<br>
+          - Analytické cookies (např. Vercel Analytics) – ukládány pouze na základě souhlasu Uživatele
+          <h3>Uživatel může:</h3>
+          - přijmout všechny cookies,<br>
+          - odmítnout všechny cookies kromě nezbytných,<br>
+          - upravit své preference prostřednictvím cookies lišty.
         </p>
-
       </div>
     </div>
   </section>
 
-
   <section id="gdpr" class="page" >
     <div class="page-inner">
       <h2><span>Ochrana osobních údajů a GDPR</span></h2>
-
       <div class="about-box" role="article">
         <p>
        <h3> 1. Správce osobních údajů </h3>  
-
-
-Správcem osobních údajů je provozovatel této webové stránky (dále jen „Správce“).
-
-Kontaktní e-mail Správce je: [doplň svůj e-mail].
-
-Správce vystupuje jako fyzická nebo právnická osoba dle charakteru provozování stránek.
+       Správcem osobních údajů je provozovatel této webové stránky (dále jen „Správce“).<br>
+       Kontaktní e-mail Správce je: [doplň svůj e-mail].<br>
+       Správce vystupuje jako fyzická nebo právnická osoba dle charakteru provozování stránek.
         </p>
         <p>
-<h2> 2. Rozsah zpracovávaných osobních údajů</h2>
-
-
-<h3>Správce může na základě použití Webových stránek zpracovávat následující typy osobních údajů:</h3>
-
-
-
-<h3>a) Údaje zadávané Uživatelem prostřednictvím formuláře
-jméno, příjmení (nebo jiný identifikátor)</h3>
-
-- e-mailová adresa
-
-- obsah zprávy či popis požadavku
-
-- případně další dobrovolně vyplněné údaje
-
-
-
-<h3>b) Údaje automaticky shromažďované při používání Webu
-IP adresa a geografická oblast přibližné polohy</h3>
-
-- technické údaje o zařízení a prohlížeči
-
-- cookies nezbytné pro fungování stránek
-
-- analytické cookies (např. Vercel Analytics) používané pouze s příslušným souhlasem
-
-
-
-<h3>c) Další provozní a protokolové údaje
-datum a čas odeslání formuláře</h3>
-
-- metadata přenesených dotazů
-
-- případné údaje nutné pro systémové logování
+        <h2> 2. Rozsah zpracovávaných osobních údajů</h2>
+        <h3>Správce může na základě použití Webových stránek zpracovávat následující typy osobních údajů:</h3>
+        <h3>a) Údaje zadávané Uživatelem prostřednictvím formuláře</h3>
+        - jméno, příjmení (nebo jiný identifikátor)<br>
+        - e-mailová adresa<br>
+        - obsah zprávy či popis požadavku<br>
+        - případně další dobrovolně vyplněné údaje
+        <h3>b) Údaje automaticky shromažďované při používání Webu</h3>
+        - IP adresa a geografická oblast přibližné polohy<br>
+        - technické údaje o zařízení a prohlížeči<br>
+        - cookies nezbytné pro fungování stránek<br>
+        - analytické cookies (např. Vercel Analytics) používané pouze s příslušným souhlasem
+        <h3>c) Další provozní a protokolové údaje</h3>
+        - datum a čas odeslání formuláře<br>
+        - metadata přenesených dotazů<br>
+        - případné údaje nutné pro systémové logování
         </p>
-        <p>
-<h2>3. Účely zpracování osobních údajů</h2>
-
-
-<h3>Zpracování osobních údajů probíhá výhradně za těmito účely:</h3>
-
-1. Reakce na dotazy uživatelů – vyřízení požadavku, odpovědi na zprávu.
-
-2. Vedení interní evidence formulářů – archivace, přehled komunikace.
-
-3. Zlepšování funkčnosti webu – technické analyzování návštěvnosti a provozu.
-
-4. Plnění právních povinností – vedení dokumentace, řešení incidentů.
-
-5. Oprávněný zájem správce – ochrana webu, předcházení zneužití, bezpečnostní opatření.
+         <p><h2>3. Účely zpracování osobních údajů</h2>
+         <h3>Zpracování osobních údajů probíhá výhradně za těmito účely:</h3>
+         1. Reakce na dotazy uživatelů – vyřízení požadavku, odpovědi na zprávu.<br>
+         2. Vedení interní evidence formulářů – archivace, přehled komunikace.<br>
+         3. Zlepšování funkčnosti webu – technické analyzování návštěvnosti a provozu.<br>
+         4. Plnění právních povinností – vedení dokumentace, řešení incidentů.<br>
+         5. Oprávněný zájem správce – ochrana webu, předcházení zneužití, bezpečnostní opatření.
         </p>
-     <p><h2>4. Právní titul zpracování (dle GDPR)</h2>
-
-
-<h3>Zpracování osobních údajů probíhá na základě:</h3>
-
-- čl. 6 odst. 1 písm. b) GDPR – plnění smlouvy či jednání před jejím uzavřením, tj. vyřízení dotazu;
-
-- čl. 6 odst. 1 písm. f) GDPR – oprávněný zájem Správce, zejména ochrana systému;
-
-- čl. 6 odst. 1 písm. a) GDPR – souhlas, pokud jde o nepovinné analytické cookies.
-     </p>
-     <p> <h2>5. Doba uchovávání osobních údajů</h2>
-
-
-<h3>Osobní údaje získané kontaktním formulářem jsou uchovávány po dobu nezbytně nutnou k vyřízení dotazu, nejdéle však po dobu 2 let od jejich získání, pokud právní předpis nestanoví delší dobu nebo nedojde k udělení dalšího souhlasu.
-
-
-
-Analytická a statistická data mohou být uchovávána po dobu definovanou příslušnou službou (typicky 12–24 měsíců).</h3>
-     </p> 
-     <p><h2>6. Příjemci osobních údajů a třetí strany</h2>
-
-
-<h3>Osobní údaje mohou být zpřístupněny následujícím kategoriím příjemců:</h3>
-
-- technickým poskytovatelům hostingu a infrastruktury
-
-- poskytovateli e-mailových služeb
-
-- případně externím zpracovatelům, s nimiž má Správce uzavřenou smlouvu dle čl. 28 GDPR
-
-
-
-<h3>Osobní údaje nejsou předávány třetím osobám za účelem marketingu.</h3>
-     </p>
-     <p><h2>7. Práva Uživatelů dle GDPR</h2>
-
-
-<h3>Uživatel má právo požadovat:</h3>
-
-- přístup ke svým osobním údajům,
-
-- opravu nepřesných údajů,
-
-- výmaz osobních údajů („právo být zapomenut“),
-
-- omezení zpracování,
-
-- námitku proti zpracování,
-
-- přenositelnost dat,
-
-- podání stížnosti u Úřadu pro ochranu osobních údajů.
-     </p> 
-     <p><h2>8. Bezpečnost zpracování</h2>
-
-
-<h3>Správce prohlašuje, že přijímá veškerá vhodná technická, organizační a administrativní opatření k ochraně osobních údajů, která zahrnují například:
-</h3>
-- zabezpečené přenosy dat
-
-- řízený přístup k datům
-
-- pravidelnou kontrolu a audit používaných systémů
-
-- protokolování bezpečnostních událostí
-
-- ochranu před neoprávněným přístupem</p>
-        <p><h2>9. Automatizované rozhodování a profilování</h2>
-
-
-<h3>Správce neprovádí žádné automatizované rozhodování, které by mělo právní účinky vůči Uživateli. Nedochází ani k profilování za účelem marketingu.</h3>
-        </p>
-     <p><h2>10. Změny Prohlášení
-</h3>
-
-<h3>Správce si vyhrazuje právo kdykoli toto Prohlášení aktualizovat, zejména v souvislosti s legislativními změnami, úpravou služeb nebo interních procesů. Aktualizovaná verze je vždy dostupná na Webových stránkách a nabývá účinnosti dnem zveřejnění.</h3></p>
-      
       </div>
     </div>
   </section>
@@ -636,33 +498,27 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     <div class="page-inner">
       <h2><span>Služby</span></h2>
       <p class="lead">Od nápadu po hotové řešení — nabízíme služby, které dávají technologii i design do rovnováhy.</p>
-
       <div class="services-grid" role="list">
         <div class="service-card" role="listitem">
           <h3>Webové stránky 📃</h3>
           <p>Moderní a responzivní weby na míru — od osobních portfolií po firemní prezentace. Rychlé načítání, bezpečnost a čistý design.</p>
         </div>
-
         <div class="service-card" role="listitem">
           <h3>E-shopy 🛒</h3>
           <p>Kompletní řešení internetových obchodů včetně platebních bran, skladových systémů a automatizace objednávek.</p>
         </div>
-
         <div class="service-card" role="listitem">
           <h3>Automatizace ⚙️</h3>
           <p>Propojíme vaše systémy tak, aby pracovaly za vás. Automatizujeme procesy, fakturaci i komunikaci mezi nástroji.</p>
         </div>
-
         <div class="service-card" role="listitem">
           <h3>Umělá inteligence 🤖</h3>
           <p>Implementujeme AI asistenty, doporučovací systémy nebo generativní modely. Zjednodušíme vaši práci pomocí moderních nástrojů.</p>
         </div>
-
         <div class="service-card" role="listitem">
           <h3>Branding & design 🖌️</h3>
           <p>Pomůžeme vytvořit vizuální identitu, která zaujme. Logo, barvy, styl i grafika, která komunikuje vaši značku autenticky.</p>
         </div>
-
         <div class="service-card" role="listitem">
           <h3>Konzultace 🗣️</h3>
           <p>Nejste si jistí, jak začít? Nabízíme konzultace, kde společně vymyslíme ideální směr pro váš projekt.</p>
@@ -697,11 +553,9 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
               <h3>Odhad projektu</h3>
               <button id="calcBtn" class="btn-accent" type="button">Vypočítat odhad</button>
             </div>
-
             <div id="estEmpty" class="est-empty">
               ✍️ Až dopíšete zadání do chatu, klikněte na <b>Vypočítat odhad</b>.
             </div>
-
             <div id="estResult" class="est-result" hidden>
               <table class="est-table">
                 <tbody>
@@ -710,12 +564,10 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
                   <tr><th>Náročnost</th><td id="estLevel">—</td></tr>
                 </tbody>
               </table>
-
               <div class="est-notes">
                 <h4>Co jsme zohlednili</h4>
                 <ul id="estFactors"></ul>
               </div>
-
               <div class="est-cta">
                 <a href="#" class="btn-ghost">Domluvit konzultaci</a>
                 <a href="#" class="btn-accent">Chci upřesnit nabídku</a>
@@ -749,7 +601,6 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
 <div id="cookieBox" class="cookies">
     <h3>Správa cookies</h3>
     <p>Tento web používá cookies. Vyberte, jaké chcete povolit.</p>
-
     <button class="accept" onclick="setCookies('all')">Přijmout vše</button>
     <button class="necessary" onclick="setCookies('necessary')">Povolit pouze nezbytné</button>
     <button class="deny" onclick="setCookies('deny')">Zakázat</button>
@@ -763,67 +614,63 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
 </footer>
 
 <script>
-  // --- Přepínání sekcí (stránek) ---
   const links = document.querySelectorAll('[data-page]');
   const pages = document.querySelectorAll('.page');
   const mobilePanel = document.getElementById('navMobilePanel');
   const navToggle = document.getElementById('navToggle');
   const spacer = document.getElementById('page-sizer'); 
-  // ZMĚNA 1: Načtení headeru a footeru pro přesné výpočty
   const header = document.querySelector('header');
   const footer = document.querySelector('footer');
 
-  // Funkce pro nastavení výšky spaceru (vyvolaná při změně stránky a resize)
-  function setSpacerHeight(target) {
-    if (!spacer || !header || !footer) return;
+  let resizeObserver;
 
-    // Počkáme 500ms, aby se dokončily všechny CSS animace (.45s)
-    setTimeout(() => {
-        const headerHeight = header.offsetHeight;
-        const footerHeight = footer.offsetHeight;
-        const activePageHeight = target.offsetHeight;
+  function updateSpacer(target) {
+    if (!spacer || !header || !footer || !target) return;
 
-        // Vypočítáme minimální potřebnou výšku pro spacer, aby se footer dotkl spodní hrany okna
-        const requiredMinHeight = window.innerHeight - headerHeight - footerHeight;
-        
-        // Použijeme buď skutečnou výšku obsahu, nebo minimální výšku okna (pro sticky footer)
-        // Použijeme větší hodnotu z obsahu nebo z výpočtu sticky footer
-        const newSpacerHeight = Math.max(activePageHeight, requiredMinHeight);
-        
-        // Nastavíme výšku
-        spacer.style.height = newSpacerHeight + 'px';
-        
-    }, 500); 
+    const contentHeight = target.getBoundingClientRect().height; 
+    const headerHeight = header.offsetHeight;
+    const footerHeight = footer.offsetHeight;
+    const windowHeight = window.innerHeight;
+
+    const minSpacerHeight = windowHeight - footerHeight; 
+    
+    const finalHeight = Math.max(contentHeight, minSpacerHeight);
+    spacer.style.height = finalHeight + 'px';
   }
-
 
   function openPage(id){
     pages.forEach(p => {
       p.classList.remove('active');
       p.setAttribute('aria-hidden','true');
+      p.style.visibility = 'hidden';
     });
     const target = document.getElementById(id);
+    
     if(target){
       target.classList.add('active');
       target.setAttribute('aria-hidden','false');
+      target.style.visibility = 'visible';
       
-      // ZMĚNA 2: Volání nové funkce pro nastavení výšky
-      setSpacerHeight(target); 
+      updateSpacer(target);
       
-      // Při každé změně stránky posuneme scroll nahoru
+      if (resizeObserver) resizeObserver.disconnect();
+      resizeObserver = new ResizeObserver(() => {
+          updateSpacer(target);
+      });
+      resizeObserver.observe(target);
+
       window.scrollTo(0, 0); 
     }
 
-    // zvýraznit aktivní odkaz
     links.forEach(a => {
       a.classList.toggle('active', a.dataset.page === id);
     });
 
-    // zavřít mobilní menu
-    mobilePanel.style.display = "none";
+    // Zavřít menu a resetovat animaci hamburgeru při kliku na odkaz
+    mobilePanel.classList.remove('open');
+    navToggle.classList.remove('is-active');
   }
 
-  // kliknutí na odkazy v navbaru + mobilním panelu
   links.forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -832,13 +679,20 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     });
   });
 
-  // --- Mobilní přepínání ---
+  // --- NOVÁ LOGIKA PRO HAMBURGER MENU ---
   navToggle.addEventListener('click', () => {
-    const visible = mobilePanel.style.display === "block";
-    mobilePanel.style.display = visible ? "none" : "block";
+    // Přepínání tříd pro animace (místo display: block/none)
+    const isOpen = mobilePanel.classList.contains('open');
+    
+    if (isOpen) {
+      mobilePanel.classList.remove('open');
+      navToggle.classList.remove('is-active');
+    } else {
+      mobilePanel.classList.add('open');
+      navToggle.classList.add('is-active');
+    }
   });
 
-  // --- CTA tlačítka ---
   document.querySelectorAll("[data-page-link]").forEach(btn=>{
     btn.addEventListener("click", e=>{
       e.preventDefault();
@@ -846,7 +700,6 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     });
   });
 
-  // ZMĚNA 3: Při načtení stránky a změně velikosti okna přepočítat výšku
   const initialPageId = document.querySelector('.page.active')?.id || 'home';
 
   window.onload = () => {
@@ -854,31 +707,28 @@ Analytická a statistická data mohou být uchovávána po dobu definovanou př�
     if (!choice) {
         document.getElementById("cookieBox").style.display = "block";
     }
-    
-    // Zajištění, že se po načtení nastaví správná výška pro aktivní sekci
     openPage(initialPageId); 
   };
 
-  // ZMĚNA 4: Důležité pro responzivitu - přepočet výšky po změně velikosti okna
   window.addEventListener('resize', () => {
       const activePage = document.querySelector('.page.active');
       if (activePage) {
-          // Použijeme zkrácený setTimeout bez animace, protože resize je synchronní
-          setTimeout(() => setSpacerHeight(activePage), 0); 
+          updateSpacer(activePage);
+      }
+      
+      // Zavřít menu při zvětšení okna (desktop)
+      if (window.innerWidth > 850) {
+        mobilePanel.classList.remove('open');
+        navToggle.classList.remove('is-active');
       }
   });
 
-
-    function setCookies(type) {
-        localStorage.setItem("cookieChoice", type);
-        document.getElementById("cookieBox").style.display = "none";
-        // Po přijetí cookies znovu přepočítáme výšku pro případ, že cookie lišta zmizí
-        const activePage = document.querySelector('.page.active');
-        if (activePage) {
-             setTimeout(() => setSpacerHeight(activePage), 0); 
-        }
-    }
-
+  function setCookies(type) {
+      localStorage.setItem("cookieChoice", type);
+      document.getElementById("cookieBox").style.display = "none";
+      const activePage = document.querySelector('.page.active');
+      if (activePage) updateSpacer(activePage);
+  }
 </script>
 
 </body>
