@@ -190,6 +190,7 @@
     .nav-mobile-panel.open a:nth-child(3) { transition-delay: 0.15s; }
     .nav-mobile-panel.open a:nth-child(4) { transition-delay: 0.2s; }
     .nav-mobile-panel.open a:nth-child(5) { transition-delay: 0.25s; }
+    .nav-mobile-panel.open a:nth-child(6) { transition-delay: 0.3s; }
     .nav-mobile-panel a:last-child { margin-bottom: 0; }
     
     .nav-mobile-panel a:hover,
@@ -253,9 +254,47 @@
     .btn-outline:hover{background:var(--accent);color:#111;transform:translateY(-2px)}
 
     /* --- Sekce Ostatní --- */
-    #onas .about-box, #tym .about-box{ background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--radius); padding:28px; line-height:1.6; color:#ddd; box-shadow:0 20px 48px rgba(0,0,0,.35); }
-    #onas h2, #tym h2{font-size:clamp(28px,4.6vw,44px);margin-bottom:12px;text-align:center}
-    #onas p.lead, #tym p.lead{color:#d7d7d7;text-align:center;margin-bottom:18px}
+    #onas .about-box, #tym .about-box, #prace .about-box{ background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--radius); padding:28px; line-height:1.6; color:#ddd; box-shadow:0 20px 48px rgba(0,0,0,.35); }
+    #onas h2, #tym h2, #prace h2{font-size:clamp(28px,4.6vw,44px);margin-bottom:12px;text-align:center}
+    #onas p.lead, #tym p.lead, #prace p.lead{color:#d7d7d7;text-align:center;margin-bottom:18px}
+
+    /* --- NAŠE PRÁCE (PORTFOLIO) --- */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+    .portfolio-item {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: block;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .portfolio-item:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent);
+      background: rgba(255,255,255,.07);
+    }
+    .portfolio-img-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .portfolio-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top; 
+      transition: transform 0.5s ease;
+    }
+    .portfolio-item:hover .portfolio-img-wrap img {
+      transform: scale(1.05); 
+    }
+    .portfolio-info { padding: 24px; }
+    .portfolio-info h3 { margin: 0 0 8px 0; color: #fff; font-size: 20px; transition: color 0.3s;}
+    .portfolio-item:hover .portfolio-info h3 { color: var(--accent); }
+    .portfolio-info p { margin: 0; color: #ccc; font-size: 14px; line-height: 1.5; }
 
     /* --- TEAM STYLES --- */
     .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
@@ -427,7 +466,9 @@
         <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
           <a href="#" data-page="home" class="active">Domů</a>
           <a href="#" data-page="onas">O nás</a>
-          <a href="#" data-page="tym">Náš tým</a> <a href="#" data-page="sluzby">Služby</a>
+          <a href="#" data-page="prace">Naše práce</a>
+          <a href="#" data-page="tym">Náš tým</a> 
+          <a href="#" data-page="sluzby">Služby</a>
           <a href="#" data-page="kontakt">Kontakt</a>
         </div>
       </div>
@@ -442,7 +483,9 @@
     <div class="nav-mobile-panel" id="navMobilePanel" aria-hidden="true">
       <a href="#" data-page="home">Domů</a>
       <a href="#" data-page="onas">O nás</a>
-      <a href="#" data-page="tym">Náš tým</a> <a href="#" data-page="sluzby">Služby</a>
+      <a href="#" data-page="prace">Naše práce</a>
+      <a href="#" data-page="tym">Náš tým</a> 
+      <a href="#" data-page="sluzby">Služby</a>
       <a href="#" data-page="kontakt">Kontakt</a>
     </div>
   </header>
@@ -464,6 +507,7 @@
             <div class="cta-wrap">
               <div class="cta-buttons">
                 <a href="#" class="btn btn-accent" data-page-link="sluzby">Služby</a>
+                <a href="#" class="btn btn-outline" data-page-link="prace">Ukázka práce</a>
                 <a href="#" class="btn btn-outline" data-page-link="kontakt">Kontakt</a>
               </div>
             </div>
@@ -490,6 +534,47 @@
               Digitory je o lidech, nápadech a technologii, která posouvá věci kupředu.
               Ať už potřebujete web, branding, aplikaci nebo konzultaci, pomůžeme vám proměnit nápad v realitu — rychle, efektivně a moderně.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="prace" class="page">
+        <div class="page-inner">
+          <h2><span>Naše práce</span></h2>
+          <p class="lead">Ukázky projektů, které jsme přivedli z nápadu do reality.</p>
+          
+          <div class="portfolio-grid">
+            
+            <a href="https://www.odkaz-na-web1.cz" target="_blank" rel="noopener noreferrer" class="portfolio-item">
+              <div class="portfolio-img-wrap">
+                <img src="assets/ukazka1.jpg" alt="Ukázka webu 1">
+              </div>
+              <div class="portfolio-info">
+                <h3>Název prvního webu</h3>
+                <p>Firemní webová prezentace vytvořená na míru včetně moderního designu a SEO optimalizace.</p>
+              </div>
+            </a>
+
+            <a href="https://www.odkaz-na-web2.cz" target="_blank" rel="noopener noreferrer" class="portfolio-item">
+              <div class="portfolio-img-wrap">
+                <img src="assets/ukazka2.jpg" alt="Ukázka webu 2">
+              </div>
+              <div class="portfolio-info">
+                <h3>Název e-shopu</h3>
+                <p>Kompletní řešení e-shopu s automatizací objednávek a napojením na platební bránu.</p>
+              </div>
+            </a>
+
+            <a href="https://www.odkaz-na-web3.cz" target="_blank" rel="noopener noreferrer" class="portfolio-item">
+              <div class="portfolio-img-wrap">
+                <img src="assets/ukazka3.jpg" alt="Ukázka webu 3">
+              </div>
+              <div class="portfolio-info">
+                <h3>Osobní portfolio</h3>
+                <p>Čistý a minimalistický design pro prezentaci umělce s integrovanou galerií.</p>
+              </div>
+            </a>
+
           </div>
         </div>
       </section>
@@ -709,7 +794,7 @@
   </div>
 
 
-  <footer>     
+  <footer>    
     &copy; 2025 - 2026 Digitory - Všechna práva vyhrazena <br>
     <a href="#gdpr" data-page-link="gdpr">Ochrana osobních údajů</a> |
     <a href="#cookies" data-page-link="cookies">Cookies</a>
@@ -812,11 +897,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
