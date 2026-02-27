@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitory — Web v úpravě</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --accent:#DDA756;
+            --bg:#0A0A0A;
+            --text:#F5F5F6;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Ambientní pozadí stejně jako na hlavním webu */
+        .ambient-bg {
+            position:fixed;
+            inset: -50%;
+            z-index:-1;
+            background: radial-gradient(circle at center, rgba(221,167,86,0.15), transparent 60%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0 0 10px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .status {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            border: 1px solid rgba(221,167,86,0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            background: rgba(221,167,86,0.1);
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tlačítko Email - hlavní akce */
+        .btn-email {
+            background-color: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px rgba(221,167,86,0.2);
+        }
+        .btn-email:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+
+        /* Tlačítko Instagram - outline styl */
+        .btn-ig {
+            background-color: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+        .btn-ig:hover {
+            background-color: var(--accent);
+            color: #000;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <div class="container">
+        <div class="status">Stránka je v úpravě</div>
+        <h1>DIGITORY</h1>
+        <p>Právě pracujeme na vylepšení našeho webu, abychom pro vás připravili něco skvělého.<br>Brzy budeme zpět online.</p>
+        
+        <div class="btn-container">
+            <a href="mailto:kontakt@digitory.cz" class="btn btn-email">
+                kontakt@digitory.cz
+            </a>
+            
+            <a href="https://instagram.com/digitory.cz" target="_blank" class="btn btn-ig">
+                Instagram
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
