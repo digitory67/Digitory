@@ -11,11 +11,11 @@
   <style>
     /* === MONOCHROME MINIMALISM S BAREVNÝM AKCENTEM === */
     :root {
-      --bg: #080808; /* Velmi tmavá, ale ne absolutní černá */
+      --bg: #080808; 
       --text: #ffffff;
       --muted: #999999;
       --border: #222222; 
-      --accent: #DDA756; /* Zlato-oranžový akcent z tvého původního návrhu */
+      --accent: #DDA756; 
       --glass: rgba(255, 255, 255, 0.03);
       --max: 1200px;
       --radius: 0px; 
@@ -47,7 +47,8 @@
     /* --- NAVBAR --- */
     header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      background: rgba(8, 8, 8, 0.9);
+      /* Zvýšená neprůhlednost pro mobilní zařízení */
+      background: rgba(8, 8, 8, 0.98);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
@@ -106,7 +107,9 @@
     .nav-mobile-panel {
       display: flex; flex-direction: column; position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: var(--bg); padding: 100px 24px 24px;
+      /* Pevná plná barva bez průhlednosti */
+      background: #080808; 
+      padding: 100px 24px 24px;
       z-index: 250; opacity: 0; visibility: hidden;
       transform: translateY(-20px); transition: all 0.4s ease;
     }
