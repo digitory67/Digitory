@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JD Audio | Technické zabezpečení kulturních akcí</title>
+    <meta name="description" content="Kompletní technické zajištění kulturních a společenských akcí. Ozvučení, osvětlení, pódia a LED obrazovky.">
+    <style>
+        /* === ZÁKLADNÍ NASTAVENÍ A PROMĚNNÉ (MODRÁ, ČERNÁ, BÍLÁ) === */
+        :root {
+            --primary: #0066cc; /* Hlavní firemní barva (modrá) */
+            --primary-hover: #004c99;
+            --bg-dark: #000000; /* Černá pro pozadí */
+            --bg-lighter: #111111;
+            --text-light: #ffffff; /* Bílá pro text */
+            --text-muted: #cccccc;
+            --nav-bg: rgba(0, 0, 0, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* === NAVIGACE === */
+        nav {
+            background: var(--nav-bg);
+            padding: 0.8rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        /* LOGO */
+        .logo-img {
+            height: 55px; /* Výška loga, upravte podle potřeby */
+            width: auto;
+            display: block;
+            z-index: 1001;
+            transition: transform 0.3s;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* === TLAČÍTKO MENU PRO MOBILY (S ANIMACÍ NA KŘÍŽEK) === */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px; 
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--text-light);
+            transition: all 0.3s ease-in-out;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px); 
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* === SEKCE OBECNĚ === */
+        section {
+            padding: 100px 5% 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* === ÚVOD (HERO SEKCE) === */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1470229722913-7c090be5a560?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            padding: 0 20px;
+            margin-top: 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            color: var(--text-light);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: var(--primary);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* === O NÁS & SLUŽBY === */
+        #o-nas {
+            background-color: var(--bg-lighter);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .text-box {
+            background: var(--bg-dark);
+            padding: 40px;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .text-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .services-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .services-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .services-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* === TECHNIKA === */
+        #technika {
+            background-color: var(--bg-dark);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tech-card {
+            background: var(--bg-lighter);
+            padding: 30px;
+            border: 1px solid #222;
+            border-radius: 8px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .tech-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .tech-card h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .tech-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tech-card ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .tech-card ul li::before {
+            content: '■';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+            font-size: 0.8rem;
+            top: 6px;
+        }
+
+        /* === GALERIE === */
+        #galerie {
+            background-color: var(--bg-lighter);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            height: 250px;
+            background-color: var(--bg-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* === REFERENCE === */
+        #reference {
+            background-color: var(--bg-dark);
+        }
+
+        .reference-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .reference-list {
+            list-style: none;
+            padding: 0;
+            column-count: 4; /* 4 sloupce na PC */
+            column-gap: 40px;
+        }
+
+        /* PLYNULÁ ANIMACE PRO HOVER NAD JMÉNEM */
+        .reference-list li {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            padding: 8px 5px; /* Lehce zvětšená klikací/hover plocha */
+            border-bottom: 1px solid #222;
+            border-left: 0px solid var(--primary); /* Příprava pro animaci linky */
+            break-inside: avoid;
+            transition: all 0.4s ease-out; /* Důležité: 'all' animuje odsazení, barvu i pozadí najednou */
+            cursor: default;
+        }
+
+        .reference-list li:hover {
+            color: var(--text-light); /* Jméno se rozsvítí bíle */
+            padding-left: 15px; /* Plynule odjede hladce doprava */
+            border-left: 3px solid var(--primary); /* Zleva vyjede modrá akcentní linka */
+            background: linear-gradient(90deg, rgba(0, 102, 204, 0.2) 0%, rgba(0,0,0,0) 100%); /* Luxusní modré podsvícení do ztracena */
+            border-bottom-color: transparent; /* Zmizí spodní linka pro čistší vzhled */
+        }
+
+        /* Skrytí referencí od 10. pozice dále, dokud se nepřidá třída 'expanded' */
+        .reference-list:not(.expanded) li:nth-child(n+10) {
+            display: none;
+        }
+
+        /* Výrazné tlačítko pro zobrazení všech referencí */
+        .btn-prominent {
+            font-size: 1.1rem;
+            padding: 18px 45px;
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(0, 102, 204, 0.4); 
+            margin-top: 30px;
+            display: inline-block;
+        }
+
+        .btn-prominent:hover {
+            box-shadow: 0 0 30px rgba(0, 102, 204, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* === KONTAKT === */
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-lighter);
+            padding: 50px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 5px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .contact-info {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+        }
+
+        .contact-info strong {
+            color: var(--primary);
+            display: block;
+            font-size: 1.5rem;
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+
+        /* === PATIČKA === */
+        footer {
+            background: #000;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-top: 1px solid #222;
+        }
+
+        /* === RESPONZIVNÍ DESIGN (MOBILY A TABLETY) === */
+        @media (max-width: 992px) {
+            .reference-list { column-count: 3; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--nav-bg);
+                padding: 0;
+                text-align: center;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease, padding 0.4s ease;
+                gap: 1.5rem;
+            }
+
+            .nav-links.active {
+                max-height: 400px;
+                padding: 30px 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 { font-size: 2.2rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .contact-container { padding: 30px 15px; }
+            .reference-list { column-count: 2; }
+        }
+
+        @media (max-width: 480px) {
+            .reference-list { column-count: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#uvod">
+            <img src="logo_new.png" alt="JD Audio Logo" class="logo-img">
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#uvod">Úvod</a></li>
+            <li><a href="#o-nas">O nás</a></li>
+            <li><a href="#technika">Technika</a></li>
+            <li><a href="#galerie">Galerie</a></li>
+            <li><a href="#reference">Reference</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+    </nav>
+
+    <header id="uvod" class="hero">
+        <h1>Technické zabezpečení kulturních akcí</h1>
+        <p>Poskytujeme profesionální ozvučení, osvětlení a pódiovou techniku pro akce všech velikostí. S námi bude vaše událost nezapomenutelná.</p>
+        <a href="#kontakt" class="btn">Nezávazná poptávka</a>
+    </header>
+
+    <section id="o-nas">
+        <h2 class="section-title">O nás & Naše Služby</h2>
+        <div class="grid-2">
+            <div class="text-box">
+                <h3>Kdo jsme</h3>
+                <p>Kompletním technickým zajištěním společenských a kulturních akcí se zabýváme již od roku 2010. Jsme dynamická a flexibilní firma. Ke své práci používáme výhradně kvalitní značkovou techniku, na kterou se můžete spolehnout.</p>
+                <p style="margin-top: 15px;">Naše služby jsou vhodné pro vystoupení hudebních skupin, firemní akce, dny obcí a měst, hudební festivaly i soukromé oslavy.</p>
+            </div>
+            <div class="text-box">
+                <h3>Co nabízíme</h3>
+                <ul class="services-list">
+                    <li>Profesionální ozvučení akcí</li>
+                    <li>Osvětlení malých, středních i velkých scén</li>
+                    <li>Zajištění pódií a konstrukcí</li>
+                    <li>Pronájem velkoplošných LED obrazovek</li>
+                    <li>Velké párty stany</li>
+                    <li>Pivní sety a další doplňky</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="technika">
+        <h2 class="section-title">Naše Technika</h2>
+        <p style="text-align: center; margin-bottom: 40px; font-size: 1.2rem; color: var(--text-muted);">Pracujeme se špičkovým vybavením pro ten nejlepší výsledek.</p>
+        
+        <div class="tech-grid">
+            <div class="tech-card">
+                <h3>Mixážní pulty</h3>
+                <ul>
+                    <li>DiGiCo S21</li>
+                    <li>Allen & Heath QU16</li>
+                    <li>Mackie DL 32r</li>
+                </ul>
+            </div>
+            
+            <div class="tech-card">
+                <h3>PA systémy</h3>
+                <ul>
+                    <li>RCF TTL31A</li>
+                    <li>RCF TTL33A</li>
+                    <li>RCF TTS28A</li>
+                    <li>JBL SRX 815P</li>
+                    <li>JBL SRX 828P</li>
+                </ul>
+            </div>
+
+            <div class="tech-card">
+                <h3>Monitory</h3>
+                <ul>
+                    <li>JBL PRX</li>
+                    <li>RCF 310a</li>
+                </ul>
+            </div>
+
+            <div class="tech-card">
+                <h3>Mikrofony</h3>
+                <ul>
+                    <li>Audix</li>
+                    <li>Shure</li>
+                    <li>Audio-Technica</li>
+                    <li>sE Electronics</li>
+                    <li>AKG</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="galerie">
+        <h2 class="section-title">Galerie</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1540039155732-d688756910a3?auto=format&fit=crop&w=600&q=80" alt="Galerie 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="Galerie 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80" alt="Galerie 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=600&q=80" alt="Galerie 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=600&q=80" alt="Galerie 5">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=600&q=80" alt="Galerie 6">
+            </div>
+        </div>
+    </section>
+
+    <section id="reference">
+        <h2 class="section-title">Naše <span>Reference</span></h2>
+        <div class="reference-container">
+            <p style="text-align: center; margin-bottom: 40px; font-size: 1.1rem; color: var(--text-muted);">Měli jsme tu čest technicky zajišťovat a spolupracovat s těmito interprety, kapelami a soubory:</p>
+            
+            <ul class="reference-list" id="ref-list">
+                <li>Buty</li>
+                <li>Citron</li>
+                <li>Dan Bárta s kapelou ILLUSTRATOSPHERE</li>
+                <li>Hradišťan</li>
+                <li>Mirai</li>
+                <li>Mňága a Žďorp</li>
+                <li>TaTa Bojs</li>
+                <li>Wohnout</li>
+                <li>Xindl X</li>
+
+                <li>Aiko</li>
+                <li>Abraxas</li>
+                <li>ABBA revival</li>
+                <li>Acoustica</li>
+                <li>AC/DC revival Ostrava</li>
+                <li>ADHD</li>
+                <li>Akustické Duo L&V</li>
+                <li>Aldente</li>
+                <li>Alfa Band</li>
+                <li>ALLNever</li>
+                <li>AllSkaPones</li>
+                <li>Alter Via</li>
+                <li>Andante - pěvecký sbor</li>
+                <li>Animal Rock</li>
+                <li>Aperion</li>
+                <li>Bad Jockers Cream</li>
+                <li>Ballistic</li>
+                <li>Bastard</li>
+                <li>Bastien Jana</li>
+                <li>Bárta Noid Václav</li>
+                <li>Bende Petr</li>
+                <li>Beránek Patrik</li>
+                <li>Bernardini</li>
+                <li>Blanarovičová Yvetta</li>
+                <li>Brass band Šohaj</li>
+                <li>Bratři Galiové & spol</li>
+                <li>Broln</li>
+                <li>Budweiserová Irena</li>
+                <li>Budzelová Barbora</li>
+                <li>Burešová Eva</li>
+                <li>Capitol Rock</li>
+                <li>Callta Pavel</li>
+                <li>Carlos Santana Tribute band</li>
+                <li>Carllson Alf & Kotača Jiří</li>
+                <li>Ciatti Genny</li>
+                <li>Cimbálovka Friš</li>
+                <li>Cimbálovka Poštár</li>
+                <li>Cimbálovka Pramínky</li>
+                <li>Cimbálovka Úsměv</li>
+                <li>Cimbálovka Vedrovci</li>
+                <li>Cimbálovka Vonička</li>
+                <li>Citron revival</li>
+                <li>Coniunctio</li>
+                <li>Country Kavalerie</li>
+                <li>Csáková Ilona</li>
+                <li>Ctib</li>
+                <li>Čepelka Miloň</li>
+                <li>Černá kočka</li>
+                <li>Černá zář</li>
+                <li>Černocká Petra</li>
+                <li>Čtverec</li>
+                <li>Dasha & Pajky pajk</li>
+                <li>David Michal revival</li>
+                <li>Deczi Laco</li>
+                <li>Dech v zdech</li>
+                <li>Dechový orchestr mladých Jistebník</li>
+                <li>Demidchenko Pavol</li>
+                <li>Devětsil</li>
+                <li>Devítka</li>
+                <li>Dědeček Jiří</li>
+                <li>Dědek</li>
+                <li>Dětské sbory ZŠ Kopřivnice</li>
+                <li>Dětský pěvecký sbor Čtyřlístek</li>
+                <li>Dětský pěvecký sbor Ondrášek</li>
+                <li>Dilated</li>
+                <li>DolBand</li>
+                <li>Dorůžka David</li>
+                <li>Do Pohody</li>
+                <li>Duo 2Ká</li>
+                <li>Duki Buzuki Band</li>
+                <li>Duo L&V</li>
+                <li>Dunaj & Vébrová Jana</li>
+                <li>Dusilová Lenka & Aid Kid</li>
+                <li>Druty</li>
+                <li>Elan revival</li>
+                <li>Ego</li>
+                <li>Ema White</li>
+                <li>Endru a JeN Hovorka</li>
+                <li>Evropské svátky hudby Kopřivnice</li>
+                <li>Fajfr Václav a Acoustrio</li>
+                <li>Fall&Fell</li>
+                <li>Fanfán Tulipán</li>
+                <li>Fantasy music Live Show Band</li>
+                <li>FiHa</li>
+                <li>Filgas Jarek Band</li>
+                <li>Fleret</li>
+                <li>Floex</li>
+                <li>FourWayClose</li>
+                <li>Freddie Mercury Revival</li>
+                <li>Galia Brothers a Lenka Szabó Hrůzová</li>
+                <li>Galia Martin a přátelé</li>
+                <li>Gangsters Orchestra</li>
+                <li>Garáž</li>
+                <li>Generace 75</li>
+                <li>Gilovi psi</li>
+                <li>Goodwil</li>
+                <li>Golden Hits</li>
+                <li>GONG Hana Zagorová Revival</li>
+                <li>Gospon Tamburaši</li>
+                <li>Glayzy</li>
+                <li>Grog</li>
+                <li>Harich Martin</li>
+                <li>HC3</li>
+                <li>Hlavenková Beáta</li>
+                <li>Hložek Stanislav</li>
+                <li>Hluční sousedé</li>
+                <li>Hobití noha</li>
+                <li>Hodiny</li>
+                <li>Holki</li>
+                <li>Horvát Vlastimil</li>
+                <li>Hron Vladimír</li>
+                <li>Hrůza Michal s kapelou Hrůzy</li>
+                <li>HTK Band</li>
+                <li>Hůlka Daniel</li>
+                <li>Chorobopop</li>
+                <li>Iršava</li>
+                <li>Ingot</li>
+                <li>Inflagranti</li>
+                <li>Izabel</li>
+                <li>Jablkoň</li>
+                <li>Janků Heidi</li>
+                <li>Jesen - pěvecké sdružení</li>
+                <li>Jesenická dechovka</li>
+                <li>Jiří Schelinger revival</li>
+                <li>Jistebnická 13</li>
+                <li>Joe After Trio</li>
+                <li>Josef Bohouš</li>
+                <li>Jungová Soňa</li>
+                <li>Kabát revival</li>
+                <li>Kaczi</li>
+                <li>Kahoma trio</li>
+                <li>Kalousek Jan</li>
+                <li>Kamélie</li>
+                <li>Karaman Anastasia</li>
+                <li>Karol a Kvído</li>
+                <li>Kate Matl</li>
+                <li>Katka a Jazzbanda</li>
+                <li>Kámo</li>
+                <li>Kern</li>
+                <li>Kerndlová Tereza</li>
+                <li>Knechtová Katarína</li>
+                <li>Knor Miloš</li>
+                <li>Koberec</li>
+                <li>Kočko Tomáš a orchestr</li>
+                <li>Kohoutová Berenika</li>
+                <li>Kolář Petr s kapelou</li>
+                <li>Konvičková Markéta</li>
+                <li>KopRock</li>
+                <li>Kotvald Petr</li>
+                <li>Koubková Jana Quartet</li>
+                <li>Krásný Zdeněk</li>
+                <li>Kruh 19</li>
+                <li>Křivánková Adéla</li>
+                <li>Křováková Sabina</li>
+                <li>Kubišová Marta</li>
+                <li>Kyjovické klepeto</li>
+                <li>Lašský dechový orchestr</li>
+                <li>Laura a její tygři</li>
+                <li>Lautr</li>
+                <li>Láska Martin band</li>
+                <li>Ledecký Janek</li>
+                <li>Lemon Crow</li>
+                <li>Like - It</li>
+                <li>Limetal</li>
+                <li>Linka Tomáš + Přímá linka</li>
+                <li>Linka Rudy a Gil Goldstein</li>
+                <li>Lištiaková Kristýna</li>
+                <li>Lounová Olga</li>
+                <li>Löbl Tomáš</li>
+                <li>Lucie Z</li>
+                <li>Luciání - Lucie revival</li>
+                <li>Lucie revival</li>
+                <li>Magistr</li>
+                <li>Machálková Leona</li>
+                <li>Maras</li>
+                <li>Marasbanda</li>
+                <li>Marco Campos</li>
+                <li>Marrere Líza</li>
+                <li>Marod</li>
+                <li>Marpo & TroubleGang</li>
+                <li>Mašková Tereza</li>
+                <li>Maxa Martin</li>
+                <li>Maxim Turbulenc</li>
+                <li>MC Duro</li>
+                <li>Mendoš - Furmančík Zdeněk</li>
+                <li>Menu 65</li>
+                <li>Midnight</li>
+                <li>MIG 21</li>
+                <li>Michelle Dona</li>
+                <li>Mike Parker Quartet</li>
+                <li>Mirabel</li>
+                <li>Mijfajtová Sára</li>
+                <li>Miraź</li>
+                <li>Mistříňanka</li>
+                <li>Místní parta</li>
+                <li>Mišík Adam s kapelou</li>
+                <li>Movebreakers</li>
+                <li>Mletý standard</li>
+                <li>Myjavské heligónky</li>
+                <li>NaGauč</li>
+                <li>Nahodile</li>
+                <li>Night Shift</li>
+                <li>Noisy Pots & Tanita Yangová</li>
+                <li>Nonsen</li>
+                <li>Novák Pavel</li>
+                <li>No Problemmo</li>
+                <li>No stress</li>
+                <li>Oáza</li>
+                <li>Ochepovski projekt</li>
+                <li>O5 a Radeček</li>
+                <li>OGaBA</li>
+                <li>Olympic revival</li>
+                <li>Orchestr Ježkovy stopy</li>
+                <li>Ostravička - taneční soubor</li>
+                <li>Ozíci</li>
+                <li>Panenské plameny</li>
+                <li>Parní Lucie</li>
+                <li>Peter's Music - Abba Revival</li>
+                <li>Peter's Music - K tanci</li>
+                <li>Petržela Aleš s kapelou</li>
+                <li>Pěvecké sdružení Kopřivnice</li>
+                <li>Piešová Barbora</li>
+                <li>Plástev</li>
+                <li>Plyš</li>
+                <li>Poin of Few Quartet</li>
+                <li>Pokáč</li>
+                <li>Polách Karel</li>
+                <li>Presley Elvis revival</li>
+                <li>Prograss 2</li>
+                <li>Public Relations</li>
+                <li>Přehlídka tvorby handicapovaných dětí Motýlek</li>
+                <li>Příkop</li>
+                <li>Queen revival</li>
+                <li>Quattro Buggy</li>
+                <li>QZH Blues Band</li>
+                <li>Radegast - Cimbálovka</li>
+                <li>Rambays</li>
+                <li>Rebel</li>
+                <li>Rejman</li>
+                <li>Relida</li>
+                <li>Revival Olympic</li>
+                <li>Rez</li>
+                <li>Ritzka "Džetro" Peter</li>
+                <li>R.U.R.</li>
+                <li>Rock and Roll Marcela Woodmana</li>
+                <li>Rosénka</li>
+                <li>Rotující kedluben</li>
+                <li>Roxette revival</li>
+                <li>Rozálie</li>
+                <li>Ruda z Ostravy</li>
+                <li>Ruml Ondřej a Jazz quintet</li>
+                <li>Rusty Nail</li>
+                <li>Ryžovanka</li>
+                <li>Sagar</li>
+                <li>Salamandra</li>
+                <li>Salto</li>
+                <li>Saxtet Janáčkovy konzervatoře</li>
+                <li>Sebastien</li>
+                <li>Screamers</li>
+                <li>Self Made</li>
+                <li>Smetana Emma a Jordan Haj</li>
+                <li>Senioři energií nabití</li>
+                <li>Sestry Procházkovy & Libor Pavel</li>
+                <li>SG Band (Sjetý gumy)</li>
+                <li>Schelinger Jiří revival</li>
+                <li>Silence & Joy</li>
+                <li>Slepí Křováci</li>
+                <li>Slezský soubor Hany Salichové</li>
+                <li>Slouková Míša</li>
+                <li>Soul Ožil</li>
+                <li>Sound Mates</li>
+                <li>Special</li>
+                <li>Spider X</li>
+                <li>S.P.A.M</li>
+                <li>Stage on Course</li>
+                <li>Stanley's Dixie Street Band</li>
+                <li>Stenly band</li>
+                <li>Streichl Pepa</li>
+                <li>Super Fox</li>
+                <li>Světlo</li>
+                <li>Svoboda Milan</li>
+                <li>SwingGalia</li>
+                <li>Šajtar</li>
+                <li>Šebek Kristián - písně Karla Gota</li>
+                <li>Šindel Ivo</li>
+                <li>Tambura Batorek</li>
+                <li>Tamburašský soubor Brač Studénka</li>
+                <li>Taneční soubor Hlubina</li>
+                <li>Tanja</li>
+                <li>Tanja a Pavel Hanus</li>
+                <li>Tanja s kapelou</li>
+                <li>Team revival Martin</li>
+                <li>Těškovická telata</li>
+                <li>Th!s</li>
+                <li>The Basecel</li>
+                <li>The Beatles revival</li>
+                <li>The Calling Heart</li>
+                <li>The Challenge</li>
+                <li>The Konvbertor Rock Band</li>
+                <li>The Pant</li>
+                <li>The People</li>
+                <li>The Scarf</li>
+                <li>Tingvall Trio</li>
+                <li>Time Walk</li>
+                <li>Tolik</li>
+                <li>Too gitars</li>
+                <li>Topferová Marta</li>
+                <li>Trochumoc</li>
+                <li>Třetí dáma</li>
+                <li>Tři výkřičníky</li>
+                <li>Turbo</li>
+                <li>Unomas</li>
+                <li>Valentýn</li>
+                <li>Včera bylo pozdě</li>
+                <li>Velký dechový orchestr Hranice</li>
+                <li>VeraS band</li>
+                <li>Verona</li>
+                <li>Viklický Emil</li>
+                <li>Vincler Lukáš</li>
+                <li>Violine rock band</li>
+                <li>Vixlaivant</li>
+                <li>Vltava</li>
+                <li>Vodníci</li>
+                <li>Vojtek Josef</li>
+                <li>Volant</li>
+                <li>Vzduch</li>
+                <li>Witch Hammer</li>
+                <li>Woodman Marcel</li>
+                <li>World Roxette Tribute Band</li>
+                <li>Yo Yo Band</li>
+                <li>Zabelov Group</li>
+                <li>ZAhRADKAři</li>
+                <li>Závišický No name</li>
+                <li>Zbytečný luxus</li>
+                <li>Zdendalele</li>
+                <li>Zeiferová Adéla</li>
+                <li>Zelená míza</li>
+                <li>Zrní</li>
+                <li>Žádný ostych</li>
+                <li>Žáková Nela</li>
+                <li>Železný Zekon</li>
+                <li>Žlutý pes</li>
+                <li>100 na 100</li>
+            </ul>
+
+            <div style="text-align: center;">
+                <button id="show-more-btn" class="btn btn-prominent">Ukázat všechny reference</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontakt">
+        <h2 class="section-title">Kontakt</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <strong>Jan Dudek</strong>
+                <p>IČ: 76527549<br>DIČ: CZ9004155919</p>
+                
+                <p><strong>Adresa:</strong><br>
+                Pod Lesem 2221, 735 41 Petřvald<br>
+                <em>(Provozovna: Vlasty Vlasákové 966/2, Ostrava)</em></p>
+
+                <p><strong>Telefon:</strong><br>
+                <a href="tel:+420737776492" style="color: var(--text-light); text-decoration: none;">+420 737 776 492</a></p>
+
+                <p><strong>E-mail:</strong><br>
+                <a href="mailto:zvuceni@email.cz" style="color: var(--primary); text-decoration: none;">zvuceni@email.cz</a></p>
+
+                <hr style="border: 0; border-top: 1px solid #333; margin: 30px 0;">
+
+                <strong>Manager ředitele</strong>
+                <p>Jan Křístek<br>
+                Telefon: <a href="tel:+420724142268" style="color: var(--text-light); text-decoration: none;">+420 724 142 268</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 JD Audio. Všechna práva vyhrazena.</p>
+    </footer>
+
+    <script>
+        // Logika pro mobilní menu
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active'); 
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // Logika pro tlačítko zobrazení všech referencí
+        const showMoreBtn = document.getElementById('show-more-btn');
+        const refList = document.getElementById('ref-list');
+
+        showMoreBtn.addEventListener('click', () => {
+            refList.classList.toggle('expanded');
+            
+            if (refList.classList.contains('expanded')) {
+                showMoreBtn.textContent = 'Skrýt seznam';
+            } else {
+                showMoreBtn.textContent = 'Ukázat všechny reference';
+                // Jemné odrolování zpět nahoru k nadpisu referencí
+                document.getElementById('reference').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>
