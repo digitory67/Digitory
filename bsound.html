@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSOUND | Profesionální ozvučení a osvětlení akcí</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Barvy přesně podle loga (Bsound) - oranžová/bronzová, bílá, tmavé pozadí */
+            --bg-main: #0a0a0a;
+            --bg-card: #151515;
+            --bg-card-hover: #1e1e1e;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #f19b2c; /* Oranžovo-bronzová z nápisu "sound" */
+            --accent-hover: #e0891b;
+            --border: #2a2a2a;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- HLAVNÍ NAVIGACE --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 45px;
+            width: auto;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Desktop Menu */
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            background: rgba(241, 155, 44, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+            background: rgba(241, 155, 44, 0.15);
+        }
+
+        /* Hamburger Menu (Mobile) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-main);
+            border-radius: 3px;
+            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* --- OBSAHOVÉ STRÁNKY (Taby) --- */
+        main {
+            margin-top: 80px;
+            padding: 40px 5%;
+            min-height: calc(100vh - 140px); /* Odečtení nav a footer */
+            max-width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Logika přepínání stránek a animace */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .page.active {
+            display: block;
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- OBECNÁ TYPOGRAFIE A STYLY --- */
+        h1, h2 {
+            color: var(--text-main);
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background-color: var(--accent);
+            bottom: -8px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 35px 0 15px 0;
+            font-size: 1.4rem;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        li::before {
+            content: '■';
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+            font-size: 0.8rem;
+            top: 4px;
+        }
+
+        strong {
+            color: var(--text-main);
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* --- SPECIFICKÉ KOMPONENTY --- */
+        
+        /* Grid rozložení pro karty */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        /* Karta (Novinky, Služby, Vybavení) */
+        .card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Novinky */
+        .news-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        /* Reference (více sloupců pro úsporu místa) */
+        .columns-3 {
+            column-count: 3;
+            column-gap: 40px;
+            color: var(--text-muted);
+        }
+
+        .columns-3 div {
+            margin-bottom: 10px;
+            break-inside: avoid;
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .columns-3 div:hover {
+            background: var(--accent);
+            color: var(--bg-main);
+            font-weight: 600;
+            transform: translateX(5px);
+        }
+
+        /* Kontakt */
+        .contact-box {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--accent);
+            max-width: 600px;
+        }
+        
+        .contact-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .contact-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .contact-label {
+            width: 120px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONZIVITA (Mobily) --- */
+        @media (max-width: 900px) {
+            .columns-3 { column-count: 2; }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px; /* Pod hlavičkou */
+                right: -100%;
+                height: calc(100vh - 80px);
+                width: 100%;
+                background: rgba(15, 15, 15, 0.98);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 40px;
+                transition: 0.5s ease;
+                gap: 20px;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 15px 30px;
+                font-size: 1.2rem;
+                width: 80%;
+                text-align: center;
+                background: var(--bg-card);
+            }
+
+            /* Hamburger Animace do křížku */
+            .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+            .columns-3 { column-count: 1; }
+            main { padding: 30px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="switchPage('uvod')">
+            <img src="logo.png" alt="BSOUND Logo" onerror="this.onerror=null; this.src=''; this.alt='BSOUND'; this.style.color='var(--accent)'; this.style.fontSize='28px'; this.style.fontWeight='900';">
+        </div>
+        
+        <ul class="nav-links" id="nav-links">
+            <li><a onclick="switchPage('uvod')" id="link-uvod" class="active">Úvod</a></li>
+            <li><a onclick="switchPage('novinky')" id="link-novinky">Novinky</a></li>
+            <li><a onclick="switchPage('sluzby')" id="link-sluzby">Služby</a></li>
+            <li><a onclick="switchPage('vybaveni')" id="link-vybaveni">Vybavení</a></li>
+            <li><a onclick="switchPage('reference')" id="link-reference">Reference</a></li>
+            <li><a onclick="switchPage('kontakt')" id="link-kontakt">Kontakt</a></li>
+        </ul>
+
+        <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main>
+
+        <section id="uvod" class="page active">
+            <h1>Úvod</h1>
+            
+            <h3>Ozvučení akcí, firemní večírky, velkoplošná projekce</h3>
+            <p>Vítejte na naší webové prezentaci, naše firma nabízí profesionální služby v oblasti ozvučení a osvětlení společenských akcí. Naše firma je na trhu od roku 2000 proto může nabídnout kompletní servis, díky profesionální obsluze, profesionální technice. Disponujeme technikou předních světových výrobců v tomto oboru. Samozřejmostí je sledování nejnovějších trendů, uplatňovaných v dnešních produkcích.</p>
+            
+            <h3>Pro koho jsou naše služby určeny? - Firemní večírky, festivaly i koncerty</h3>
+            <p>Díky vybavení, kterým naše firma disponuje, jsme schopni kvalitně ozvučit a osvětlit nejen menší akce, jako jsou firemní večírky, ale také festivaly nebo koncerty známých osobností. Pokud potřebujete vědět konkrétní možnosti, běžně realizujeme akce pro 5 – 6 tisíc lidí. Našich služeb můžete využít po celé České republice.</p>
+
+            <h3>Další činnosti naší firmy – Zastřešení pódií, věže pro zvukové systémy a jiné</h3>
+            <p>V naší nabídce dále najdete výčet dalších služeb, které zajistí komplexní realizaci Vašich požadavků. Realizujeme zastřešení pódií, stavby věží pro zvukové systémy, umíme také zpracovat audio nahrávky a mastering těchto nahrávek. Spolupracujeme také s dalšími agenturami a dokážeme tak zajistit například kompletní program a umělce pro Vaši soukromou akci.</p>
+            
+            <h3>Co pro Vás zajistíme?</h3>
+            <div class="card" style="margin-bottom: 20px;">
+                <ul>
+                    <li>Realizace firemních večirků,</li>
+                    <li>Ozvučení.Osvětlení koncertů a festivalů, módních přehlídek atd…</li>
+                    <li>Pronájem techniky</li>
+                    <li>Studiové nahrávky a mixáž</li>
+                    <li>Výroba rozhlasových spotů</li>
+                    <li>Zastřešení pódií</li>
+                    <li>Ground Support</li>
+                    <li>Pronájem a stavba věží pro techniku</li>
+                    <li>Zajištění zábavního programu</li>
+                    <li>Soukromé akce</li>
+                    <li>Kompletní realizace</li>
+                </ul>
+            </div>
+
+            <p>Veškerá technika <strong>je naším majetkem</strong> a služby si tak neobjednáváte u prostředníků, ale přímo u zdroje. Naše ceny jsou tím pádem více než příznivé. Máte-li zájem, napište si o cenovou kalkulaci: <a href="mailto:pbazel@seznam.cz">pbazel@seznam.cz</a> nebo volejte <strong>00420 777 57 61 78</strong></p>
+            <p>Věříme, že Vás naše služby zaujmou a mi tak budeme moci pro Vás zajistit nejen skvělou zábavu, ale také Vás budeme moci přesvědčit, že jsme tím pravým partnerem,</p>
+        </section>
+
+        <section id="novinky" class="page">
+            <h1>Novinky</h1>
+            <p>Sledujte pravidelně novinky a aktuality z naší firmy.</p>
+
+            <div class="grid-layout">
+                <div class="card">
+                    <span class="news-date">17. 3. 2026</span>
+                    <h3 style="margin-top: 0;">D&B Serie CCL</h3>
+                    <p>Firma D&B patří mezi absolutmí špičku ve svém oboru a proto jsme se rozhodli rozšířit dosavadní technické portfolio o novinku a sice cardio řadu CCL. Neváhejte i vy si vychutnat kvalitu a pohlazení pro Vaše uši s tímto systémem pod taktovkou zvukových mistrů naší firmy BSOUND.</p>
+                    <a href="#">Detail »</a>
+                </div>
+
+                <div class="card">
+                    <span class="news-date">5. 5. 2024</span>
+                    <h3 style="margin-top: 0;">D&B V8-V12</h3>
+                    <p>Po velmi pečlivém a zdlouhavém zvážení se naše firma rohodla doplnit nabídku PA systémů o světově uznávánou značku D&B audiotechnik. Kontrétně LA systém řady V, který zaručí na kulturních a společenských akcích dosáhnout naprosto skvělého transparetního zvukového zážitku, kdy velká přednost systému je tonalita, kdy v nejhlasitějších, tak i v pasážích nejtižších je stejná. Tuto vlastnost uvítají nejen zvukoví mistři, potažmo producenti tvrdších hudebních stylů, ale také pořadatelé akustické a klasické hudby. Vysoká kvalita světové úrovně a účinnost toho systému nás přesvědčila o tom, že volba systému značky D&B audiotechnik je správná. A v tuto chvílí již počet 38 modulů + 12x D80, Basové boxy B22 , Vgsub.</p>
+                    <a href="#">Detail »</a>
+                </div>
+
+                <div class="card">
+                    <span class="news-date">5. 5. 2024</span>
+                    <h3 style="margin-top: 0;">Outboard Analog</h3>
+                    <p>Hardware je cool. Rozhodli jsme se vzdát standartních , ale ne tak skvěle znějících efektových a dynamických procesorů softwarových , proto máme sice pár kg vážících , ale skvělých : Bricasti , Eventide eclipse, SSL Fusion , Elisia.</p>
+                    <a href="#">Detail »</a>
+                </div>
+
+                <div class="card">
+                    <span class="news-date">10. 11. 2020</span>
+                    <h3 style="margin-top: 0;">Back to Analog</h3>
+                    <a href="#">Detail »</a>
+                </div>
+
+                <div class="card">
+                    <span class="news-date">20. 4. 2020</span>
+                    <h3 style="margin-top: 0;">Rozvoj a investice</h3>
+                    <p>I v tomto roce , jsme investovali a rozvijeli se , jak po tránce personální ,tak po stránce technické, kdy se naší firmě Bsound podařila udělat investice v pořízení dalších modulů D&B serie V , na celkový Počet 34 Kusů, subbasové boxy B22, zesilovače D80 a jiné.</p>
+                    <p>Mixpulty Dlive serie S 3000 a c 2500, navýšení počtu světel značky Robe a jiné.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sluzby" class="page">
+            <h1>Služby</h1>
+            
+            <h3>Ozvučení Osvětlení akcí, pronájem Techniky, pódia, Zastřešení,zajištění programu</h3>
+            <p>Nabízíme kompletní technické zajištění kulturně - společenských akcí: ozvučení koncertů,festivalů včetně osvětlení, video projekce a dalších služeb v oboru: stavba Ground Supportu, pódií, zastřešení, pronájem Led obrazovek.</p>
+            <p>Naše firma nabízí také možnost studiové, či Live nahrávky s dodatečnou postprodukcí. Na přání zákazníka jsme schopni zajistit komplexní dodání kulturního a zábavního programu jako celku nebo jeho částí a to včetně dramaturgie a inspice.</p>
+            <p>Nášim cílem je vytvoření technických předpokladů ,zaměřených na vysokou audiovizuální úroveň kulturně společenských akcí, dle přání zadavatelů, na základě smluvních podmínek. Vždy upřednostňujeme osobní přístup, profesionální a korektní jednání.</p>
+
+            <div class="grid-layout">
+                <div class="card">
+                    <h3 style="margin-top:0;">Firemní večírky a soukromé akce</h3>
+                    <p>Našim cílem je poskytnout profesionální služby, zajistit kvalitní produkty,vystoupení a na základě Vašich požadavků a celou akci sestavit na klíč.</p>
+                    <strong>Co pro Vás můžeme udělat? – firemní večírky a soukromé akce</strong>
+                    <ul style="margin-top: 15px;">
+                        <li>Provedeme naplánování firemního večírku podle Vašich představ</li>
+                        <li>Zajistíme potřebné prostory pro konání akce</li>
+                        <li>Zrealizujeme osvětlení a ozvučení.projekci apod.</li>
+                        <li>Zajistíme zábavní program a catering</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top:0;">Koncerty a festivaly</h3>
+                    <p>Koncerty a festivaly jsou vždy náročné na vybavení a to jak zvukové tak i osvětlovací. Naše firma disponuje kvalitní technikou, která dokáže kvalitně odbavit koncerty a festivaly do cca 6 tisíc diváků.</p>
+                    <p>Součástí našich služeb je také realizace pódií jejich zastřešení i stavba věží pro osvětlovací a zvukovou techniku i velkoplošné projekce.</p>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top:0;">Audio nahrávky a spoty</h3>
+                    <p>Realizujeme studiové nahrávaní , edit, mixáž ,mastering , včetně paltformy AAD nahrávek a kompletní přípravu na výrobu a lisování datových nosičů. Níže naleznete několik ukázek z naší tvorby.</p>
+                    <p>Realizujeme také spoty pro rozhlasové vysílání.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="vybaveni" class="page">
+            <h1>Vybavení naší firmy</h1>
+            <p>Naše firma disponuje moderní technikou významných světových výrobců těchto zařízení. Díky našemu vybavení a zkušenému týmu dokážeme realizovat i nejnáročnější hudební produkce.</p>
+
+            <div class="grid-layout">
+                <div class="card">
+                    <h3 style="margin-top:0;">Mixážní pult</h3>
+                    <ul>
+                        <li>Digitální live konzole Soundcraft Vi4 a Soundcraft Vi1 2x</li>
+                        <li>Allem&Heath GLD 80</li>
+                        <li>Allen &Heath Dlive c3500 , S3000, C 2500</li>
+                        <li>Allen Heath SQ 7, SQ6</li>
+                        <li>Soundcraft Ghost 24/8/2</li>
+                        <li>Soundcraft MH4 48 In</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top:0;">Dynamické a efektové procesory</h3>
+                    <ul>
+                        <li>TC Electronic M3000, triple c, D-TWO, Lexicon PCM 81, 91,92</li>
+                        <li>DBX 166 - 1066 ddp</li>
+                        <li>Drawmer, Presonus</li>
+                        <li>SPL dynamax, vitalizer, transient, designer</li>
+                        <li>BSS dpr 402, minidrive, XTA</li>
+                        <li>SSL Fusion</li>
+                        <li>Elisia Master Eq , Xpresor</li>
+                        <li>Bricasti Design M 7</li>
+                        <li>Eventide Eclipse</li>
+                        <li>SPL Chanell One Mk3 premium</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top:0;">Mikrofony</h3>
+                    <ul>
+                        <li>Audix (om 2, 3, 5, 7, i5)</li>
+                        <li>Shure (sm 57, 87, 81), SHURE XLS, ULX</li>
+                        <li>AKG (c 414, c 1000, c 391, d 112, d 202, d 224)</li>
+                        <li>Sennheiser (md 441, me 64, 66, 67)</li>
+                        <li>HEIL Sound PR 35, PR22, PR28, PR 31bw</li>
+                        <li>Beyerdynamic, Neumann</li>
+                        <li>Dpa 24 Kusů</li>
+                        <li>Audiotechnika pro 35 12 kusů</li>
+                        <li>Ev, Se Electronics, oktava</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top:0;">Reproduktorové soustavy</h3>
+                    <ul>
+                        <li>LA PA SYSTEM D&B Serie V v počtu 40 kusů + vg sub+ b22 D80+D40</li>
+                        <li>Line array PA systém RCF TTL 33-A výkonu 50 kW s možností zavěšení celkem 32Ks)</li>
+                        <li>Konvenční PA systém max. 25 kW,</li>
+                        <li>Basové boxy RCF TTC 56-A 2x21" 6800W (celkem 13 kusu)</li>
+                        <li>Pódiové monitory RCF TT 25SMA 23 kusů</li>
+                        <li>Maximálně 12 monitorových cest bez pódiového zvukaře a 24 monitorových cest s pódiovým zvukařem</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top:0;">Osvětlovací technika</h3>
+                    <ul>
+                        <li><strong>Robe:</strong> Robin 600 Led wash 16 x, LedBeam 1000 13 x, Led Beam 150 24x, Robin Spider, Robin Megapointe, Pointe 20x, MMX Spot 12x</li>
+                        <li>Avolites Expert</li>
+                        <li>Chamsys MQ250M</li>
+                        <li>Martin Mac 250 Entour ,krypton 12x</li>
+                        <li>Martin 301 16x</li>
+                        <li>Glp Ledwash Volkslicht 10 x</li>
+                        <li>Beam 10 x</li>
+                        <li>Avolites Pearl expert 3x</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top:0;">Zastřešení a pódia</h3>
+                    <ul>
+                        <li>Konstrukce v AL profilu značka TAF paralelně o rozměrech 16x14 m, 13x11m, 11x9m, 9x7m (+PA wing) včetně příslušné bezpečnostní homologace</li>
+                        <li>Pódiové desky Nivtec o rozměru 2x1 metr včetně příslušné bezpečnostní homologace</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="reference" class="page">
+            <h1>Reference bsound Petr Bazel</h1>
+            
+            <div class="card" style="margin-top: 20px;">
+                <h3 style="margin-top: 0;">Reference</h3>
+                <div class="columns-3">
+                    <div>Dave Weckl</div>
+                    <div>Jeff Lorber</div>
+                    <div>Judith Hill</div>
+                    <div>Vašo Patejdl 2019.20.21.22.23,,,,,Edit +Mix+Master Cd 10/2024</div>
+                    <div>Filharmonie Bohuslava Martinů + O. Brzobohatý</div>
+                    <div>LEE Ritenour</div>
+                    <div>Sepultura</div>
+                    <div>Testament</div>
+                    <div>Elektrodeluxe</div>
+                    <div>Candy Dulfer</div>
+                    <div>Ondřej Pivec</div>
+                    <div>Yellow Jackets</div>
+                    <div>The Manhaten Transfer</div>
+                    <div>Arakain+Lucie Bílá turné</div>
+                    <div>Mungo Jerry</div>
+                    <div>Martin Smith</div>
+                    <div>Rock Symphony</div>
+                    <div>Aneta Langerová</div>
+                    <div>Anna K.</div>
+                    <div>Big Band Gustava Broma + O. Brzobohatý</div>
+                    <div>Buty</div>
+                    <div>BROLN + solisté</div>
+                    <div>Cigánští Ďiabli</div>
+                    <div>Chinaski</div>
+                    <div>Čechomor</div>
+                    <div>Dan Bárta</div>
+                    <div>Desmod</div>
+                    <div>Peter Lipa</div>
+                    <div>Emil Viklický</div>
+                    <div>Ewa Farna</div>
+                    <div>Fleret</div>
+                    <div>Hilsong</div>
+                    <div>Honza Nedvěd</div>
+                    <div>Horkýže Slýže</div>
+                    <div>Ilona Csáková</div>
+                    <div>IMT Smile</div>
+                    <div>Iné kafe</div>
+                    <div>J.A.R.</div>
+                    <div>Jiří Helekal</div>
+                    <div>Kontrafakt</div>
+                    <div>Karel Černoch</div>
+                    <div>Kamil Střihavka</div>
+                    <div>Laczo Deczi</div>
+                    <div>Laura a její tygři</div>
+                    <div>Lucie Bílá</div>
+                    <div>Mňága a Žďorp</div>
+                    <div>MIG 21</div>
+                    <div>Mirai</div>
+                    <div>Miro žbirka</div>
+                    <div>Marie Rottrová</div>
+                    <div>Monkey Busines</div>
+                    <div>Mungo Jerry</div>
+                    <div>N.O.H.A.</div>
+                    <div>Noname</div>
+                    <div>Zlínské filharmonine</div>
+                    <div>Nazareth</div>
+                    <div>Olympic</div>
+                    <div>Orchestr Varhana Orchestroviče Bauera</div>
+                    <div>Ostravský rozhlasový orchestr</div>
+                    <div>Palo Habera</div>
+                    <div>Petra Janů</div>
+                    <div>Petr Spálený</div>
+                    <div>Petr Kolář</div>
+                    <div>Petr Lipa</div>
+                    <div>Peter Nagy</div>
+                    <div>Prestige Symphonic Orchestra</div>
+                    <div>Ples Slováckého divadla v Uherském Hradišti</div>
+                    <div>RockSymphony , Filharmonie B. Martinů</div>
+                    <div>Sweet</div>
+                    <div>Tata Bojs</div>
+                    <div>Tublatanka</div>
+                    <div>Support Lesbians</div>
+                    <div>Sto zvířat</div>
+                    <div>Švihadlo</div>
+                    <div>Turbo</div>
+                    <div>Václav Neckář</div>
+                    <div>Václav Hudeček</div>
+                    <div>Vartina</div>
+                    <div>Vlasta Redl</div>
+                    <div>Věra Špinarová</div>
+                    <div>Věra Martinová</div>
+                    <div>Wohnout</div>
+                    <div>Yo-Yo Band</div>
+                    <div>Zuzana Labcíková</div>
+                </div>
+
+                <h3 style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">Ozvučení festivalů:</h3>
+                <div class="columns-3">
+                    <div>Přerovský Jazzový festival</div>
+                    <div>Folk. Fest Liptálské slavnosti 2000-současnost</div>
+                    <div>Valašské záření 2000,současnost</div>
+                    <div>Dolnolhotský buben</div>
+                    <div>Folk. Fest Valašský krpec</div>
+                    <div>Folk. Fest Pražský jarmark</div>
+                    <div>CAMPFEST 2010, 2011</div>
+                    <div>Tour Janka Ledeckého 2009, 2010, 2011,2012,13,14,15,16,17,</div>
+                    <div>Vánoční tour P. Nagyho  2017,18,19</div>
+                    <div>Folk. Fest  Slavnosti Vína UH  2009,20010,2011,2012,13</div>
+                    <div>DFF ve Zlíně 2008,2009,2010,2011,2012,13,14,15,16,17,18,19,20,21,22</div>
+                    <div>Folk. Fest Rožnovské slavnosti</div>
+                    <div>Folk. Fest Jánošikův Dukát</div>
+                    <div>UNITED  2010,11,12,13,14,15,16,17,18,19,20,21,22</div>
+                    <div>Vašo Patejdl</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kontakt" class="page">
+            <h1>Kontakt</h1>
+            
+            <div class="contact-box" style="margin-top: 20px;">
+                <div class="contact-row">
+                    <div class="contact-label">Osoba:</div>
+                    <div style="color: var(--accent); font-weight: bold; font-size: 1.2rem;">Petr Bazel</div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-label">Tel:</div>
+                    <div>+420 571 419 825</div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-label">Mobil:</div>
+                    <div>+420 777 576 178</div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-label">ICQ:</div>
+                    <div>276 163 721</div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-label">E-mail:</div>
+                    <div><a href="mailto:pbazel@seznam.cz">pbazel@seznam.cz</a></div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-label">Adresa:</div>
+                    <div>
+                        MUDr. Františka Sovy 63<br>
+                        755 01 Vsetín
+                    </div>
+                </div>
+                <div class="contact-row" style="border-top: 1px solid var(--border); padding-top: 15px; margin-top: 15px;">
+                    <div class="contact-label">IČO:</div>
+                    <div>66937272</div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-label">DIČ:</div>
+                    <div>CZ7804175841</div>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 15px;">Fyzická osoba podnikající dle živnostenského zákona, registrovaná u MěÚ Vsetín.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BSOUND. Všechna práva vyhrazena.</p>
+    </footer>
+
+    <script>
+        // Funkce pro přepínání záložek bez scrollování stránky
+        function switchPage(pageId) {
+            // Skryje všechny stránky
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Odebere aktivní styl ze všech odkazů
+            const links = document.querySelectorAll('.nav-links a');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Zobrazí kliknutou stránku a spustí CSS animaci (slideUpFade)
+            document.getElementById(pageId).classList.add('active');
+            
+            // Obarví kliknutý odkaz v menu
+            document.getElementById('link-' + pageId).classList.add('active');
+
+            // Zavře mobilní menu, pokud je otevřené
+            const navLinks = document.getElementById('nav-links');
+            const hamburger = document.getElementById('hamburger');
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+
+            // Vrátí pohled vždy na začátek obsahu (těsně pod menu)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Funkce pro ikonu hamburger menu (změna na X a vysunutí menu)
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('nav-links');
+            const hamburger = document.getElementById('hamburger');
+            
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
