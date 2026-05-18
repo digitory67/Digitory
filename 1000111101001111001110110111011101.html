@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioCore Premium | Bio-optimalizace</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-color: #0b0e14;
+            --panel-bg: rgba(25, 30, 41, 0.6);
+            --accent-primary: #00f2fe;
+            --accent-secondary: #4facfe;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            --input-bg: rgba(0, 0, 0, 0.2);
+            --nav-bg: rgba(11, 14, 20, 0.9);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f1f5f9;
+            --panel-bg: rgba(255, 255, 255, 0.7);
+            --accent-primary: #0284c7;
+            --accent-secondary: #0ea5e9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.5);
+            --nav-bg: rgba(241, 245, 249, 0.9);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-main);
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+            transition: background-color 0.5s ease, color 0.5s ease; padding-bottom: 70px;
+        }
+
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle at 15% 50%, rgba(0, 242, 254, 0.05) 0%, transparent 50%),
+                              radial-gradient(circle at 85% 30%, rgba(79, 172, 254, 0.05) 0%, transparent 50%);
+            z-index: -1; pointer-events: none;
+        }
+
+        .app-container { width: 100%; max-width: 480px; padding: 24px; position: relative; }
+
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header-actions { display: flex; gap: 10px; }
+        .icon-btn {
+            background: var(--panel-bg); border: 1px solid var(--glass-border); border-radius: 50%;
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-main); font-size: 16px; transition: all 0.3s ease;
+        }
+
+        /* Glass Panel */
+        .glass-panel {
+            background: var(--panel-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px;
+            margin-bottom: 20px; box-shadow: var(--glass-shadow); transition: all 0.3s ease;
+        }
+
+        /* Typography */
+        h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+        p.subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; line-height: 1.5; }
+        .label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-primary); margin-bottom: 8px; font-weight: 600; }
+
+        /* Forms */
+        .input-group { margin-bottom: 20px; }
+        .input-field {
+            width: 100%; background: var(--input-bg); border: 1px solid var(--glass-border);
+            color: var(--text-main); padding: 14px 16px; border-radius: 12px; font-size: 16px; outline: none; transition: all 0.3s ease;
+            color-scheme: dark; 
+        }
+        [data-theme="light"] .input-field { color-scheme: light; }
+        .input-field:focus { border-color: var(--accent-primary); box-shadow: 0 0 10px rgba(0, 242, 254, 0.1); }
+        
+        /* Sliders & Switches */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--accent-primary); cursor: pointer; margin-top: -8px; box-shadow: 0 0 10px rgba(0, 242, 254, 0.5); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: var(--glass-border); border-radius: 2px; }
+        .range-values { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+        .switch-wrapper { display: flex; align-items: center; justify-content: space-between; background: var(--input-bg); padding: 14px 16px; border-radius: 12px; border: 1px solid var(--glass-border); }
+        .switch { position: relative; display: inline-block; width: 48px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--glass-border); transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        /* Buttons & Links */
+        .btn {
+            width: 100%; padding: 16px; border: none; border-radius: 12px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase;
+            letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3);
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-outline { background: transparent; border: 1px solid var(--accent-primary); color: var(--text-main); box-shadow: none; margin-top: 10px; }
+        .auth-switch { text-align: center; margin-top: 15px; font-size: 14px; color: var(--accent-primary); cursor: pointer; text-decoration: underline; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: var(--nav-bg); backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border); display: flex; justify-content: space-around; padding: 12px 0; z-index: 100;
+        }
+        .nav-item { color: var(--text-muted); text-align: center; cursor: pointer; transition: 0.3s; width: 50%; }
+        .nav-item.active { color: var(--accent-primary); }
+        .nav-icon { font-size: 20px; margin-bottom: 4px; display: block; }
+        .nav-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Chart */
+        .chart-container { position: relative; height: 250px; width: 100%; margin-bottom: 20px; }
+        .chart-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .chart-tab { flex: 1; padding: 8px; text-align: center; background: var(--input-bg); border-radius: 8px; cursor: pointer; font-size: 12px; color: var(--text-muted); font-weight: 600; }
+        .chart-tab.active { background: var(--accent-primary); color: #fff; }
+
+        /* Utils */
+        .screen { display: none; opacity: 0; transition: opacity 0.4s ease; }
+        .screen.active { display: block; opacity: 1; }
+        .hidden { display: none !important; }
+        .tip-item { background: var(--input-bg); border-left: 3px solid var(--accent-primary); padding: 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 14px; line-height: 1.5; }
+        .date-picker-wrapper { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; background: var(--panel-bg); padding: 10px 16px; border-radius: 12px; border: 1px solid var(--glass-border); flex-wrap: wrap;}
+        .save-status { font-size: 11px; color: var(--accent-secondary); margin-left: auto; margin-right: 10px; font-weight: 600; transition: opacity 0.3s;}
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <div class="header hidden" id="main-header">
+        <h1>BioCore</h1>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="toggleTheme()" id="theme-icon">🌙</button>
+            <button class="icon-btn" onclick="logout()" title="Odhlásit se">🚪</button>
+        </div>
+    </div>
+
+    <!-- AUTH SCREEN -->
+    <div id="auth-screen" class="screen active">
+        <div style="text-align: center; margin: 40px 0 30px;">
+            <div style="font-size: 48px; margin-bottom: 10px;">🧬</div>
+            <h1>BioCore Premium</h1>
+            <p class="subtitle">Přihlas se nebo si vytvoř nový profil.</p>
+        </div>
+        
+        <!-- Přihlášení -->
+        <div class="glass-panel" id="login-box">
+            <h2>Přihlášení</h2>
+            <div class="input-group">
+                <input type="text" id="login-name" class="input-field" placeholder="Jméno">
+            </div>
+            <div class="input-group">
+                <input type="password" id="login-pass" class="input-field" placeholder="Heslo">
+            </div>
+            <button class="btn" onclick="login()">Vstoupit</button>
+            <div class="auth-switch" onclick="toggleAuthMode()">Nemáš účet? Registruj se zde.</div>
+        </div>
+
+        <!-- Registrace -->
+        <div class="glass-panel hidden" id="register-box">
+            <h2>Nová registrace</h2>
+            <div class="input-group">
+                <input type="text" id="reg-name" class="input-field" placeholder="Zvol si jméno">
+            </div>
+            <div class="input-group">
+                <input type="password" id="reg-pass" class="input-field" placeholder="Zvol si heslo">
+            </div>
+            <button class="btn" onclick="register()">Vytvořit profil</button>
+            <div class="auth-switch" onclick="toggleAuthMode()">Už máš účet? Přihlas se.</div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboard-screen" class="screen">
+        <div style="margin: 0 0 10px;">
+            <h2>Vítej, <span id="user-name-display" style="color: var(--accent-primary);"></span>.</h2>
+        </div>
+
+        <!-- Výběr data -->
+        <div class="date-picker-wrapper">
+            <span style="font-size: 14px; color: var(--text-muted); font-weight: 600;">Záznam:</span>
+            <span id="save-status" class="save-status"></span>
+            <input type="date" id="entry-date" class="input-field" style="width: auto; padding: 6px; margin: 0; border: none; background: transparent;">
+        </div>
+
+        <div class="glass-panel" id="input-form">
+            <div class="input-group">
+                <label class="label">💤 Spánek (hodin)</label>
+                <input type="number" id="val-sleep" class="input-field auto-save-trigger" placeholder="Např. 7.5" step="0.5" min="0" max="24">
+            </div>
+            <div class="input-group">
+                <label class="label">💧 Hydratace (litry)</label>
+                <input type="number" id="val-water" class="input-field auto-save-trigger" placeholder="Např. 2.5" step="0.1" min="0">
+            </div>
+            <div class="input-group">
+                <label class="label">🧠 Mentální energie (1-10)</label>
+                <input type="range" id="val-mood" class="auto-save-trigger" min="1" max="10" value="5">
+                <div class="range-values"><span>Vyčerpání</span><span>Vrchol</span></div>
+            </div>
+            <div class="input-group">
+                <label class="label">☀️ Outdoor Time (minut)</label>
+                <input type="number" id="val-outdoor" class="input-field auto-save-trigger" placeholder="Čas venku">
+            </div>
+            <div class="input-group">
+                <label class="label">📱 Screen Time (hodin)</label>
+                <input type="number" id="val-screen" class="input-field auto-save-trigger" placeholder="Čas u obrazovek" step="0.5">
+            </div>
+            <div class="input-group">
+                <label class="label">☕ Kofein?</label>
+                <div class="switch-wrapper">
+                    <span>Měl jsi kofein?</span>
+                    <label class="switch">
+                        <input type="checkbox" id="val-caffeine" class="auto-save-trigger" onchange="toggleCaffeine()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="input-group hidden" id="caffeine-time-wrapper">
+                <label class="label">Čas poslední dávky</label>
+                <input type="time" id="val-caffeine-time" class="input-field auto-save-trigger">
+            </div>
+
+            <button class="btn" onclick="saveAndAnalyze()">Uložit a analyzovat</button>
+        </div>
+
+        <!-- Výsledky / Analýza -->
+        <div class="glass-panel hidden" id="results-panel">
+            <h2 style="color: var(--accent-primary);">Data uložena</h2>
+            <p class="subtitle">Zde jsou tvé personalizované postřehy k vybranému dni:</p>
+            <div id="tips-container"></div>
+            <button class="btn btn-outline" onclick="editCurrentDate()">Upravit data pro tento den</button>
+        </div>
+    </div>
+
+    <!-- STATS SCREEN -->
+    <div id="stats-screen" class="screen">
+        <div style="margin: 0 0 20px;">
+            <h2>Analýza trendů</h2>
+            <p class="subtitle">Graf znázorňuje korelaci spánku a nálady.</p>
+        </div>
+        <div class="glass-panel">
+            <div class="chart-tabs">
+                <div class="chart-tab active" onclick="renderChart(7)" id="tab-7">7 Dní</div>
+                <div class="chart-tab" onclick="renderChart(30)" id="tab-30">30 Dní</div>
+            </div>
+            <div class="chart-container"><canvas id="bioChart"></canvas></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav hidden" id="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('dashboard')" id="nav-dashboard">
+        <span class="nav-icon">📝</span><span class="nav-text">Deník</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('stats')" id="nav-stats">
+        <span class="nav-icon">📊</span><span class="nav-text">Statistiky</span>
+    </div>
+</div>
+
+<script>
+    // DATABÁZE A STAV
+    let usersDb = JSON.parse(localStorage.getItem("biocore_users_db")) || {};
+    let currentUser = null;
+    let bioData = {}; 
+    let currentChart = null;
+    let autoSaveTimeout = null;
+
+    // POMOCNÉ FUNKCE
+    const getFormattedDate = (dateObj) => {
+        const y = dateObj.getFullYear();
+        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const d = String(dateObj.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    };
+    
+    const getToday = () => getFormattedDate(new Date());
+
+    // INICIALIZACE
+    document.addEventListener("DOMContentLoaded", () => {
+        initTheme();
+        
+        const dateInput = document.getElementById("entry-date");
+        dateInput.value = getToday();
+        dateInput.max = getToday();
+        dateInput.addEventListener("change", handleDateChange);
+
+        // Zapojení automatického ukládání na všechny inputy
+        document.querySelectorAll('.auto-save-trigger').forEach(input => {
+            input.addEventListener('input', triggerAutoSave);
+            input.addEventListener('change', triggerAutoSave);
+        });
+
+        checkAuth();
+    });
+
+    // --- TÉMA ---
+    function initTheme() {
+        const savedTheme = localStorage.getItem("biocore_theme") || "dark";
+        if (savedTheme === "light") {
+            document.documentElement.setAttribute("data-theme", "light");
+            document.getElementById("theme-icon").innerText = "☀️";
+        }
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute("data-theme");
+        const newTheme = currentTheme === "light" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        document.getElementById("theme-icon").innerText = newTheme === "light" ? "☀️" : "🌙";
+        localStorage.setItem("biocore_theme", newTheme);
+
+        if (document.getElementById("stats-screen").classList.contains("active")) {
+            renderChart(document.getElementById("tab-30").classList.contains("active") ? 30 : 7);
+        }
+    }
+
+    // --- AUTHENTIFIKACE ---
+    function toggleAuthMode() {
+        document.getElementById("login-box").classList.toggle("hidden");
+        document.getElementById("register-box").classList.toggle("hidden");
+    }
+
+    function register() {
+        const name = document.getElementById("reg-name").value.trim();
+        const pass = document.getElementById("reg-pass").value.trim();
+        
+        if (!name || !pass) return alert("Vyplň jméno i heslo.");
+        if (usersDb[name]) return alert("Tento uživatel už existuje. Přihlas se.");
+
+        usersDb[name] = { password: btoa(pass), data: {} };
+        localStorage.setItem("biocore_users_db", JSON.stringify(usersDb));
+        
+        finishLogin(name);
+    }
+
+    function login() {
+        const name = document.getElementById("login-name").value.trim();
+        const pass = document.getElementById("login-pass").value.trim();
+
+        if (!name || !pass) return alert("Vyplň jméno i heslo.");
+        if (!usersDb[name] || usersDb[name].password !== btoa(pass)) {
+            return alert("Nesprávné jméno nebo heslo.");
+        }
+
+        finishLogin(name);
+    }
+
+    function finishLogin(name) {
+        localStorage.setItem("biocore_logged_in", name);
+        checkAuth();
+    }
+
+    function logout() {
+        localStorage.removeItem("biocore_logged_in");
+        currentUser = null;
+        bioData = {};
+        
+        document.getElementById("login-name").value = "";
+        document.getElementById("login-pass").value = "";
+        
+        document.getElementById("main-header").classList.add("hidden");
+        document.getElementById("bottom-nav").classList.add("hidden");
+        smoothSwitch("dashboard-screen", "auth-screen");
+        smoothSwitch("stats-screen", "auth-screen");
+    }
+
+    function checkAuth() {
+        currentUser = localStorage.getItem("biocore_logged_in");
+        if (currentUser && usersDb[currentUser]) {
+            bioData = usersDb[currentUser].data || {};
+            document.getElementById("user-name-display").innerText = currentUser;
+            document.getElementById("main-header").classList.remove("hidden");
+            document.getElementById("bottom-nav").classList.remove("hidden");
+            
+            handleDateChange(); 
+            smoothSwitch("auth-screen", "dashboard-screen");
+        } else {
+            document.getElementById("main-header").classList.add("hidden");
+            document.getElementById("bottom-nav").classList.add("hidden");
+        }
+    }
+
+    // --- LOGIKA FORMULÁŘE A AUTO-SAVE ---
+    function toggleCaffeine() {
+        const isChecked = document.getElementById("val-caffeine").checked;
+        const timeWrapper = document.getElementById("caffeine-time-wrapper");
+        if (isChecked) timeWrapper.classList.remove("hidden");
+        else { timeWrapper.classList.add("hidden"); document.getElementById("val-caffeine-time").value = ""; }
+    }
+
+    function triggerAutoSave() {
+        // Pokud není uživatel přihlášen nebo je aktivní panel s výsledky, nic neukládáme
+        if (!currentUser || !document.getElementById("results-panel").classList.contains("hidden")) return;
+
+        const statusEl = document.getElementById("save-status");
+        statusEl.style.opacity = 1;
+        statusEl.innerText = "Ukládám...";
+
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(() => {
+            performSave(false); // Uloží jako neanalyzovaný koncept
+            statusEl.innerText = "Koncept uložen";
+            setTimeout(() => { statusEl.style.opacity = 0; }, 2000);
+        }, 800); // 800ms po posledním stisku klávesy
+    }
+
+    function performSave(isAnalyzed) {
+        const selectedDate = document.getElementById("entry-date").value;
+        if (!selectedDate) return null;
+
+        const sleepStr = document.getElementById("val-sleep").value;
+        const waterStr = document.getElementById("val-water").value;
+        const outdoorStr = document.getElementById("val-outdoor").value;
+        const screenStr = document.getElementById("val-screen").value;
+
+        const dailyData = {
+            sleep: sleepStr ? parseFloat(sleepStr) : '',
+            water: waterStr ? parseFloat(waterStr) : '',
+            mood: parseInt(document.getElementById("val-mood").value),
+            outdoor: outdoorStr ? parseInt(outdoorStr) : '',
+            screen: screenStr ? parseFloat(screenStr) : '',
+            caffeine: document.getElementById("val-caffeine").checked,
+            caffeineTime: document.getElementById("val-caffeine-time").value,
+            analyzed: isAnalyzed
+        };
+        
+        bioData[selectedDate] = dailyData;
+        usersDb[currentUser].data = bioData;
+        localStorage.setItem("biocore_users_db", JSON.stringify(usersDb));
+
+        return dailyData;
+    }
+
+    function saveAndAnalyze() {
+        const sleep = document.getElementById("val-sleep").value;
+        const water = document.getElementById("val-water").value;
+        
+        if (!sleep || !water) return alert("Vyplň alespoň spánek a hydrataci pro analýzu.");
+
+        const dailyData = performSave(true); // Uloží a označí jako analyzované
+        if(dailyData) {
+            document.getElementById("save-status").style.opacity = 0;
+            showResultsPanel(dailyData);
+        }
+    }
+
+    function handleDateChange() {
+        const selectedDate = document.getElementById("entry-date").value;
+        document.getElementById("save-status").style.opacity = 0;
+        if (!selectedDate) return;
+
+        const data = bioData[selectedDate];
+        if (data && data.analyzed) {
+            showResultsPanel(data);
+        } else {
+            resetForm();
+            if (data) fillFormWithData(data); // Načtení případného konceptu
+        }
+    }
+
+    function fillFormWithData(data) {
+        document.getElementById("val-sleep").value = data.sleep !== undefined ? data.sleep : '';
+        document.getElementById("val-water").value = data.water !== undefined ? data.water : '';
+        document.getElementById("val-mood").value = data.mood !== undefined ? data.mood : 5;
+        document.getElementById("val-outdoor").value = data.outdoor !== undefined ? data.outdoor : '';
+        document.getElementById("val-screen").value = data.screen !== undefined ? data.screen : '';
+        
+        document.getElementById("val-caffeine").checked = data.caffeine || false;
+        toggleCaffeine();
+        if (data.caffeine) document.getElementById("val-caffeine-time").value = data.caffeineTime || '';
+    }
+
+    function editCurrentDate() {
+        const selectedDate = document.getElementById("entry-date").value;
+        const data = bioData[selectedDate];
+        
+        if (data) {
+            data.analyzed = false; // Změní stav na neanalyzovaný, aby šel editovat
+            fillFormWithData(data);
+        }
+        
+        document.getElementById("results-panel").classList.add("hidden");
+        document.getElementById("input-form").classList.remove("hidden");
+    }
+
+    function resetForm() {
+        document.getElementById("results-panel").classList.add("hidden");
+        document.getElementById("input-form").classList.remove("hidden");
+        
+        document.querySelectorAll('.input-field').forEach(i => { if(i.id !== 'entry-date') i.value = ''; });
+        document.getElementById("val-mood").value = 5;
+        document.getElementById("val-caffeine").checked = false;
+        toggleCaffeine();
+    }
+
+    function showResultsPanel(data) {
+        document.getElementById("input-form").classList.add("hidden");
+        const resultsPanel = document.getElementById("results-panel");
+        resultsPanel.classList.remove("hidden");
+
+        let tips = [];
+        if (data.sleep < 7) tips.push("<strong>Spánkový dluh:</strong> Pokus se dnes (nebo zítra) jít spát dříve. Regenerace je základ.");
+        if (data.water < 2) tips.push("<strong>Rehydratace:</strong> Tělo potřebuje vodu. Okamžitě vypij alespoň sklenici vody.");
+        if (data.caffeine && data.caffeineTime > "14:00") tips.push("<strong>Kofein:</strong> Pozdní kofein narušuje hluboký spánek. Snaž se ho omezit po 14:00.");
+        if (data.screen > 6) tips.push("<strong>Screen Time:</strong> Vysoký čas u obrazovek. Nezapomeň na brýle blokující modré světlo večer.");
+        if (data.outdoor < 30) tips.push("<strong>Cirkadiánní rytmus:</strong> Chybí ti denní světlo. Jdi se projít ven.");
+        if (data.mood < 5) tips.push("<strong>Mentální reset:</strong> Nálada je nízko. Zkus dechové cvičení nebo krátkou pauzu od práce.");
+        
+        if (tips.length === 0) tips.push("<strong>Vše optimální:</strong> Tvé metriky pro tento den vypadají perfektně!");
+
+        const shuffled = tips.sort(() => 0.5 - Math.random());
+        const selectedTips = shuffled.slice(0, 3);
+
+        document.getElementById("tips-container").innerHTML = selectedTips.map(t => `<div class="tip-item">${t}</div>`).join('');
+    }
+
+    // --- NAVIGACE A GRAFY ---
+    function switchTab(tabName) {
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        document.getElementById(`nav-${tabName}`).classList.add('active');
+
+        if (tabName === 'dashboard') {
+            document.getElementById("stats-screen").classList.remove("active");
+            document.getElementById("dashboard-screen").classList.add("active");
+            setTimeout(() => document.getElementById("dashboard-screen").style.opacity = 1, 50);
+        } else if (tabName === 'stats') {
+            document.getElementById("dashboard-screen").classList.remove("active");
+            document.getElementById("stats-screen").classList.add("active");
+            setTimeout(() => document.getElementById("stats-screen").style.opacity = 1, 50);
+            renderChart(7); 
+        }
+    }
+
+    function smoothSwitch(hideId, showId) {
+        const hideEl = document.getElementById(hideId);
+        const showEl = document.getElementById(showId);
+        if(hideEl) hideEl.style.opacity = 0;
+        setTimeout(() => {
+            if(hideEl) hideEl.classList.remove("active");
+            if(showEl) showEl.classList.add("active");
+            setTimeout(() => { if(showEl) showEl.style.opacity = 1; }, 50);
+        }, 300);
+    }
+
+    function renderChart(days) {
+        document.getElementById("tab-7").classList.remove("active");
+        document.getElementById("tab-30").classList.remove("active");
+        document.getElementById(`tab-${days}`).classList.add("active");
+
+        const labels = [];
+        const sleepData = [];
+        const moodData = [];
+        
+        const today = new Date();
+        for (let i = days - 1; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(d.getDate() - i);
+            const dateStr = getFormattedDate(d);
+            
+            labels.push(`${d.getDate()}.${d.getMonth() + 1}.`); 
+            
+            if (bioData[dateStr] && bioData[dateStr].analyzed) {
+                sleepData.push(bioData[dateStr].sleep);
+                moodData.push(bioData[dateStr].mood);
+            } else {
+                sleepData.push(null);
+                moodData.push(null);
+            }
+        }
+
+        const isLight = document.documentElement.getAttribute("data-theme") === "light";
+        const textColor = isLight ? "#64748b" : "#94a3b8";
+        const gridColor = isLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
+
+        const ctx = document.getElementById('bioChart').getContext('2d');
+        if (currentChart) currentChart.destroy();
+
+        currentChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    { label: 'Spánek (h)', data: sleepData, borderColor: '#00f2fe', backgroundColor: 'rgba(0, 242, 254, 0.2)', tension: 0.4, borderWidth: 2, pointRadius: 3, spanGaps: true },
+                    { label: 'Nálada (1-10)', data: moodData, borderColor: '#a855f7', backgroundColor: 'rgba(168, 85, 247, 0.2)', tension: 0.4, borderWidth: 2, pointRadius: 3, spanGaps: true }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, color: textColor,
+                interaction: { mode: 'index', intersect: false },
+                plugins: { legend: { labels: { color: textColor, boxWidth: 12, font: { family: 'Inter' } } } },
+                scales: {
+                    x: { ticks: { color: textColor, font: { family: 'Inter' } }, grid: { display: false } },
+                    y: { ticks: { color: textColor }, grid: { color: gridColor }, min: 0 }
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
