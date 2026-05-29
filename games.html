@@ -26,9 +26,17 @@
         .back-btn:hover { background: var(--pink); color: #000; box-shadow: 0 0 30px var(--pink); }
         h1 { font-size: 3rem; text-transform: uppercase; color: #fff; text-shadow: 0 0 10px #fff, 0 0 20px var(--cyan); margin-right: 20px; }
         
+        /* Odkaz v hlavičce */
+        h1 a { color: inherit; text-decoration: none; transition: 0.3s; display: inline-block; }
+        h1 a:hover { text-shadow: 0 0 15px #fff, 0 0 30px var(--pink); transform: scale(1.05); }
+        
         /* Layout */
         .container { display: flex; width: 90%; max-width: 1200px; gap: 30px; z-index: 1; margin-top: 20px; }
-        .game-menu { display: flex; flex-direction: column; gap: 15px; width: 300px; background: rgba(10, 10, 10, 0.8); padding: 20px; border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); height: fit-content; }
+        
+        /* Levý sloupec pro menu a levý banner */
+        .left-column { display: flex; flex-direction: column; gap: 30px; width: 300px; flex-shrink: 0; }
+        
+        .game-menu { display: flex; flex-direction: column; gap: 15px; width: 100%; background: rgba(10, 10, 10, 0.8); padding: 20px; border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); height: fit-content; }
         .menu-btn { background: transparent; color: var(--cyan); border: 1px solid var(--cyan); padding: 15px; cursor: pointer; font-family: inherit; font-size: 1.1rem; text-transform: uppercase; font-weight: bold; transition: 0.3s; text-align: left; }
         .menu-btn:hover, .menu-btn.active-btn { background: var(--cyan); color: #000; box-shadow: 0 0 20px var(--cyan); }
         
@@ -59,22 +67,61 @@
         .tictactoe-board { display: grid; grid-template-columns: repeat(3, 100px); gap: 5px; background: var(--cyan); }
         .cell { width: 100px; height: 100px; background: #000; display: flex; align-items: center; justify-content: center; font-size: 4rem; cursor: pointer; color: #fff; transition: 0.2s; }
         .cell:hover { background: #111; }
+
+        /* --- STYLY PRO BANNERY --- */
+        .desktop-banner-wrapper { display: block; }
+        .banner-link { 
+            display: block; 
+            border: 2px solid var(--pink); 
+            box-shadow: 0 0 15px rgba(240, 0, 255, 0.2); 
+            transition: 0.3s; 
+            overflow: hidden; 
+            border-radius: 3px;
+        }
+        .banner-link:hover { 
+            border-color: var(--cyan); 
+            box-shadow: 0 0 25px var(--cyan); 
+        }
+        .banner-link img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            transition: transform 0.4s;
+        }
+        .banner-link:hover img { transform: scale(1.05); }
+        
+        .right-column { width: 220px; flex-shrink: 0; }
+        .right-column .banner-link img { height: 100%; min-height: 500px; object-fit: cover; }
+
+        /* Zobrazení pouze na PC */
+        @media (max-width: 1024px) {
+            .desktop-banner-wrapper, .right-column { display: none !important; }
+        }
     </style>
 </head>
 <body>
     <div class="grid-bg"></div>
     <header>
         <a href="index.html" class="back-btn">← Návrat do Hubu</a>
-        <h1>digitory.cz</h1>
+        <h1><a href="https://digitory.cz" target="_blank">digitory.cz</a></h1>
     </header>
 
     <div class="container">
-        <div class="game-menu">
-            <button class="menu-btn active-btn" onclick="openGame('snake', this)">1. Neon Snake</button>
-            <button class="menu-btn" onclick="openGame('tictactoe', this)">2. Piškvorky</button>
-            <button class="menu-btn" onclick="openGame('blaster', this)">3. Neon Blaster</button>
-            <button class="menu-btn" onclick="openGame('breakout', this)">4. Neon Breakout</button>
-            <button class="menu-btn" onclick="openGame('flappy', this)">5. Cyber Flappy</button>
+        
+        <div class="left-column">
+            <div class="game-menu">
+                <button class="menu-btn active-btn" onclick="openGame('snake', this)">1. Neon Snake</button>
+                <button class="menu-btn" onclick="openGame('tictactoe', this)">2. Piškvorky</button>
+                <button class="menu-btn" onclick="openGame('blaster', this)">3. Neon Blaster</button>
+                <button class="menu-btn" onclick="openGame('breakout', this)">4. Neon Breakout</button>
+                <button class="menu-btn" onclick="openGame('flappy', this)">5. Cyber Flappy</button>
+            </div>
+
+            <div class="desktop-banner-wrapper">
+                <a href="https://digitory.cz" target="_blank" class="banner-link">
+                    <img src="Gemini_Generated_Image_vjtcpxvjtcpxvjtc.png" alt="Digitory Weby">
+                </a>
+            </div>
         </div>
 
         <div class="game-screen">
@@ -186,6 +233,13 @@
             </div>
 
         </div>
+
+        <div class="right-column desktop-banner-wrapper">
+            <a href="https://digitory.cz" target="_blank" class="banner-link">
+                <img src="Gemini_Generated_Image_tz2iaotz2iaotz2i.png" alt="Digitory Prémiové Weby">
+            </a>
+        </div>
+
     </div>
 
     <script>
