@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Hub | Arcades</title>
+    <style>
+        :root { --bg: #050505; --cyan: #0ff; --pink: #f0f; --yellow: #ff0; --green: #39ff14; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg); color: #fff; font-family: 'Courier New', monospace;
+            min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center;
+        }
+        
+        /* Pozadí */
+        .grid-bg {
+            position: fixed; top: 0; left: -50%; width: 200%; height: 200%;
+            background-image: linear-gradient(transparent 65%, rgba(0, 255, 255, 0.15) 75%, transparent 100%), linear-gradient(90deg, transparent 65%, rgba(240, 0, 255, 0.1) 75%, transparent 100%);
+            background-size: 50px 50px; transform: rotateX(60deg); animation: moveGrid 10s linear infinite; z-index: -1;
+        }
+        @keyframes moveGrid { 0% { transform: perspective(1000px) rotateX(60deg) translateY(0); } 100% { transform: perspective(1000px) rotateX(60deg) translateY(50px); } }
+        
+        /* Hlavička */
+        header { width: 100%; padding: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1; }
+        .back-btn { color: var(--pink); text-decoration: none; border: 2px solid var(--pink); padding: 10px 20px; text-transform: uppercase; font-weight: bold; box-shadow: 0 0 10px rgba(240, 0, 255, 0.5); transition: 0.3s; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(5px); }
+        .back-btn:hover { background: var(--pink); color: #000; box-shadow: 0 0 30px var(--pink); }
+        h1 { font-size: 3rem; text-transform: uppercase; color: #fff; text-shadow: 0 0 10px #fff, 0 0 20px var(--cyan); margin-right: 20px; }
+        
+        /* Layout */
+        .container { display: flex; width: 90%; max-width: 1200px; gap: 30px; z-index: 1; margin-top: 20px; }
+        .game-menu { display: flex; flex-direction: column; gap: 15px; width: 300px; background: rgba(10, 10, 10, 0.8); padding: 20px; border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); height: fit-content; }
+        .menu-btn { background: transparent; color: var(--cyan); border: 1px solid var(--cyan); padding: 15px; cursor: pointer; font-family: inherit; font-size: 1.1rem; text-transform: uppercase; font-weight: bold; transition: 0.3s; text-align: left; }
+        .menu-btn:hover, .menu-btn.active-btn { background: var(--cyan); color: #000; box-shadow: 0 0 20px var(--cyan); }
+        
+        /* Herní obrazovka */
+        .game-screen { flex: 1; background: rgba(5, 5, 5, 0.9); border: 2px solid var(--pink); box-shadow: 0 0 30px rgba(240, 0, 255, 0.3), inset 0 0 20px rgba(240, 0, 255, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 30px; min-height: 500px; }
+        .app-window { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: flex-start; }
+        .active-window { display: flex; }
+        h2.game-title { color: var(--pink); text-shadow: 0 0 10px var(--pink); margin-bottom: 15px; font-size: 2.5rem; text-transform: uppercase; text-align: center;}
+        
+        /* Výrazné ovládání */
+        .controls { margin-top: 20px; padding: 10px 20px; background: rgba(255, 255, 0, 0.1); border: 1px dashed var(--yellow); color: var(--yellow); font-size: 1.1rem; font-weight: bold; text-align: center; text-shadow: 0 0 5px var(--yellow); border-radius: 5px; letter-spacing: 1px; }
+
+        /* Nastavení a tlačítka */
+        .settings-bar { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; justify-content: center;}
+        select, button.start-btn { background: #111; color: var(--pink); border: 2px solid var(--pink); padding: 8px 20px; font-family: inherit; font-size: 1.1rem; cursor: pointer; text-transform: uppercase; outline: none; transition: 0.3s; font-weight: bold; }
+        button.start-btn:hover { background: var(--pink); color: #000; box-shadow: 0 0 20px var(--pink); }
+        
+        /* Plátna a náhledy */
+        .canvas-wrapper { position: relative; width: 400px; height: 400px; margin: 0 auto; box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); border: 2px solid var(--cyan); background: #000; }
+        .board-wrapper { position: relative; margin: 0 auto; padding: 10px; background: var(--cyan); border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
+        canvas { display: block; }
+        
+        .game-preview { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; z-index: 10; }
+        .game-preview span { font-size: 5rem; margin-bottom: 15px; }
+        .game-preview p { color: #fff; font-size: 1.3rem; line-height: 1.5; text-shadow: 0 0 10px #fff; }
+
+        /* Piškvorky specifika */
+        .tictactoe-board { display: grid; grid-template-columns: repeat(3, 100px); gap: 5px; background: var(--cyan); }
+        .cell { width: 100px; height: 100px; background: #000; display: flex; align-items: center; justify-content: center; font-size: 4rem; cursor: pointer; color: #fff; transition: 0.2s; }
+        .cell:hover { background: #111; }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <header>
+        <a href="index.html" class="back-btn">← Návrat do Hubu</a>
+        <h1>digitory.cz</h1>
+    </header>
+
+    <div class="container">
+        <div class="game-menu">
+            <button class="menu-btn active-btn" onclick="openGame('snake', this)">1. Neon Snake</button>
+            <button class="menu-btn" onclick="openGame('tictactoe', this)">2. Piškvorky</button>
+            <button class="menu-btn" onclick="openGame('blaster', this)">3. Neon Blaster</button>
+            <button class="menu-btn" onclick="openGame('breakout', this)">4. Neon Breakout</button>
+            <button class="menu-btn" onclick="openGame('flappy', this)">5. Cyber Flappy</button>
+        </div>
+
+        <div class="game-screen">
+            
+            <div id="snake" class="app-window active-window">
+                <h2 class="game-title">Neon Snake</h2>
+                <div class="settings-bar">
+                    <label>Obtížnost:</label>
+                    <select id="snake-diff">
+                        <option value="150">Easy</option>
+                        <option value="100" selected>Medium</option>
+                        <option value="60">Hard</option>
+                    </select>
+                    <button class="start-btn" onclick="initSnake()">▶ Start</button>
+                </div>
+                <div class="canvas-wrapper">
+                    <div class="game-preview" id="preview-snake">
+                        <span>🐍</span><p>Klasický Had.<br>Zvol si obtížnost a klikni na Start!</p>
+                    </div>
+                    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                </div>
+                <div class="controls">🕹️ OVLÁDÁNÍ: Klávesy W, A, S, D</div>
+            </div>
+
+            <div id="tictactoe" class="app-window">
+                <h2 class="game-title">Piškvorky</h2>
+                <div class="settings-bar">
+                    <label>Režim:</label>
+                    <select id="ttt-mode" onchange="resetTicTacToe(false)">
+                        <option value="pvp">Hráč vs Hráč</option>
+                        <option value="pve" selected>Hráč vs Bot</option>
+                    </select>
+                    <label>Bot:</label>
+                    <select id="ttt-diff">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <button class="start-btn" onclick="resetTicTacToe(true)">▶ Start</button>
+                </div>
+                <h3 id="ttt-status" style="color: var(--cyan); margin-bottom: 10px;">Hraje: X</h3>
+                <div class="board-wrapper">
+                    <div class="game-preview" id="preview-ttt">
+                        <span>❌⭕</span><p>Poraz umělou inteligenci nebo kamaráda!</p>
+                    </div>
+                    <div class="tictactoe-board" id="board"></div>
+                </div>
+                <div class="controls">🕹️ OVLÁDÁNÍ: Kliknutí myší</div>
+            </div>
+
+            <div id="blaster" class="app-window">
+                <h2 class="game-title">Neon Blaster</h2>
+                <div class="settings-bar">
+                    <label>Obtížnost:</label>
+                    <select id="blaster-diff">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <button class="start-btn" onclick="startBlaster()">▶ Start</button>
+                </div>
+                <div class="canvas-wrapper">
+                    <div class="game-preview" id="preview-blaster">
+                        <span>🚀</span><p>Vesmírná obrana.<br>Sestřel padající bloky dřív, než tě zničí!</p>
+                    </div>
+                    <canvas id="blasterCanvas" width="400" height="400"></canvas>
+                </div>
+                <div class="controls">🕹️ OVLÁDÁNÍ: A, D (Pohyb) | W (Střelba)</div>
+            </div>
+
+            <div id="breakout" class="app-window">
+                <h2 class="game-title">Neon Breakout</h2>
+                <div class="settings-bar">
+                    <label>Obtížnost:</label>
+                    <select id="breakout-diff">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <button class="start-btn" onclick="initBreakout()">▶ Start</button>
+                </div>
+                <div class="canvas-wrapper">
+                    <div class="game-preview" id="preview-breakout">
+                        <span>🧱</span><p>Znič všechny bloky a<br>nenech míček spadnout!</p>
+                    </div>
+                    <canvas id="breakoutCanvas" width="400" height="400"></canvas>
+                </div>
+                <div class="controls">🕹️ OVLÁDÁNÍ: A, D pro pohyb pálky</div>
+            </div>
+
+            <div id="flappy" class="app-window">
+                <h2 class="game-title">Cyber Flappy</h2>
+                <div class="settings-bar">
+                    <label>Obtížnost:</label>
+                    <select id="flappy-diff">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <button class="start-btn" onclick="initFlappy()">▶ Start</button>
+                </div>
+                <div class="canvas-wrapper">
+                    <div class="game-preview" id="preview-flappy">
+                        <span>🦅</span><p>Leť mezi lasery.<br>Nenaraz do překážek!</p>
+                    </div>
+                    <canvas id="flappyCanvas" width="400" height="400"></canvas>
+                </div>
+                <div class="controls">🕹️ OVLÁDÁNÍ: Mezerník nebo W pro skok</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- GLOBÁLNÍ FUNKCE A PŘEPÍNÁNÍ ---
+        let gameIntervals = []; 
+        function clearAllIntervals() { gameIntervals.forEach(clearInterval); gameIntervals = []; }
+
+        function openGame(gameId, btnElement) {
+            clearAllIntervals();
+            document.querySelectorAll('.app-window').forEach(el => el.classList.remove('active-window'));
+            document.querySelectorAll('.menu-btn').forEach(el => el.classList.remove('active-btn'));
+            document.getElementById(gameId).classList.add('active-window');
+            btnElement.classList.add('active-btn');
+            document.querySelectorAll('.game-preview').forEach(el => el.style.display = 'flex');
+        }
+
+        function hidePreview(gameId) { document.getElementById(`preview-${gameId}`).style.display = 'none'; }
+
+        // --- HRA 1: NEON SNAKE ---
+        const sCanvas = document.getElementById('snakeCanvas'), sCtx = sCanvas.getContext('2d');
+        const box = 20; let snake = [], food = {}, dx = box, dy = 0, sScore = 0;
+        let sSpeed = 100, snakeState = 'stopped';
+
+        function initSnake() {
+            hidePreview('snake'); clearAllIntervals();
+            sSpeed = parseInt(document.getElementById('snake-diff').value);
+            snakeState = 'counting'; snake = [{x: 200, y: 200}, {x: 180, y: 200}];
+            dx = box; dy = 0; sScore = 0; spawnFood();
+            
+            let count = 3;
+            let countInterval = setInterval(() => {
+                sCtx.clearRect(0, 0, 400, 400);
+                sCtx.fillStyle = '#0ff'; sCtx.font = 'bold 60px Courier New'; sCtx.textAlign = 'center';
+                if(count > 0) { sCtx.fillText(count, 200, 220); count--; } 
+                else {
+                    sCtx.fillText("GO!", 200, 220); clearInterval(countInterval);
+                    setTimeout(() => { snakeState = 'playing'; gameIntervals.push(setInterval(updateSnake, sSpeed)); }, 500);
+                }
+            }, 800);
+            gameIntervals.push(countInterval);
+        }
+
+        function spawnFood() { food = {x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box}; }
+
+        function updateSnake() {
+            if(snakeState !== 'playing') return;
+            let head = {x: snake[0].x + dx, y: snake[0].y + dy};
+
+            if(head.x < 0) head.x = 400 - box; else if(head.x >= 400) head.x = 0;
+            if(head.y < 0) head.y = 400 - box; else if(head.y >= 400) head.y = 0;
+
+            if(snake.some(s => s.x === head.x && s.y === head.y)) {
+                clearAllIntervals(); snakeState = 'stopped';
+                sCtx.fillStyle = 'rgba(0,0,0,0.85)'; sCtx.fillRect(0,0,400,400);
+                sCtx.fillStyle = '#f0f'; sCtx.font = 'bold 30px Courier New'; sCtx.textAlign = 'center'; sCtx.fillText('KONEC HRY!', 200, 180);
+                sCtx.fillStyle = '#fff'; sCtx.font = '25px Courier New'; sCtx.fillText('Skóre: ' + sScore, 200, 230); return;
+            }
+
+            snake.unshift(head);
+            if(head.x === food.x && head.y === food.y) { sScore++; spawnFood(); } else snake.pop();
+
+            sCtx.clearRect(0, 0, 400, 400);
+            sCtx.fillStyle = '#f0f'; sCtx.shadowBlur = 10; sCtx.shadowColor = '#f0f'; sCtx.fillRect(food.x, food.y, box-2, box-2);
+            sCtx.fillStyle = '#0ff'; sCtx.shadowColor = '#0ff';
+            snake.forEach(p => sCtx.fillRect(p.x, p.y, box-2, box-2)); sCtx.shadowBlur = 0;
+        }
+
+        // --- HRA 2: PIŠKVORKY ---
+        let cells = Array(9).fill(''), currentPlayer = 'X', gameActive = true;
+        function initTicTacToe() {
+            const b = document.getElementById('board'); b.innerHTML = '';
+            for(let i=0; i<9; i++) {
+                let c = document.createElement('div'); c.className = 'cell';
+                c.onclick = () => playerMove(i, c); b.appendChild(c);
+            }
+        }
+        function playerMove(index, cell) {
+            if(!cells[index] && gameActive && currentPlayer === 'X') {
+                makeTttMove(index, cell, 'X');
+                if(gameActive && document.getElementById('ttt-mode').value === 'pve') {
+                    currentPlayer = 'O'; document.getElementById('ttt-status').innerText = 'Bot přemýšlí...'; setTimeout(botMove, 500);
+                }
+            } else if (!cells[index] && gameActive && currentPlayer === 'O' && document.getElementById('ttt-mode').value === 'pvp') {
+                makeTttMove(index, cell, 'O');
+            }
+        }
+        function makeTttMove(index, cell, player) {
+            cells[index] = player; cell.innerText = player;
+            cell.style.color = player === 'X' ? 'var(--pink)' : 'var(--cyan)'; cell.style.textShadow = `0 0 15px ${cell.style.color}`;
+            checkWinTtt(); if(gameActive) { currentPlayer = player === 'X' ? 'O' : 'X'; document.getElementById('ttt-status').innerText = `Hraje: ${currentPlayer}`; }
+        }
+        function botMove() {
+            if(!gameActive) return;
+            let diff = document.getElementById('ttt-diff').value;
+            let avail = cells.map((v, i) => v === '' ? i : null).filter(v => v !== null);
+            if(avail.length === 0) return;
+            let move = -1, bestMove = findBestTttMove();
+            if(diff === 'easy') move = avail[Math.floor(Math.random() * avail.length)];
+            else if (diff === 'medium') move = Math.random() > 0.5 ? (bestMove !== -1 ? bestMove : avail[Math.floor(Math.random() * avail.length)]) : avail[Math.floor(Math.random() * avail.length)];
+            else move = bestMove !== -1 ? bestMove : (cells[4]==='' ? 4 : avail[Math.floor(Math.random() * avail.length)]);
+            makeTttMove(move, document.getElementById('board').children[move], 'O');
+        }
+        function findBestTttMove() {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            for(let w of wins) { if(cells[w[0]]==='O' && cells[w[1]]==='O' && cells[w[2]]==='') return w[2]; if(cells[w[0]]==='O' && cells[w[2]]==='O' && cells[w[1]]==='') return w[1]; if(cells[w[1]]==='O' && cells[w[2]]==='O' && cells[w[0]]==='') return w[0]; }
+            for(let w of wins) { if(cells[w[0]]==='X' && cells[w[1]]==='X' && cells[w[2]]==='') return w[2]; if(cells[w[0]]==='X' && cells[w[2]]==='X' && cells[w[1]]==='') return w[1]; if(cells[w[1]]==='X' && cells[w[2]]==='X' && cells[w[0]]==='') return w[0]; }
+            return -1;
+        }
+        function checkWinTtt() {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            for(let w of wins) if(cells[w[0]] && cells[w[0]] === cells[w[1]] && cells[w[0]] === cells[w[2]]) { document.getElementById('ttt-status').innerText = `Vyhrál ${cells[w[0]]}!`; gameActive = false; return; }
+            if(!cells.includes('')) { document.getElementById('ttt-status').innerText = 'Remíza!'; gameActive = false; }
+        }
+        function resetTicTacToe(started) { if(started) hidePreview('ttt'); cells.fill(''); currentPlayer = 'X'; gameActive = true; document.getElementById('ttt-status').innerText = 'Hraje: X'; initTicTacToe(); }
+        initTicTacToe();
+
+        // --- HRA 3: NEON BLASTER ---
+        const bCanvas = document.getElementById('blasterCanvas'), bCtx = bCanvas.getContext('2d');
+        let playerX = 180, bullets = [], enemies = [], bScore = 0, blasterState = 'stopped', enemySpeed = 1, bSpawnRate = 60, bFrames = 0;
+        
+        function startBlaster() {
+            hidePreview('blaster'); clearAllIntervals();
+            let diff = document.getElementById('blaster-diff').value;
+            enemySpeed = diff === 'easy' ? 1.5 : (diff === 'medium' ? 2.5 : 4); bSpawnRate = diff === 'easy' ? 60 : (diff === 'medium' ? 40 : 25);
+            playerX = 180; bullets = []; enemies = []; bScore = 0; bFrames = 0; blasterState = 'playing';
+            gameIntervals.push(setInterval(updateBlaster, 1000/60)); 
+        }
+        function updateBlaster() {
+            if(blasterState !== 'playing') return;
+            bCtx.clearRect(0,0,400,400); bFrames++;
+            bCtx.fillStyle = '#0ff'; bCtx.shadowBlur = 15; bCtx.shadowColor = '#0ff';
+            bCtx.fillRect(playerX, 360, 40, 20); bCtx.fillRect(playerX + 15, 340, 10, 20); bCtx.shadowBlur = 0;
+
+            bullets.forEach((bul, i) => { bul.y -= 7; bCtx.fillStyle = '#fff'; bCtx.fillRect(bul.x, bul.y, 4, 10); if(bul.y < 0) bullets.splice(i, 1); });
+            if(bFrames % bSpawnRate === 0) enemies.push({x: Math.random() * 360, y: -20, width: 30, height: 30});
+
+            for(let i = enemies.length - 1; i >= 0; i--) {
+                let en = enemies[i]; en.y += enemySpeed;
+                bCtx.fillStyle = '#f0f'; bCtx.shadowBlur = 10; bCtx.shadowColor = '#f0f'; bCtx.fillRect(en.x, en.y, en.width, en.height); bCtx.shadowBlur = 0;
+
+                for(let j = bullets.length - 1; j >= 0; j--) {
+                    let b = bullets[j];
+                    if(b.x > en.x && b.x < en.x + en.width && b.y > en.y && b.y < en.y + en.height) { enemies.splice(i, 1); bullets.splice(j, 1); bScore += 10; break; }
+                }
+                
+                if(en.y + en.height > 340 && en.x + en.width > playerX && en.x < playerX + 40) {
+                    blasterState = 'stopped'; bCtx.fillStyle = 'rgba(0,0,0,0.85)'; bCtx.fillRect(0,0,400,400);
+                    bCtx.fillStyle = '#ff0'; bCtx.font = 'bold 30px Courier New'; bCtx.textAlign = 'center'; bCtx.fillText('LOĎ ZNIČENA!', 200, 180);
+                    bCtx.fillStyle = '#fff'; bCtx.font = '25px Courier New'; bCtx.fillText('Skóre: ' + bScore, 200, 230); return;
+                }
+                if(en.y > 400) enemies.splice(i, 1);
+            }
+            bCtx.fillStyle = '#fff'; bCtx.font = 'bold 18px Courier New'; bCtx.textAlign = 'left'; bCtx.fillText('Skóre: ' + bScore, 10, 25);
+        }
+
+        // --- HRA 4: NEON BREAKOUT ---
+        const brCanvas = document.getElementById('breakoutCanvas'), brCtx = brCanvas.getContext('2d');
+        let brState = 'stopped', brScore = 0, brLives = 3, paddle = {x: 160, y: 380, w: 80, h: 10, dx: 0}, ball = {x: 200, y: 370, r: 6, dx: 3, dy: -3};
+        let bricks = [], brickRows = 4, brickCols = 6, brickW = 55, brickH = 20, brickPad = 10, brickOffT = 40, brickOffL = 10;
+
+        function initBreakout() {
+            hidePreview('breakout'); clearAllIntervals();
+            let diff = document.getElementById('breakout-diff').value;
+            let speedMult = diff === 'easy' ? 0.8 : (diff === 'medium' ? 1.2 : 1.8);
+            paddle.x = 160; paddle.w = diff === 'hard' ? 60 : 80;
+            ball.x = 200; ball.y = 370; ball.dx = 3 * speedMult; ball.dy = -3 * speedMult;
+            brScore = 0; brLives = 3; bricks = [];
+            for(let c=0; c<brickCols; c++) { bricks[c] = []; for(let r=0; r<brickRows; r++) bricks[c][r] = {x: 0, y: 0, status: 1}; }
+            brState = 'playing'; gameIntervals.push(setInterval(updateBreakout, 1000/60));
+        }
+        function updateBreakout() {
+            if(brState !== 'playing') return;
+            brCtx.clearRect(0,0,400,400);
+
+            let bricksLeft = 0;
+            for(let c=0; c<brickCols; c++) {
+                for(let r=0; r<brickRows; r++) {
+                    if(bricks[c][r].status === 1) {
+                        bricksLeft++; let bX = (c*(brickW+brickPad))+brickOffL, bY = (r*(brickH+brickPad))+brickOffT;
+                        bricks[c][r].x = bX; bricks[c][r].y = bY;
+                        brCtx.fillStyle = r % 2 === 0 ? '#ff0' : '#f0f'; brCtx.shadowBlur = 10; brCtx.shadowColor = brCtx.fillStyle;
+                        brCtx.fillRect(bX, bY, brickW, brickH); brCtx.shadowBlur = 0;
+                        if(ball.x > bX && ball.x < bX+brickW && ball.y > bY && ball.y < bY+brickH) { ball.dy = -ball.dy; bricks[c][r].status = 0; brScore += 10; }
+                    }
+                }
+            }
+
+            if(bricksLeft === 0) {
+                brState = 'stopped'; brCtx.fillStyle = 'rgba(0,0,0,0.85)'; brCtx.fillRect(0,0,400,400);
+                brCtx.fillStyle = '#39ff14'; brCtx.font = 'bold 30px Courier New'; brCtx.textAlign = 'center'; brCtx.fillText('VÍTĚZSTVÍ!', 200, 180);
+                brCtx.fillStyle = '#fff'; brCtx.font = '25px Courier New'; brCtx.fillText('Skóre: ' + brScore, 200, 230); return;
+            }
+
+            paddle.x += paddle.dx; if(paddle.x < 0) paddle.x = 0; if(paddle.x + paddle.w > 400) paddle.x = 400 - paddle.w;
+            brCtx.fillStyle = '#0ff'; brCtx.shadowBlur = 15; brCtx.shadowColor = '#0ff'; brCtx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h); brCtx.shadowBlur = 0;
+
+            brCtx.beginPath(); brCtx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2); brCtx.fillStyle = '#fff'; brCtx.fill(); brCtx.closePath();
+            ball.x += ball.dx; ball.y += ball.dy;
+
+            if(ball.x + ball.dx > 400-ball.r || ball.x + ball.dx < ball.r) ball.dx = -ball.dx;
+            if(ball.y + ball.dy < ball.r) ball.dy = -ball.dy;
+            else if(ball.y + ball.dy > 400-ball.r) {
+                if(ball.x > paddle.x && ball.x < paddle.x + paddle.w) { ball.dy = -ball.dy; }
+                else {
+                    brLives--;
+                    if(brLives <= 0) {
+                        brState = 'stopped'; brCtx.fillStyle = 'rgba(0,0,0,0.85)'; brCtx.fillRect(0,0,400,400);
+                        brCtx.fillStyle = '#f0f'; brCtx.font = 'bold 30px Courier New'; brCtx.textAlign = 'center'; brCtx.fillText('KONEC HRY', 200, 180);
+                        brCtx.fillStyle = '#fff'; brCtx.font = '25px Courier New'; brCtx.fillText('Skóre: ' + brScore, 200, 230); return;
+                    } else { ball.x = 200; ball.y = 370; paddle.x = 160; ball.dy = -Math.abs(ball.dy); }
+                }
+            }
+            brCtx.fillStyle = '#fff'; brCtx.font = 'bold 16px Courier New'; brCtx.textAlign = 'left'; brCtx.fillText('Skóre: ' + brScore + '  Životy: ' + brLives, 10, 20);
+        }
+
+        // --- HRA 5: CYBER FLAPPY ---
+        const fCanvas = document.getElementById('flappyCanvas'), fCtx = fCanvas.getContext('2d');
+        let fState = 'stopped', fScore = 0, fFrames = 0;
+        let bird = {x: 50, y: 150, w: 20, h: 20, velocity: 0, gravity: 0.5, jump: -7};
+        let pipes = [], pipeSpeed = 2, pipeGap = 120, pipeSpawnRate = 90;
+
+        function initFlappy() {
+            hidePreview('flappy'); clearAllIntervals();
+            let diff = document.getElementById('flappy-diff').value;
+            pipeSpeed = diff === 'easy' ? 2.5 : (diff === 'medium' ? 4 : 6);
+            pipeGap = diff === 'easy' ? 150 : (diff === 'medium' ? 120 : 90);
+            pipeSpawnRate = diff === 'hard' ? 50 : 80;
+            
+            bird.y = 150; bird.velocity = 0; pipes = []; fScore = 0; fFrames = 0; fState = 'playing';
+            gameIntervals.push(setInterval(updateFlappy, 1000/60));
+        }
+
+        function updateFlappy() {
+            if(fState !== 'playing') return;
+            fCtx.clearRect(0,0,400,400); fFrames++;
+
+            bird.velocity += bird.gravity; bird.y += bird.velocity;
+            fCtx.fillStyle = '#ff0'; fCtx.shadowBlur = 15; fCtx.shadowColor = '#ff0';
+            fCtx.fillRect(bird.x, bird.y, bird.w, bird.h); fCtx.shadowBlur = 0;
+
+            if(fFrames % pipeSpawnRate === 0) {
+                let topH = Math.random() * (400 - pipeGap - 40) + 20;
+                pipes.push({x: 400, topH: topH, bottomY: topH + pipeGap, passed: false});
+            }
+
+            for(let i = pipes.length - 1; i >= 0; i--) {
+                let p = pipes[i]; p.x -= pipeSpeed;
+                
+                fCtx.fillStyle = '#0ff'; fCtx.shadowBlur = 10; fCtx.shadowColor = '#0ff'; fCtx.fillRect(p.x, 0, 40, p.topH); 
+                fCtx.fillStyle = '#f0f'; fCtx.shadowColor = '#f0f'; fCtx.fillRect(p.x, p.bottomY, 40, 400 - p.bottomY); fCtx.shadowBlur = 0;
+
+                if((bird.x+bird.w > p.x && bird.x < p.x+40) && (bird.y < p.topH || bird.y+bird.h > p.bottomY)) { gameOverFlappy(); return; }
+                if(bird.y+bird.h >= 400 || bird.y < 0) { gameOverFlappy(); return; }
+
+                if(p.x < bird.x && !p.passed) { fScore++; p.passed = true; }
+                if(p.x + 40 < 0) pipes.splice(i, 1);
+            }
+            fCtx.fillStyle = '#fff'; fCtx.font = 'bold 20px Courier New'; fCtx.textAlign = 'left'; fCtx.fillText('Skóre: ' + fScore, 10, 30);
+        }
+
+        function gameOverFlappy() {
+            fState = 'stopped'; fCtx.fillStyle = 'rgba(0,0,0,0.85)'; fCtx.fillRect(0,0,400,400);
+            fCtx.fillStyle = '#f0f'; fCtx.font = 'bold 30px Courier New'; fCtx.textAlign = 'center'; fCtx.fillText('NABOURAL JSI!', 200, 180);
+            fCtx.fillStyle = '#fff'; fCtx.font = '25px Courier New'; fCtx.fillText('Skóre: ' + fScore, 200, 230);
+        }
+
+        // --- UNIVERZÁLNÍ OVLÁDÁNÍ KLÁVESNICÍ ---
+        document.addEventListener('keydown', e => {
+            let key = e.key.toLowerCase();
+            
+            if(document.getElementById('snake').classList.contains('active-window') && snakeState === 'playing') {
+                if(key === 'w' && dy === 0) { dx = 0; dy = -box; }
+                if(key === 's' && dy === 0) { dx = 0; dy = box; }
+                if(key === 'a' && dx === 0) { dx = -box; dy = 0; }
+                if(key === 'd' && dx === 0) { dx = box; dy = 0; }
+            }
+            if(document.getElementById('blaster').classList.contains('active-window') && blasterState === 'playing') {
+                if(key === 'a') { playerX = Math.max(0, playerX - 25); }
+                if(key === 'd') { playerX = Math.min(360, playerX + 25); }
+                if(key === 'w') { bullets.push({x: playerX + 18, y: 340}); }
+            }
+            if(document.getElementById('breakout').classList.contains('active-window') && brState === 'playing') {
+                if(key === 'a') { paddle.dx = -6; }
+                if(key === 'd') { paddle.dx = 6; }
+            }
+            if(document.getElementById('flappy').classList.contains('active-window') && fState === 'playing') {
+                if(key === 'w' || key === ' ') { bird.velocity = bird.jump; e.preventDefault(); }
+            }
+        });
+
+        document.addEventListener('keyup', e => {
+            let key = e.key.toLowerCase();
+            if(document.getElementById('breakout').classList.contains('active-window')) {
+                if(key === 'a' && paddle.dx < 0) { paddle.dx = 0; }
+                if(key === 'd' && paddle.dx > 0) { paddle.dx = 0; }
+            }
+        });
+    </script>
+</body>
+</html>
