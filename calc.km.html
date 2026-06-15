@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iX5 Kalkulačka</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-color: #ff3b30;
+            --text-color: #ffffff;
+            --text-muted: #aaaaaa;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 1px solid #2a2a2a;
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            background: #2d2d2d;
+            border: 1px solid #3d3d3d;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .results {
+            margin-top: 30px;
+            background: #151515;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #222;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .result-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-label {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .result-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #4cd964; /* Zelená pro výsledky */
+        }
+
+        .result-value.range {
+            color: #007aff; /* Modrá pro dojezd */
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <h1>iScooter iX5</h1>
+    <div class="subtitle">Smart Assistant</div>
+
+    <div class="input-group">
+        <label for="volts">Aktuální napětí na displeji (V):</label>
+        <input type="number" id="volts" step="0.1" min="39" max="54.6" placeholder="Např. 52.6" oninput="calculate()">
+    </div>
+
+    <div class="input-group">
+        <label for="style">Jak plánuješ jet? (Rychlost/Styl):</label>
+        <select id="style" onchange="calculate()">
+            <option value="13">Eko jízda (cca 20-25 km/h, rovinky)</option>
+            <option value="18" selected>Normální jízda (cca 30-35 km/h, občas kopec)</option>
+            <option value="25">Agresivní jízda (Plný plyn 45 km/h / těžký terén)</option>
+        </select>
+    </div>
+
+    <div class="results">
+        <div class="result-row">
+            <span class="result-label">Baterie cca:</span>
+            <span id="percent-val" class="result-value">-- %</span>
+        </div>
+        <div class="result-row">
+            <span class="result-label">Odhadovaný dojezd:</span>
+            <span id="range-val" class="result-value range">-- km</span>
+        </div>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    const volts = parseFloat(document.getElementById('volts').value);
+    const consumption = parseFloat(document.getElementById('style').value);
+    
+    if (isNaN(volts) || volts < 39) {
+        document.getElementById('percent-val').innerText = "-- %";
+        document.getElementById('range-val').innerText = "-- km";
+        return;
+    }
+
+    // Omezení maximálního napětí baterie
+    let v = volts;
+    if (v > 54.6) v = 54.6;
+
+    // Výpočet procent na základě nelineární vybíjecí křivky 48V baterie
+    let percent = 0;
+    if (v >= 54.0) {
+        percent = 90 + ((v - 54.0) / 0.6) * 10;
+    } else if (v >= 52.0) {
+        percent = 70 + ((v - 52.0) / 2.0) * 20;
+    } else if (v >= 48.0) {
+        percent = 30 + ((v - 48.0) / 4.0) * 40;
+    } else if (v >= 45.0) {
+        percent = 10 + ((v - 45.0) / 3.0) * 20;
+    } else {
+        percent = ((v - 39.0) / 6.0) * 10;
+    }
+    
+    if (percent < 0) percent = 0;
+    if (percent > 100) percent = 100;
+
+    // Celková kapacita iX5: 48V * 15Ah = 720 Wh
+    const totalWh = 720;
+    const remainingWh = totalWh * (percent / 100);
+    
+    // Výpočet dojezdu
+    let remainingRange = remainingWh / consumption;
+
+    // Zobrazení výsledků
+    document.getElementById('percent-val').innerText = Math.round(percent) + " %";
+    document.getElementById('range-val').innerText = remainingRange.toFixed(1) + " km";
+}
+</script>
+
+</body>
+</html>
