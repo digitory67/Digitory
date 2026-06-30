@@ -3,91 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Hub | Utility Zone</title>
+    <title>Digitory Hub | Utility Zone</title>
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <style>
-        :root { --bg: #050505; --green: #39ff14; --cyan: #0ff; --pink: #f0f; --yellow: #ff0; }
+        :root { 
+            --bg: #050505; 
+            --gold: #d4af37; /* Digitory zlatá */
+            --white: #ffffff; 
+            --dark-gray: #111111;
+            --border-color: #333333;
+        }
+        
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            background-color: var(--bg); color: #fff; font-family: 'Courier New', monospace;
-            min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center;
+            background-color: var(--bg); 
+            color: var(--white); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
         }
         
+        /* Elegantní mřížka v pozadí */
         .grid-bg {
-            position: fixed; top: 0; left: -50%; width: 200%; height: 200%;
-            background-image: linear-gradient(transparent 65%, rgba(57, 255, 20, 0.15) 75%, transparent 100%), linear-gradient(90deg, transparent 65%, rgba(0, 255, 255, 0.05) 75%, transparent 100%);
-            background-size: 50px 50px; transform: rotateX(60deg); animation: moveGrid 10s linear infinite; z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(transparent 95%, rgba(212, 175, 55, 0.05) 100%), linear-gradient(90deg, transparent 95%, rgba(212, 175, 55, 0.05) 100%);
+            background-size: 40px 40px; 
+            z-index: -1;
         }
-        @keyframes moveGrid { 0% { transform: perspective(1000px) rotateX(60deg) translateY(0); } 100% { transform: perspective(1000px) rotateX(60deg) translateY(50px); } }
         
-        header { width: 100%; padding: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1; }
-        .back-btn { color: var(--green); text-decoration: none; border: 2px solid var(--green); padding: 10px 20px; text-transform: uppercase; font-weight: bold; box-shadow: 0 0 10px rgba(57, 255, 20, 0.5); transition: 0.3s; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(5px); }
-        .back-btn:hover { background: var(--green); color: #000; box-shadow: 0 0 30px var(--green); }
-        h1 { font-size: 3rem; text-transform: uppercase; color: #fff; text-shadow: 0 0 10px #fff, 0 0 20px var(--green); margin-right: 20px; }
+        header { width: 100%; padding: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1; border-bottom: 1px solid var(--border-color); background: rgba(5, 5, 5, 0.9); }
         
-        .container { display: flex; width: 90%; max-width: 1200px; gap: 30px; z-index: 1; margin-top: 20px; margin-bottom: 40px;}
-        .tool-menu { display: flex; flex-direction: column; gap: 15px; width: 300px; background: rgba(10, 10, 10, 0.8); padding: 20px; border: 2px solid var(--green); box-shadow: 0 0 20px rgba(57, 255, 20, 0.2); height: fit-content; }
-        .menu-btn { background: transparent; color: var(--green); border: 1px solid var(--green); padding: 15px; cursor: pointer; font-family: inherit; font-size: 1.1rem; text-transform: uppercase; font-weight: bold; transition: 0.3s; text-align: left; }
-        .menu-btn:hover, .menu-btn.active-btn { background: var(--green); color: #000; box-shadow: 0 0 20px var(--green); }
+        .back-btn { 
+            color: var(--gold); text-decoration: none; border: 1px solid var(--gold); 
+            padding: 10px 20px; text-transform: uppercase; font-weight: bold; 
+            transition: 0.3s; background: transparent; letter-spacing: 1px;
+        }
+        .back-btn:hover { background: var(--gold); color: var(--bg); }
         
-        .tool-screen { flex: 1; background: rgba(5, 5, 5, 0.9); border: 2px solid var(--green); box-shadow: 0 0 30px rgba(57, 255, 20, 0.3), inset 0 0 20px rgba(57, 255, 20, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 30px; min-height: 500px; position: relative; }
+        h1 { font-size: 2.5rem; text-transform: uppercase; color: var(--white); font-weight: 300; margin-right: 20px; letter-spacing: 2px;}
+        h1 span { color: var(--gold); font-weight: bold; }
+        
+        .container { display: flex; width: 90%; max-width: 1300px; gap: 30px; z-index: 1; margin-top: 40px; margin-bottom: 40px;}
+        
+        .tool-menu { 
+            display: flex; flex-direction: column; gap: 10px; width: 300px; 
+            background: var(--dark-gray); padding: 20px; border: 1px solid var(--border-color); 
+            height: fit-content; 
+        }
+        
+        .menu-btn { 
+            background: transparent; color: var(--white); border: 1px solid transparent; 
+            border-left: 3px solid transparent; padding: 15px; cursor: pointer; 
+            font-family: inherit; font-size: 1rem; text-transform: uppercase; 
+            transition: 0.3s; text-align: left; letter-spacing: 1px;
+        }
+        .menu-btn:hover, .menu-btn.active-btn { 
+            background: rgba(212, 175, 55, 0.1); 
+            color: var(--gold); 
+            border-left: 3px solid var(--gold); 
+        }
+        
+        .tool-screen { 
+            flex: 1; background: var(--dark-gray); border: 1px solid var(--border-color); 
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
+            padding: 40px; min-height: 550px; position: relative; 
+        }
+        
         .app-window { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: flex-start; }
         .active-window { display: flex; }
-        h2.tool-title { color: var(--green); text-shadow: 0 0 10px var(--green); margin-bottom: 25px; font-size: 2.5rem; text-transform: uppercase; text-align: center; }
         
-        input[type="text"], input[type="number"], textarea, select { width: 100%; max-width: 450px; padding: 15px; margin-bottom: 15px; background: #111; border: 2px solid var(--green); color: var(--green); font-family: inherit; font-size: 1.1rem; outline: none; box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.2); }
-        input[type="text"]:focus, textarea:focus { box-shadow: 0 0 15px var(--green), inset 0 0 10px rgba(57, 255, 20, 0.5); }
-        textarea { resize: vertical; min-height: 100px; }
+        h2.tool-title { color: var(--gold); margin-bottom: 30px; font-size: 2rem; text-transform: uppercase; text-align: center; font-weight: 400; letter-spacing: 2px; }
         
-        button.action-btn { background: #111; color: var(--green); border: 2px solid var(--green); padding: 10px 25px; font-family: inherit; font-size: 1.2rem; cursor: pointer; text-transform: uppercase; font-weight: bold; transition: 0.3s; margin-bottom: 20px; }
-        button.action-btn:hover { background: var(--green); color: #000; box-shadow: 0 0 20px var(--green); }
-        
-        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 450px; margin-bottom: 20px; }
-        .settings-grid label { display: flex; flex-direction: column; font-size: 0.9rem; color: #aaa; gap: 5px; }
-        input[type="color"] { width: 100%; height: 40px; background: transparent; border: 1px solid var(--green); cursor: pointer; }
-        #qr-canvas-container { padding: 10px; background: #fff; border: 4px solid var(--green); box-shadow: 0 0 20px var(--green); border-radius: 10px; display: inline-block; max-width: 100%; overflow: hidden; }
-
-        .crypt-output { width: 100%; max-width: 450px; min-height: 100px; padding: 15px; background: rgba(0, 255, 255, 0.1); border: 1px dashed var(--cyan); color: var(--cyan); word-wrap: break-word; text-shadow: 0 0 5px var(--cyan); }
-        .crypt-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-
-        .color-display { width: 200px; height: 100px; border: 3px solid #fff; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,255,255,0.5); border-radius: 10px; transition: background 0.3s; }
-        .color-codes { display: flex; flex-direction: column; gap: 10px; font-size: 1.5rem; text-align: center; }
-
-        .tool-preview { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; z-index: 10; }
-        .tool-preview span { font-size: 5rem; margin-bottom: 15px; }
-        .tool-preview p { color: #fff; font-size: 1.3rem; line-height: 1.5; text-shadow: 0 0 10px #fff; margin-bottom: 20px;}
-        
-        .pass-settings { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 450px; margin-bottom: 20px; background: #111; padding: 15px; border: 1px dashed var(--green); }
-        .pass-settings label { display: flex; justify-content: space-between; font-size: 1rem; cursor: pointer; align-items: center; }
-        input[type="checkbox"] { accent-color: var(--green); transform: scale(1.3); cursor: pointer; }
-        #pass-result { font-size: 1.5rem; color: #fff; letter-spacing: 2px; word-break: break-all; min-height: 40px; text-shadow: 0 0 10px #fff; margin-bottom: 20px; text-align: center; }
-        
-        .task-list { width: 100%; max-width: 450px; list-style: none; margin-top: 10px; }
-        .task-list li { background: #111; border: 1px solid var(--cyan); padding: 10px 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; color: var(--cyan); box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); word-break: break-word; gap: 10px;}
-        .task-list li button { background: transparent; color: var(--pink); border: 1px solid var(--pink); cursor: pointer; padding: 5px 10px; font-weight: bold; transition: 0.3s; flex-shrink: 0; }
-        .task-list li button:hover { background: var(--pink); color: #000; box-shadow: 0 0 10px var(--pink); }
-
-        /* Reklamní banner v menu */
-        .promo-banner {
-            display: block; width: 100%; margin-top: 20px; border: 2px solid var(--green);
-            box-shadow: 0 0 15px var(--green); transition: 0.3s; line-height: 0; border-radius: 5px; overflow: hidden;
+        input[type="text"], input[type="number"], textarea, select, input[type="file"] { 
+            width: 100%; max-width: 500px; padding: 15px; margin-bottom: 20px; 
+            background: var(--bg); border: 1px solid var(--border-color); 
+            color: var(--white); font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s;
         }
-        .promo-banner:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--green); }
-        .promo-banner img { width: 100%; height: auto; display: block; }
+        input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--gold); }
+        textarea { resize: vertical; min-height: 120px; }
+        
+        button.action-btn { 
+            background: transparent; color: var(--gold); border: 1px solid var(--gold); 
+            padding: 12px 30px; font-family: inherit; font-size: 1.1rem; cursor: pointer; 
+            text-transform: uppercase; font-weight: bold; transition: 0.3s; margin-bottom: 20px; letter-spacing: 1px;
+        }
+        button.action-btn:hover { background: var(--gold); color: var(--bg); }
+        
+        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 500px; margin-bottom: 30px; }
+        .settings-grid label { display: flex; flex-direction: column; font-size: 0.9rem; color: #aaa; gap: 8px; text-transform: uppercase; letter-spacing: 1px;}
+        input[type="color"] { width: 100%; height: 45px; background: transparent; border: 1px solid var(--border-color); cursor: pointer; }
+        
+        #qr-canvas-container { padding: 15px; background: #fff; border: 1px solid var(--gold); display: inline-block; max-width: 100%; overflow: hidden; }
 
-        /* Responzivita pro mobilní zařízení */
+        .crypt-output { width: 100%; max-width: 500px; min-height: 120px; padding: 15px; background: var(--bg); border: 1px solid var(--border-color); color: var(--gold); word-wrap: break-word; }
+        .crypt-btns { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+
+        .color-display { width: 100%; max-width: 500px; height: 120px; border: 1px solid var(--border-color); margin-bottom: 20px; transition: background 0.3s; }
+        .color-codes { display: flex; flex-direction: column; gap: 15px; font-size: 1.2rem; text-align: center; width: 100%; max-width: 500px; background: var(--bg); padding: 20px; border: 1px solid var(--border-color); }
+
+        .tool-preview { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.95); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; z-index: 10; }
+        .tool-preview span { font-size: 4rem; margin-bottom: 20px; color: var(--gold); }
+        .tool-preview p { color: var(--white); font-size: 1.2rem; line-height: 1.6; margin-bottom: 30px; max-width: 400px; font-weight: 300;}
+        
+        .pass-settings { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 500px; margin-bottom: 20px; background: var(--bg); padding: 20px; border: 1px solid var(--border-color); }
+        .pass-settings label { display: flex; justify-content: space-between; font-size: 1rem; cursor: pointer; align-items: center; color: #ccc;}
+        input[type="checkbox"] { accent-color: var(--gold); transform: scale(1.2); cursor: pointer; }
+        #pass-result { font-size: 1.5rem; color: var(--gold); letter-spacing: 2px; word-break: break-all; min-height: 40px; margin-bottom: 30px; text-align: center; font-weight: bold; background: var(--bg); padding: 20px; width: 100%; max-width: 500px; border: 1px solid var(--border-color);}
+        
+        /* CSS pro Konvertor */
+        .converter-group { width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .converter-group label { color: var(--gold); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+        #convert-status { width: 100%; max-width: 500px; padding: 15px; text-align: center; margin-top: 10px; display: none; border: 1px solid var(--gold); background: rgba(212, 175, 55, 0.1); color: var(--white); }
+        optgroup { background: var(--dark-gray); color: var(--gold); font-style: normal; font-weight: bold; }
+        option { color: var(--white); background: var(--bg); }
+
+        .promo-banner { display: block; width: 100%; margin-top: 20px; border: 1px solid var(--border-color); transition: 0.3s; line-height: 0; overflow: hidden; opacity: 0.8; }
+        .promo-banner:hover { transform: scale(1.02); opacity: 1; border-color: var(--gold); }
+        .promo-banner img { width: 100%; height: auto; display: block; filter: grayscale(100%); transition: 0.3s; }
+        .promo-banner:hover img { filter: grayscale(0%); }
+
         @media (max-width: 768px) {
-            .promo-banner { display: none; }
-            .container { flex-direction: column; align-items: center; width: 95%; margin-top: 10px; }
-            .tool-menu { width: 100%; padding: 10px; gap: 10px; }
-            .tool-screen { padding: 20px 10px; }
+            .container { flex-direction: column; align-items: center; width: 95%; margin-top: 20px; }
+            .tool-menu { width: 100%; padding: 10px; }
+            .tool-screen { padding: 30px 15px; }
             header { flex-direction: column; gap: 15px; text-align: center; }
-            h1 { font-size: 2rem; margin-right: 0; }
-            h2.tool-title { font-size: 1.8rem; }
-            .tool-preview span { font-size: 3.5rem; }
-            .tool-preview p { font-size: 1rem; }
-            #real-time { font-size: 3rem !important; }
-            #stopwatch { font-size: 2.5rem !important; }
+            h1 { font-size: 1.8rem; margin-right: 0; }
+            h2.tool-title { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -95,20 +140,20 @@
     <div class="grid-bg"></div>
     <header>
         <a href="index.html" class="back-btn">← Návrat do Hubu</a>
-        <h1>Utility Zone</h1>
+        <h1>Digitory <span>Zone</span></h1>
     </header>
 
     <div class="container">
         <div class="tool-menu">
-            <button class="menu-btn active-btn" onclick="openTool('qrgen', this)">1. QR Generátor Pro</button>
-            <button class="menu-btn" onclick="openTool('crypt', this)">2. Cyber Crypt</button>
-            <button class="menu-btn" onclick="openTool('passgen', this)">3. Cyber Pass</button>
-            <button class="menu-btn" onclick="openTool('colorpicker', this)">4. Neon Picker</button>
-            <button class="menu-btn" onclick="openTool('notes', this)">5. Neon To-Do</button>
+            <button class="menu-btn active-btn" onclick="openTool('qrgen', this)">1. QR Generátor</button>
+            <button class="menu-btn" onclick="openTool('crypt', this)">2. Šifrování</button>
+            <button class="menu-btn" onclick="openTool('passgen', this)">3. Generátor Hesel</button>
+            <button class="menu-btn" onclick="openTool('colorpicker', this)">4. Výběr Barev</button>
+            <button class="menu-btn" onclick="openTool('converter', this)">5. Konvertor Souborů</button>
             <button class="menu-btn" onclick="openTool('clock', this)">6. Čas & Stopky</button>
             
             <a href="https://digitory.cz" target="_blank" class="promo-banner">
-                <img src="post-citat.jpg" alt="Digitory - Web není výdaj">
+                <img src="post-citat.jpg" alt="Digitory - Web není výdaj" onerror="this.src='https://via.placeholder.com/300x150/111/d4af37?text=DIGITORY'">
             </a>
         </div>
 
@@ -117,12 +162,12 @@
             <div id="qrgen" class="app-window active-window">
                 <div class="tool-preview" id="preview-qrgen">
                     <span>📱</span>
-                    <p>Real-time generování.<br>Upravuj barvy a tvary okamžitě!</p>
-                    <button class="action-btn" onclick="hidePreview('qrgen'); initQR();">Spustit</button>
+                    <p>Real-time generování QR kódů. Upravuj tvary a barvy pro dokonalý design.</p>
+                    <button class="action-btn" onclick="hidePreview('qrgen'); initQR();">Spustit nástroj</button>
                 </div>
-                <h2 class="tool-title">QR Generátor PRO</h2>
+                <h2 class="tool-title">QR Generátor</h2>
                 
-                <input type="text" id="qr-text" placeholder="Začni psát text nebo URL..." oninput="updateQR()">
+                <input type="text" id="qr-text" placeholder="Zadej URL nebo text..." oninput="updateQR()">
                 
                 <div class="settings-grid">
                     <label>Tvar bodů:
@@ -136,7 +181,7 @@
                         <input type="color" id="qr-bg" value="#ffffff" oninput="updateQR()">
                     </label>
                     <label>Barva kódu:
-                        <input type="color" id="qr-color" value="#00ff00" oninput="updateQR()">
+                        <input type="color" id="qr-color" value="#000000" oninput="updateQR()">
                     </label>
                 </div>
 
@@ -145,17 +190,17 @@
 
             <div id="crypt" class="app-window">
                 <div class="tool-preview" id="preview-crypt">
-                    <span>🕵️</span>
-                    <p>Šifruj a dešifruj tajné zprávy.<br>Hacker mód aktivován.</p>
-                    <button class="action-btn" onclick="hidePreview('crypt')" style="border-color: var(--cyan); color: var(--cyan);">Spustit</button>
+                    <span>🔐</span>
+                    <p>Bezpečné šifrování a dešifrování textu (Base64 enkódování).</p>
+                    <button class="action-btn" onclick="hidePreview('crypt')">Spustit nástroj</button>
                 </div>
-                <h2 class="tool-title" style="color: var(--cyan); text-shadow: 0 0 10px var(--cyan);">Cyber Crypt</h2>
+                <h2 class="tool-title">Šifrování textu</h2>
                 
-                <textarea id="crypt-input" placeholder="Zadej text k zašifrování nebo dešifrování..." style="border-color: var(--cyan); color: var(--cyan);"></textarea>
+                <textarea id="crypt-input" placeholder="Zadej text k zašifrování nebo dešifrování..."></textarea>
                 
                 <div class="crypt-btns">
-                    <button class="action-btn" onclick="processCrypt('encode')" style="border-color: var(--cyan); color: var(--cyan);">Zašifrovat</button>
-                    <button class="action-btn" onclick="processCrypt('decode')" style="border-color: var(--pink); color: var(--pink);">Dešifrovat</button>
+                    <button class="action-btn" onclick="processCrypt('encode')">Zašifrovat</button>
+                    <button class="action-btn" onclick="processCrypt('decode')">Dešifrovat</button>
                 </div>
 
                 <div class="crypt-output" id="crypt-output">Výsledek se zobrazí zde...</div>
@@ -163,62 +208,96 @@
 
             <div id="passgen" class="app-window">
                 <div class="tool-preview" id="preview-passgen">
-                    <span>🔐</span><p>Generátor neprolomitelných hesel.</p>
-                    <button class="action-btn" onclick="hidePreview('passgen')">Spustit</button>
+                    <span>🛡️</span><p>Generátor silných, bezpečných a neprolomitelných hesel.</p>
+                    <button class="action-btn" onclick="hidePreview('passgen')">Spustit nástroj</button>
                 </div>
-                <h2 class="tool-title">Cyber Pass</h2>
+                <h2 class="tool-title">Bezpečné heslo</h2>
                 <div id="pass-result">...</div>
                 <button class="action-btn" onclick="generatePassword()">Generovat Heslo</button>
                 <div class="pass-settings">
-                    <label>Délka: <input type="number" id="pass-length" value="16" min="8" max="64" style="width: 70px; padding: 5px; margin:0;"></label>
-                    <label>Čísla (0-9): <input type="checkbox" id="pass-num" checked></label>
-                    <label>Velká písmena: <input type="checkbox" id="pass-upper" checked></label>
-                    <label>Speciální znaky: <input type="checkbox" id="pass-sym" checked></label>
+                    <label>Délka hesla: <input type="number" id="pass-length" value="16" min="8" max="64" style="width: 80px; padding: 10px; margin:0;"></label>
+                    <label>Obsahuje čísla (0-9): <input type="checkbox" id="pass-num" checked></label>
+                    <label>Obsahuje velká písmena: <input type="checkbox" id="pass-upper" checked></label>
+                    <label>Obsahuje speciální znaky: <input type="checkbox" id="pass-sym" checked></label>
                 </div>
             </div>
 
             <div id="colorpicker" class="app-window">
                 <div class="tool-preview" id="preview-colorpicker">
-                    <span>🎨</span><p>Najdi dokonalou barvu a<br>získej její HEX a RGB kód.</p>
-                    <button class="action-btn" onclick="hidePreview('colorpicker')" style="border-color: var(--yellow); color: var(--yellow);">Spustit</button>
+                    <span>🎨</span><p>Nástroj pro výběr barvy. Získej přesné HEX a RGB hodnoty.</p>
+                    <button class="action-btn" onclick="hidePreview('colorpicker')">Spustit nástroj</button>
                 </div>
-                <h2 class="tool-title" style="color: var(--yellow); text-shadow: 0 0 10px var(--yellow);">Neon Picker</h2>
+                <h2 class="tool-title">Výběr barev</h2>
                 
-                <input type="color" id="main-color-picker" value="#39ff14" style="width: 100%; max-width: 450px; height: 60px; margin-bottom: 20px; border-color: var(--yellow);" oninput="updateColorInfo()">
+                <input type="color" id="main-color-picker" value="#d4af37" style="width: 100%; max-width: 500px; height: 80px; margin-bottom: 20px;" oninput="updateColorInfo()">
                 
-                <div class="color-display" id="color-preview" style="background-color: #39ff14;"></div>
+                <div class="color-display" id="color-preview" style="background-color: #d4af37;"></div>
                 
                 <div class="color-codes">
-                    <div style="color: var(--yellow);">HEX: <span id="hex-code" style="color: #fff;">#39ff14</span></div>
-                    <div style="color: var(--yellow);">RGB: <span id="rgb-code" style="color: #fff;">rgb(57, 255, 20)</span></div>
+                    <div>HEX kód: <span id="hex-code" style="color: var(--gold); font-weight: bold;">#d4af37</span></div>
+                    <div>RGB kód: <span id="rgb-code" style="color: var(--gold); font-weight: bold;">rgb(212, 175, 55)</span></div>
                 </div>
             </div>
 
-            <div id="notes" class="app-window">
-                <div class="tool-preview" id="preview-notes">
-                    <span>📝</span><p>Úkoly se ukládají přímo do prohlížeče!</p>
-                    <button class="action-btn" onclick="hidePreview('notes'); renderTasks();" style="border-color: var(--pink); color: var(--pink);">Spustit</button>
+            <div id="converter" class="app-window">
+                <div class="tool-preview" id="preview-converter">
+                    <span>🔄</span>
+                    <p>Univerzální převodník formátů. Změň formáty videí, audia a obrázků.</p>
+                    <button class="action-btn" onclick="hidePreview('converter')">Spustit nástroj</button>
                 </div>
-                <h2 class="tool-title" style="color: var(--pink); text-shadow: 0 0 10px var(--pink);">Neon To-Do</h2>
-                <input type="text" id="task-input" placeholder="Co je potřeba udělat?" style="border-color: var(--pink); color: var(--pink);">
-                <button class="action-btn" onclick="addTask()" style="border-color: var(--pink); color: var(--pink);">Přidat Úkol</button>
-                <ul class="task-list" id="task-list"></ul>
+                <h2 class="tool-title">Konvertor Souborů</h2>
+                
+                <div class="converter-group">
+                    <label>1. Vyber soubor:</label>
+                    <input type="file" id="conv-file" accept="image/*,video/*,audio/*,.heic">
+                </div>
+
+                <div class="converter-group">
+                    <label>2. Převést do formátu:</label>
+                    <select id="conv-format">
+                        <optgroup label="Obrázky">
+                            <option value="image/jpeg">JPG (Běžný obrázek)</option>
+                            <option value="image/png">PNG (Průhledné pozadí)</option>
+                            <option value="image/webp">WEBP (Webový formát)</option>
+                            <option value="image/gif">GIF (Animace/Obrázek)</option>
+                        </optgroup>
+                        <optgroup label="Apple / Specifické obrázky">
+                            <option value="image/heic">HEIC (iPhone formát)</option>
+                            <option value="image/tiff">TIFF (Profi tisk)</option>
+                        </optgroup>
+                        <optgroup label="Video">
+                            <option value="video/mp4">MP4 (Univerzální video)</option>
+                            <option value="video/mov">MOV (iPhone video)</option>
+                            <option value="video/avi">AVI</option>
+                            <option value="video/webm">WEBM (Web video)</option>
+                        </optgroup>
+                        <optgroup label="Audio (Zvuk z videa/audia)">
+                            <option value="audio/mp3">MP3 (Univerzální zvuk)</option>
+                            <option value="audio/wav">WAV (Nekomprimovaný zvuk)</option>
+                            <option value="audio/aac">AAC</option>
+                            <option value="audio/flac">FLAC</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <button class="action-btn" onclick="handleConversion()">Zkonvertovat soubor</button>
+                <div id="convert-status"></div>
             </div>
 
             <div id="clock" class="app-window">
                 <div class="tool-preview" id="preview-clock">
-                    <span>⏱️</span><p>Čas a stopky.</p>
-                    <button class="action-btn" onclick="hidePreview('clock')">Spustit</button>
+                    <span>⏱️</span><p>Přesný systémový čas a stopky.</p>
+                    <button class="action-btn" onclick="hidePreview('clock')">Spustit nástroj</button>
                 </div>
                 <h2 class="tool-title">Systémový Čas</h2>
-                <div style="font-size: 5rem; color: var(--green); text-shadow: 0 0 20px var(--green); font-weight: bold; margin-bottom: 40px; text-align: center; word-break: break-all;" id="real-time">00:00:00</div>
+                <div style="font-size: 4rem; color: var(--white); font-weight: 300; margin-bottom: 50px; text-align: center; letter-spacing: 2px;" id="real-time">00:00:00</div>
                 
-                <h2 class="tool-title" style="color: var(--cyan); text-shadow: 0 0 10px var(--cyan); font-size: 1.5rem;">Kyber Stopky</h2>
-                <div style="font-size: 3rem; color: var(--cyan); text-shadow: 0 0 15px var(--cyan); margin-bottom: 20px;" id="stopwatch">00:00.00</div>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                    <button class="action-btn" onclick="startStopwatch()" style="border-color: var(--cyan); color: var(--cyan); margin:0;">Start</button>
-                    <button class="action-btn" onclick="stopStopwatch()" style="border-color: var(--pink); color: var(--pink); margin:0;">Stop</button>
-                    <button class="action-btn" onclick="resetStopwatch()" style="border-color: #fff; color: #fff; margin:0;">Reset</button>
+                <h2 class="tool-title" style="font-size: 1.5rem;">Stopky</h2>
+                <div style="font-size: 3rem; color: var(--gold); margin-bottom: 30px; font-weight: bold;" id="stopwatch">00:00.00</div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <button class="action-btn" onclick="startStopwatch()">Start</button>
+                    <button class="action-btn" onclick="stopStopwatch()">Stop</button>
+                    <button class="action-btn" onclick="resetStopwatch()" style="border-color: var(--border-color); color: var(--white);">Reset</button>
                 </div>
             </div>
 
@@ -236,14 +315,15 @@
         }
         function hidePreview(toolId) { document.getElementById(`preview-${toolId}`).style.display = 'none'; }
 
+        // QR
         let qrCode;
         function initQR() {
             if(!qrCode) {
                 qrCode = new QRCodeStyling({
-                    width: 200, height: 200, type: "canvas",
-                    data: "Neon Hub",
+                    width: 250, height: 250, type: "canvas",
+                    data: "Digitory",
                     imageOptions: { hideBackgroundDots: true, imageSize: 0.4, margin: 0 },
-                    dotsOptions: { color: "#00ff00", type: "square" },
+                    dotsOptions: { color: "#000000", type: "square" },
                     backgroundOptions: { color: "#ffffff" }
                 });
                 qrCode.append(document.getElementById("qr-canvas-container"));
@@ -251,7 +331,7 @@
         }
         function updateQR() {
             if(!qrCode) return;
-            const text = document.getElementById('qr-text').value || "Neon Hub";
+            const text = document.getElementById('qr-text').value || "Digitory";
             const shape = document.getElementById('qr-shape').value;
             const fgColor = document.getElementById('qr-color').value;
             const bgColor = document.getElementById('qr-bg').value;
@@ -261,10 +341,9 @@
                 dotsOptions: { color: fgColor, type: shape },
                 backgroundOptions: { color: bgColor }
             });
-            document.getElementById('qr-canvas-container').style.borderColor = fgColor;
-            document.getElementById('qr-canvas-container').style.boxShadow = `0 0 20px ${fgColor}`;
         }
 
+        // CRYPT
         function processCrypt(action) {
             const input = document.getElementById('crypt-input').value;
             const output = document.getElementById('crypt-output');
@@ -275,6 +354,7 @@
             } catch(e) { output.innerText = "CHYBA: Neplatný formát pro dešifrování!"; }
         }
 
+        // PASS
         function generatePassword() {
             const length = document.getElementById('pass-length').value;
             const chars = "abcdefghijklmnopqrstuvwxyz" 
@@ -286,6 +366,7 @@
             document.getElementById('pass-result').innerText = password;
         }
 
+        // COLOR
         function updateColorInfo() {
             const hex = document.getElementById('main-color-picker').value;
             document.getElementById('color-preview').style.backgroundColor = hex;
@@ -294,22 +375,59 @@
             document.getElementById('rgb-code').innerText = `rgb(${r}, ${g}, ${b})`;
         }
 
-        let tasks = JSON.parse(localStorage.getItem('neonTasks')) || [];
-        function renderTasks() {
-            const list = document.getElementById('task-list'); list.innerHTML = '';
-            tasks.forEach((task, index) => {
-                const li = document.createElement('li');
-                li.innerHTML = `<span>${task}</span> <button onclick="removeTask(${index})">X</button>`;
-                list.appendChild(li);
-            });
-            localStorage.setItem('neonTasks', JSON.stringify(tasks));
-        }
-        function addTask() {
-            const input = document.getElementById('task-input'); const text = input.value.trim();
-            if(text !== '') { tasks.push(text); input.value = ''; renderTasks(); }
-        }
-        function removeTask(index) { tasks.splice(index, 1); renderTasks(); }
+        // CONVERTER SOUBORŮ
+        function handleConversion() {
+            const fileInput = document.getElementById('conv-file');
+            const formatSelect = document.getElementById('conv-format').value;
+            const statusDiv = document.getElementById('convert-status');
+            
+            if (!fileInput.files.length) {
+                statusDiv.style.display = 'block';
+                statusDiv.innerHTML = '❌ <b>Chyba:</b> Nejdříve vyber soubor k převodu.';
+                return;
+            }
 
+            const file = fileInput.files[0];
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = '⏳ Zpracovávám...';
+
+            // Zjištění typu požadované konverze
+            const isImageToBasicImage = file.type.startsWith('image/') && ['image/jpeg', 'image/png', 'image/webp'].includes(formatSelect);
+            const isComplexConversion = formatSelect.startsWith('video/') || formatSelect.startsWith('audio/') || formatSelect === 'image/heic' || formatSelect === 'image/tiff' || file.name.toLowerCase().endsWith('.heic');
+
+            if (isComplexConversion) {
+                // OMEZENÍ PROHLÍŽEČE: Videa, audio a Apple formáty nelze snadno konvertovat pouze v HTML/JS.
+                setTimeout(() => {
+                    statusDiv.innerHTML = `⚠️ <b>Omezení klienta:</b> Konverze do formátu <b>${formatSelect.split('/')[1].toUpperCase()}</b> (nebo zpracování HEIC/Videa) vyžaduje serverový backend (např. FFmpeg). <br><br><span style="font-size:0.85rem; color:#aaa;">Tato ukázka běží pouze v prohlížeči (frontend). Pro plnou funkčnost těchto formátů je nutné napojit aplikaci na API.</span>`;
+                }, 800);
+            } else if (isImageToBasicImage) {
+                // LOKÁLNÍ KONVERZE OBRÁZKU přes Canvas (funguje čistě v prohlížeči)
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        
+                        // Získáme převedená data
+                        const dataUrl = canvas.toDataURL(formatSelect);
+                        const extension = formatSelect.split('/')[1];
+                        const newFilename = file.name.split('.')[0] + '_converted.' + extension;
+
+                        statusDiv.innerHTML = `✅ <b>Hotovo!</b><br><a href="${dataUrl}" download="${newFilename}" style="color:var(--gold); font-weight:bold; text-decoration:underline; display:inline-block; margin-top:10px;">Stáhnout ${extension.toUpperCase()} soubor</a>`;
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                 statusDiv.innerHTML = `⚠️ <b>Nepodporovaná kombinace:</b> Zkus jiný formát.`;
+            }
+        }
+
+        // CLOCK
         setInterval(() => { document.getElementById('real-time').innerText = new Date().toLocaleTimeString('cs-CZ'); }, 1000);
         let swInterval, swTime = 0, swRunning = false;
         function updateSW() {
