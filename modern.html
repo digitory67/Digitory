@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitory | Modern Digital Agency</title>
+    
+    <!-- Ostrý, moderní font Montserrat (stejný jako v logu) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ZÁKLADNÍ PROMĚNNÉ A RESET --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-light: #141414;
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+            --accent: #00f0ff; /* Neonově modrá */
+            --accent-glow: rgba(0, 240, 255, 0.4);
+            --gold: #D4AF37; /* Z loga */
+            --font-main: 'Montserrat', sans-serif;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- TYPOGRAFIE A LOGO --- */
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .brand-logo {
+            font-family: var(--font-main);
+            font-weight: 900;
+            font-size: 28px;
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: inline-block;
+            position: relative;
+            z-index: 100;
+        }
+
+        .brand-logo .digi { color: #ffffff; }
+        .brand-logo .tory { color: var(--gold); }
+
+        /* --- ANIMACE --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+        
+        @keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVIGACE --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 15px 5%;
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            padding: 5px 0;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::before {
+            left: 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 100;
+            width: 30px;
+            height: 20px;
+            position: relative;
+        }
+
+        .hamburger span {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #fff;
+            transition: var(--transition);
+        }
+
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 9px; }
+        .hamburger span:nth-child(3) { bottom: 0; }
+
+        /* --- HERO SEKCE --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Abstraktní pozadí */
+        .hero-bg {
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0,240,255,0.1) 0%, rgba(10,10,10,0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotateBg 20s linear infinite;
+        }
+        
+        .hero-bg::after {
+             content: '';
+             position: absolute;
+             top: 20%; left: 20%;
+             width: 60%; height: 60%;
+             border: 1px solid rgba(255,255,255,0.05);
+             border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 6vw;
+            line-height: 1;
+            margin-bottom: 20px;
+            animation: fadeInLeft 1s ease-out forwards;
+            position: relative;
+        }
+        
+        .hero h1:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+        }
+
+        .hero h1 .outline {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-main);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        /* Moderní tlačítko */
+        .btn-modern {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 35px;
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: var(--font-main);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+            transition: var(--transition);
+        }
+
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0%; height: 100%;
+            background: var(--text-main);
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        .btn-modern:hover {
+            color: var(--bg-dark);
+            border-color: var(--text-main);
+        }
+
+        .btn-modern:hover::before {
+            width: 100%;
+        }
+
+        /* --- SLUŽBY --- */
+        .services {
+            padding: 120px 10%;
+            background: var(--bg-light);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 80px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            color: var(--text-main);
+        }
+
+        .section-header span {
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-dark);
+            padding: 50px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            transition: var(--transition);
+            cursor: crosshair;
+        }
+        
+        .card::before {
+            content: '01';
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.03);
+            transition: var(--transition);
+        }
+        
+        .card:nth-child(2)::before { content: '02'; }
+        .card:nth-child(3)::before { content: '03'; }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .card:hover::before {
+             color: rgba(0, 240, 255, 0.1);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- PATIČKA --- */
+        footer {
+            padding: 80px 10% 40px;
+            background: var(--bg-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-info {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* --- RESPONZIVITA --- */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 3.5rem; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 20px 5%; }
+            .hamburger { display: block; }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background: var(--bg-dark);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: 0.5s ease-in-out;
+            }
+
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 24px; margin: 15px 0; }
+
+            .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HLAVIČKA -->
+    <header id="header">
+        <a href="#" class="brand-logo">
+            <span class="digi">DIGI</span><span class="tory">TORY</span>
+        </a>
+        
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#work">Work</a>
+            <a href="#agency">Agency</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <h1>We design<br><span class="outline">digital</span> futures.</h1>
+        <p>Inovativní webová řešení s nekompromisním důrazem na výkon a moderní estetiku.</p>
+        <div>
+            <a href="#work" class="btn-modern">Zobrazit projekty →</a>
+        </div>
+    </section>
+
+    <!-- SLUŽBY -->
+    <section class="services" id="work">
+        <div class="section-header animate-up">
+            <h2>Naše Expertyza</h2>
+            <span>// SERVICES</span>
+        </div>
+        
+        <div class="grid">
+            <div class="card animate-up">
+                <h3>UI/UX Design</h3>
+                <p>Vytváříme uživatelská rozhraní, která nejen skvěle vypadají, ale především bezchybně fungují. Ostrý design pro moderní dobu.</p>
+            </div>
+            <div class="card animate-up">
+                <h3>Web Development</h3>
+                <p>Píšeme čistý a optimalizovaný kód. Naše weby jsou bleskově rychlé, bezpečné a připravené na budoucí škálování.</p>
+            </div>
+            <div class="card animate-up">
+                <h3>E-commerce</h3>
+                <p>Navrhujeme prodejní platformy, které konvertují. Moderní nákupní proces bez zbytečných překážek pro maximální výkon.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PATIČKA -->
+    <footer>
+        <div class="brand-logo footer-logo">
+            <span class="digi">DIGI</span><span class="tory">TORY</span>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-info">
+                Copyright Digitory © 2026. Všechna práva vyhrazena.
+            </div>
+            <div class="footer-links">
+                <a href="#">Ochrana osobních údajů</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links a');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Header Scroll Efekt
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Animace
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-up').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

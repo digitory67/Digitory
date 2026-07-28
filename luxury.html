@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitory | Luxury Web Experience</title>
+    
+    <!-- Google Fonts: Luxusní patkové (Playfair Display) a čisté bezpatkové vč. extra tučného pro logo (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ZÁKLADNÍ NASTAVENÍ --- */
+        :root {
+            --gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.6);
+            --bg-color: #050505;
+            --text-light: #F5F5F5;
+            --text-dark: #1A1A1A;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- LOGO STYLING (DIGITORY) --- */
+        .brand-logo {
+            font-family: var(--font-body);
+            font-weight: 900; /* Extra tučné písmo podle fotky */
+            font-size: 32px;
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .brand-logo .digi {
+            color: #ffffff; /* Bílá místo černé, aby to bylo na tmavém webu vidět */
+        }
+
+        .brand-logo .tory {
+            color: var(--gold);
+        }
+
+        /* --- ANIMACE --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 10px var(--gold-glow); }
+            50% { box-shadow: 0 0 25px var(--gold-glow); }
+            100% { box-shadow: 0 0 10px var(--gold-glow); }
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 10px var(--gold-glow); }
+            50% { text-shadow: 0 0 25px var(--gold-glow); }
+            100% { text-shadow: 0 0 10px var(--gold-glow); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVIGACE --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 5px var(--gold);
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 2px;
+            background-color: var(--gold);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px var(--gold-glow);
+        }
+
+        /* --- HERO SEKCE S POZADÍM --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /* Luxusní tmavé pozadí - gradient + obrázek */
+            background-image: linear-gradient(to bottom, rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 1)), url('https://images.unsplash.com/photo-1505909182942-e2f09aee3e89?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Vytváří jemný parallax efekt při scrollování */
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #fff;
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+            font-style: italic;
+            animation: textGlow 3s infinite;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #ccc;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+        }
+
+        .btn-luxury {
+            padding: 15px 40px;
+            font-family: var(--font-body);
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 1s forwards, pulseGlow 4s infinite;
+        }
+
+        .btn-luxury:hover {
+            background: var(--gold);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        /* --- OBSAHOVÁ SEKCE --- */
+        .content-section {
+            padding: 100px 50px;
+            text-align: center;
+            background-color: var(--bg-color);
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 60px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            padding: 40px;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transform: skewX(-20deg);
+            transition: 0.7s;
+        }
+
+        .feature-card:hover::before {
+            left: 150%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        /* --- PATIČKA (FOOTER) --- */
+        footer {
+            background: #020202;
+            padding: 80px 20px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .footer-info {
+            font-size: 13px;
+            color: #777;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+            text-shadow: 0 0 5px var(--gold-glow);
+        }
+
+        /* --- COOKIES BANNER --- */
+        #cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid var(--gold);
+            padding: 25px 40px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold-glow);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            backdrop-filter: blur(15px);
+            border-radius: 2px;
+            transition: opacity 0.5s ease;
+        }
+
+        .cookie-text p {
+            font-size: 13px;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+
+        .cookie-text h4 {
+            font-family: var(--font-heading);
+            color: var(--gold);
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .btn-cookie {
+            padding: 10px 25px;
+            background: var(--gold);
+            color: var(--bg-color);
+            border: none;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cookie:hover {
+            background: #fff;
+            box-shadow: 0 0 15px #fff;
+        }
+
+        /* --- RESPONZIVITA (Mobilní telefony) --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .brand-logo {
+                font-size: 24px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(5, 5, 5, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+                gap: 30px;
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 20px;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            #cookie-banner {
+                flex-direction: column;
+                width: 90%;
+                text-align: center;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGACE -->
+    <header>
+        <!-- Nové stylové logo pro Digitory -->
+        <a href="#" class="brand-logo">
+            <span class="digi">DIGI</span><span class="tory">TORY</span>
+        </a>
+        
+        <nav class="nav-links">
+            <a href="#home">Domů</a>
+            <a href="#services">Exkluzivní Služby</a>
+            <a href="#about">O nás</a>
+            <a href="#contact">Kontakt</a>
+        </nav>
+
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- HERO SEKCE -->
+    <section class="hero" id="home">
+        <h1>Zažijte <span>Eleganci</span></h1>
+        <p>Digitální luxus bez kompromisů</p>
+        <a href="#services" class="btn-luxury">Objevte více</a>
+    </section>
+
+    <!-- OBSAHOVÁ SEKCE (Služby) -->
+    <section class="content-section" id="services">
+        <h2 class="section-title animate-on-scroll">Naše Služby</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card animate-on-scroll">
+                <h3>Vysoká Elegance</h3>
+                <p>Kombinujeme prvotřídní design s nejnovějšími technologiemi pro vytvoření nezapomenutelného zážitku z vaší značky.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <h3>Osobní Přístup</h3>
+                <p>Každý klient je pro nás výjimečný. Navrhujeme řešení přesně na míru vašim nejnáročnějším požadavkům a vizím.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <h3>Zlatý Standard</h3>
+                <p>Neděláme kompromisy. Naše práce ztělesňuje dokonalost, preciznost a naprostý důraz na sebemenší detail.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PATIČKA -->
+    <footer>
+        <!-- Velké logo v patičce -->
+        <div class="brand-logo" style="font-size: 40px; margin-bottom: 10px;">
+            <span class="digi">DIGI</span><span class="tory">TORY</span>
+        </div>
+        
+        <div class="footer-info">
+            Copyright Digitory © 2026. Všechna práva vyhrazena.
+        </div>
+        
+        <div class="footer-links">
+            <a href="#">Ochrana osobních údajů</a>
+            <span style="color: #444;">|</span>
+            <a href="#">Cookies</a>
+        </div>
+    </footer>
+
+    <!-- COOKIES BANNER -->
+    <div id="cookie-banner">
+        <div class="cookie-text">
+            <h4>Vaše soukromí je naší prioritou</h4>
+            <p>Tento web používá soubory cookies k zajištění toho nejlepšího zážitku a luxusní personalizace obsahu.</p>
+        </div>
+        <button class="btn-cookie" id="accept-cookies">Rozumím</button>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // 1. HAMBURGER MENU LOGIKA
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links a');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Zavřít menu při kliknutí na odkaz na mobilu
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // 2. COOKIES BANNER LOGIKA
+        const cookieBanner = document.getElementById('cookie-banner');
+        const acceptCookiesBtn = document.getElementById('accept-cookies');
+
+        if (!localStorage.getItem('cookiesAccepted')) {
+            setTimeout(() => {
+                cookieBanner.style.opacity = '1';
+            }, 1000);
+        } else {
+            cookieBanner.style.display = 'none';
+        }
+
+        acceptCookiesBtn.addEventListener('click', () => {
+            cookieBanner.style.opacity = '0';
+            setTimeout(() => {
+                cookieBanner.style.display = 'none';
+            }, 500);
+            localStorage.setItem('cookiesAccepted', 'true');
+        });
+
+        // 3. ANIMACE PŘI SCROLLOVÁNÍ
+        const scrollElements = document.querySelectorAll('.animate-on-scroll');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('visible');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) {
+                    displayScrollElement(el);
+                }
+            })
+        }
+
+        window.addEventListener('scroll', () => {
+            handleScrollAnimation();
+        });
+        
+        handleScrollAnimation();
+    </script>
+</body>
+</html>
