@@ -248,7 +248,7 @@
       .hero { padding: 80px 0 40px; }
       .about-box, .contact-box, .custom-box { padding: 24px; }
     }
-   
+    
     /* --- COOKIES LIŠTA --- */
     .cookies { position: fixed; bottom: 0; left: 0; right: 0; background: #111; border-top: 1px solid var(--accent); color: var(--text); padding: 30px 20px; z-index: 99999; text-align: center; display: none; }
     .cookies h3 { margin: 0 0 10px; font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--accent); }
@@ -312,6 +312,7 @@
           <section class="cta-hero-extension" aria-hidden="true">
             <div class="cta-wrap">
               <div class="cta-buttons">
+                <!-- Tlačítko Naše práce, které přepne na ID 'prace' -->
                 <a href="#" class="btn btn-outline" data-page-link="prace">Naše práce</a>
                 <a href="#" class="btn btn-accent" data-page-link="kontakt">Napište nám</a>
               </div>
@@ -376,8 +377,41 @@
         </div>
       </section>
 
+      <!-- NOVÁ A OPRAVENÁ SEKCE NAŠE PRÁCE -->
+      <section id="prace" class="page">
+        <div class="page-inner">
+          <h2>Naše Práce</h2>
+          <p class="lead">Ukázky našich stylů. Vyberte si směr, který k vaší značce sedí nejvíce.</p>
+          
+          <div class="portfolio-grid">
+            <!-- Ukázka 1: Luxury -->
+            <a href="https://digitory.cz/luxury.html" class="portfolio-item" target="_blank">
+              <div class="portfolio-info">
+                <h3>Luxury Design</h3>
+                <p>Exkluzivní tmavý styl se zlatými detaily. Pomalé, elegantní animace pro prémiové značky.</p>
+              </div>
+            </a>
+            
+            <!-- Ukázka 2: Modern -->
+            <a href="https://digitory.cz/modern.html" class="portfolio-item" target="_blank">
+              <div class="portfolio-info">
+                <h3>Modern Dark</h3>
+                <p>Ostrý a technický design. Čisté geometrické tvary a výrazný kontrast pro moderní dobu.</p>
+              </div>
+            </a>
+            
+            <!-- Ukázka 3: Action Light -->
+            <a href="https://digitory.cz/light" class="portfolio-item" target="_blank">
+              <div class="portfolio-info">
+                <h3>Action Light</h3>
+                <p>Světlý, ultra-animovaný a dynamický zážitek. Rychlost a energie, která udrží uživatele v akci.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
 
-    <section id="sluzby" class="page">
+      <section id="sluzby" class="page">
         <div class="page-inner">
           <h2>Služby</h2>
           <p class="lead">Tři hlavní pilíře, na kterých stavíme digitální realitu pro naše klienty.</p>
