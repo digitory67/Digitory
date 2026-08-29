@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-
-<!DOCTYPE html>
-
 <html data-theme="light" lang="cs">
 <head>
 <meta charset="utf-8"/>
@@ -112,7 +108,9 @@
     .site-header.scrolled { border-color: var(--line); box-shadow: 0 10px 35px rgba(0,0,0,.05); }
     .nav { height: 100%; display: flex; align-items: center; gap: 22px; }
     .brand { display: flex; align-items: center; gap: 13px; flex: 0 0 auto; }
-    .brand-mark { width: 47px; height: 47px; object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,.08)); }
+    .brand-mark { width: 47px; height: 47px; object-fit: contain; transition: filter .3s ease, opacity .3s ease; }
+    html[data-theme="light"] .brand-mark { filter: brightness(0) drop-shadow(0 8px 16px rgba(0,0,0,.08)); }
+    html[data-theme="dark"] .brand-mark { filter: brightness(0) invert(1) drop-shadow(0 8px 16px rgba(0,0,0,.18)); }
     .brand-text { display: flex; flex-direction: column; line-height: 1; }
     .brand-text strong { font-size: .98rem; letter-spacing: -.02em; }
     .brand-text span { margin-top: 4px; color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; }
@@ -133,10 +131,8 @@
     .lang-option { height: 36px; min-width: 48px; padding: 0 9px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 6px; font: inherit; font-size: .76rem; font-weight: 780; cursor: pointer; transition: background .2s ease, color .2s ease, transform .2s var(--ease), box-shadow .2s ease; }
     .lang-option:hover { color: var(--text); transform: translateY(-1px); }
     .lang-option.active { background: var(--surface-solid); color: var(--text); box-shadow: 0 5px 16px rgba(0,0,0,.09); }
-    .lang-flag { font-size: 1rem; line-height: 1; }
     .mobile-utility.language-picker { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-    .mobile-lang-btn { border:1px solid var(--line); background:var(--surface); color:var(--text); border-radius:14px; padding:12px 8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; font:inherit; font-weight:750; cursor:pointer; }
-    .mobile-lang-btn .flag { font-size:1.35rem; }
+    .mobile-lang-btn { border:1px solid var(--line); background:var(--surface); color:var(--text); border-radius:14px; padding:12px 10px; display:grid; grid-template-columns:1fr auto; align-items:center; gap:8px; font:inherit; font-weight:750; cursor:pointer; text-align:left; }
     .mobile-lang-btn small { color:var(--muted); font-size:.7rem; font-weight:650; }
     .mobile-lang-btn.active { border-color:color-mix(in srgb,var(--accent) 55%,var(--line)); background:color-mix(in srgb,var(--accent) 9%,var(--surface)); color:var(--accent); }
     .hamburger { display: none; }
@@ -306,6 +302,9 @@
     .footer-col h3 { margin:0 0 13px;color:#f06643;font-size:.72rem;text-transform:uppercase;letter-spacing:.13em; }
     .footer-col a { display:block;color:#aaa99f;padding:5px 0;font-size:.86rem; }
     .footer-col a:hover { color:#fff; }
+    .footer-partners { margin-top: 34px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.12); display:flex; align-items:center; justify-content:space-between; gap:24px; color:rgba(255,255,255,.66); font-size:.82rem; }
+    .footer-partners a { color:#fff; text-decoration:underline; text-decoration-color:rgba(255,255,255,.3); text-underline-offset:3px; }
+    @media (max-width: 700px) { .footer-partners { align-items:flex-start; flex-direction:column; gap:10px; } }
     .footer-bottom { margin-top:48px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:20px;color:#777b76;font-size:.76rem; }
 
     .search-modal, .mobile-menu { position:fixed;inset:0;z-index:2000;opacity:0;visibility:hidden;transition:opacity .24s,visibility .24s; }
@@ -388,6 +387,7 @@
       .partners { grid-template-columns:1fr; }
       .footer-grid { grid-template-columns:1fr 1fr;gap:28px; }
       .footer-brand { grid-column:1/-1; }
+      .footer-partners { align-items:flex-start; flex-direction:column; gap:10px; }
       .footer-bottom { flex-direction:column; }
       .search-form { flex-direction:column; }
       .search-form .btn { min-height:52px; }
@@ -430,9 +430,9 @@
 </nav>
 <div class="nav-actions">
 <div aria-label="Výběr jazyka" class="lang" role="group">
-<button aria-pressed="true" class="lang-option active" data-lang="cs" title="Čeština" type="button"><span aria-hidden="true" class="lang-flag">🇨🇿</span><span>CZ</span></button>
-<button aria-pressed="false" class="lang-option" data-lang="en" title="English" type="button"><span aria-hidden="true" class="lang-flag">🇬🇧</span><span>EN</span></button>
-<button aria-pressed="false" class="lang-option" data-lang="pl" title="Polski" type="button"><span aria-hidden="true" class="lang-flag">🇵🇱</span><span>PL</span></button>
+<button aria-pressed="true" class="lang-option active" data-lang="cs" title="Čeština" type="button"><span>CZ</span></button>
+<button aria-pressed="false" class="lang-option" data-lang="en" title="English" type="button"><span>EN</span></button>
+<button aria-pressed="false" class="lang-option" data-lang="pl" title="Polski" type="button"><span>PL</span></button>
 </div>
 <button aria-label="Vyhledávání" class="icon-btn" id="searchOpen" type="button">
 <svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
@@ -451,7 +451,7 @@
 <div class="mega-grid">
 <div class="mega-group">
 <h3>Muzeum</h3>
-<a class="top-link" href="#cely-web">O muzeu</a>
+<a class="top-link" href="#top" data-open-mega="true">O muzeu</a>
 <a href="#sekce-historie-muzea">Historie muzea</a>
 <a href="#sekce-po-stopach-stare-ostravy">Po stopách staré Ostravy</a>
 <a href="#sekce-vyhlidkova-vez">Vyhlídková věž</a>
@@ -465,7 +465,7 @@
 </div>
 <div class="mega-group">
 <h3>Akce / vzdělávání</h3>
-<a class="top-link" href="#cely-web">Akce / Vzdělávání</a>
+<a class="top-link" href="#top" data-open-mega="true">Akce / Vzdělávání</a>
 <a href="#sekce-pro-verejnost">Pro veřejnost</a>
 <a href="#sekce-pro-skoly">Pro školy</a>
 <a href="#sekce-city-nature-challenge">City Nature Challenge</a>
@@ -480,12 +480,12 @@
 </div>
 <div class="mega-group">
 <h3>Odborná pracoviště</h3>
-<a class="top-link" href="#cely-web">Odborná pracoviště</a>
+<a class="top-link" href="#top" data-open-mega="true">Odborná pracoviště</a>
 <a href="#sekce-prirodni-vedy">Přírodní vědy</a>
 <a href="#sekce-spolecenske-vedy">Společenské vědy</a>
 <a href="#sekce-knihovna">Knihovna</a>
 <h3 style="margin-top:22px">On-line výstavy</h3>
-<a class="top-link" href="#cely-web">On-line výstavy</a>
+<a class="top-link" href="#top" data-open-mega="true">On-line výstavy</a>
 <a href="#sekce-divka-jmenem-mariana">Dívka jménem Mariana</a>
 <a href="#sekce-stripky-ostravske-archeologie">Střípky ostravské archeologie</a>
 <a href="#sekce-pribehy-predmetu">Příběhy předmětů</a>
@@ -497,7 +497,7 @@
 </div>
 <div class="mega-group">
 <h3>Archiv akcí</h3>
-<a class="top-link" href="#cely-web">Archiv akcí</a>
+<a class="top-link" href="#top" data-open-mega="true">Archiv akcí</a>
 <div class="year-grid">
 <a href="#sekce-2026">2026</a><a href="#sekce-2025">2025</a><a href="#sekce-2024">2024</a><a href="#sekce-2023">2023</a><a href="#sekce-2022">2022</a><a href="#sekce-2021">2021</a>
 <a href="#sekce-2020">2020</a><a href="#sekce-2019">2019</a><a href="#sekce-2018">2018</a><a href="#sekce-2017">2017</a><a href="#sekce-2016">2016</a><a href="#sekce-2015">2015</a>
@@ -524,13 +524,13 @@
 </div>
 </div>
 <div class="quickbar stagger">
-<a class="quick-card" href="#cely-web">
+<a class="quick-card" href="#top" data-open-mega="true">
 <svg fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24"><path d="m3 10 9-5 9 5-9 5-9-5Z"></path><path d="M7 12.5V17c3 2 7 2 10 0v-4.5"></path></svg><div><strong>Pro školy</strong><br/><span>Programy a vzdělávání</span></div>
 </a>
-<a class="quick-card" href="#cely-web">
+<a class="quick-card" href="#top" data-open-mega="true">
 <svg fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg><div><strong>Vrituální prohlídka</strong><br/><span>Projděte muzeum on-line</span></div>
 </a>
-<a class="quick-card" href="#cely-web">
+<a class="quick-card" href="#top" data-open-mega="true">
 <svg fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24"><path d="M9 3h6M10 3v5l-5 9a2.7 2.7 0 0 0 2.35 4h9.3A2.7 2.7 0 0 0 19 17l-5-9V3"></path><path d="M7.5 15h9"></path></svg><div><strong>Odborná pracoviště</strong><br/><span>Přírodní a společenské vědy</span></div>
 </a>
 <a class="quick-card" href="#kontakt">
@@ -543,7 +543,7 @@
 <div class="container">
 <div class="section-head reveal">
 <div><p class="eyebrow">Co můžete objevit</p><h2 class="section-title">Tři cesty do světa muzea.</h2></div>
-<p class="section-copy">Původní tři hlavní vstupy webu zůstávají zachované, ale dostávají výraznější obrazovou podobu a jasnější hierarchii.</p>
+<p class="section-copy">Aktuální výstavy, stálé expozice a sbírky Ostravského muzea přehledně na jednom místě.</p>
 </div>
 <div class="program-grid stagger">
 <article class="feature-card" data-gallery="program">
@@ -565,7 +565,7 @@
 <div class="container">
 <div class="section-head reveal">
 <div><p class="eyebrow">Naplánujte návštěvu</p><h2 class="section-title">Všechno důležité na jednom místě.</h2></div>
-<p class="section-copy">Otevírací doba, novinky, kalendář událostí i nejbližší program bez hledání v bočních sloupcích.</p>
+<p class="section-copy">Otevírací doba, novinky, kalendář událostí a informace pro návštěvníky.</p>
 </div>
 <div class="info-grid">
 <article class="hours-card reveal">
@@ -633,34 +633,17 @@
 </div>
 </div>
 </section>
-<section class="section" id="cely-web">
-<div class="container">
-<div class="section-head reveal"><div><p class="eyebrow">Celý web</p><h2 class="section-title">Nic jsme nezahodili.</h2></div><p class="section-copy">Všechny informační položky z původní hlavní navigace jsou dostupné i v kompaktním přehledu níže.</p></div>
-<div class="all-links reveal">
-<details open=""><summary>Muzeum</summary><div class="details-links"><a href="#sekce-historie-muzea" id="sekce-historie-muzea">Historie muzea</a><a href="#sekce-po-stopach-stare-ostravy" id="sekce-po-stopach-stare-ostravy">Po stopách staré Ostravy</a><a href="#sekce-vyhlidkova-vez" id="sekce-vyhlidkova-vez">Vyhlídková věž</a><a href="#sekce-ekonomicke-udaje" id="sekce-ekonomicke-udaje">Ekonomické údaje</a><a href="#sekce-dokumenty" id="sekce-dokumenty">Dokumenty</a><a href="#sekce-volna-pracovni-mista" id="sekce-volna-pracovni-mista">Volná pracovní místa</a><a href="#sekce-ochrana-osobnich-udaju-gdpr" id="sekce-ochrana-osobnich-udaju-gdpr">Ochrana osobních údajů (GDPR)</a><a href="#sekce-vritualni-prohlidka" id="sekce-vritualni-prohlidka">Vrituální prohlídka</a><a href="#sekce-rsz-1rsz-1ostrava-lg-cb-jpg" id="sekce-rsz-1rsz-1ostrava-lg-cb-jpg">rsz_1rsz_1ostrava_lg_cb.jpg</a><a href="#newsletter" id="sekce-prihlaste-se-k-odberu-newsletteru">PŘIHLASTE SE K ODBĚRU NEWSLETTERU</a></div></details>
-<details><summary>Akce / Vzdělávání</summary><div class="details-links"><a href="#sekce-pro-verejnost" id="sekce-pro-verejnost">Pro veřejnost</a><a href="#sekce-pro-skoly" id="sekce-pro-skoly">Pro školy</a><a href="#sekce-city-nature-challenge" id="sekce-city-nature-challenge">City Nature Challenge</a><a href="#sekce-putovni-vystavy" id="sekce-putovni-vystavy">Putovní výstavy</a></div></details>
-<details><summary>Kontakty</summary><div class="details-links"><a href="#sekce-kontakty-na-zamestnance" id="sekce-kontakty-na-zamestnance">Kontakty na zaměstnance</a><a href="#navsteva" id="sekce-oteviraci-doba-a-vstupne">Otevírací doba a vstupné</a><a href="#sekce-partneri" id="sekce-partneri">Partneři</a><a href="#sekce-pro-media" id="sekce-pro-media">Pro média</a><a href="#sekce-pronajem-prostor" id="sekce-pronajem-prostor">Pronájem prostor</a></div></details>
-<details><summary>Odborná pracoviště</summary><div class="details-links"><a href="#sekce-prirodni-vedy" id="sekce-prirodni-vedy">Přírodní vědy</a><a href="#sekce-spolecenske-vedy" id="sekce-spolecenske-vedy">Společenské vědy</a><a href="#sekce-knihovna" id="sekce-knihovna">Knihovna</a></div></details>
-<details><summary>On-line výstavy</summary><div class="details-links"><a href="#sekce-divka-jmenem-mariana" id="sekce-divka-jmenem-mariana">Dívka jménem Mariana</a><a href="#sekce-stripky-ostravske-archeologie" id="sekce-stripky-ostravske-archeologie">Střípky ostravské archeologie</a><a href="#sekce-pribehy-predmetu" id="sekce-pribehy-predmetu">Příběhy předmětů</a><a href="#sekce-slezska-mesta-vcera-i-dneska" id="sekce-slezska-mesta-vcera-i-dneska">Slezská města včera i dneska</a><a href="#sekce-ostravske-mincovni-poklady" id="sekce-ostravske-mincovni-poklady">Ostravské mincovní poklady</a><a href="#sekce-co-recyklovali-lide-ve-stredoveke-ostrave" id="sekce-co-recyklovali-lide-ve-stredoveke-ostrave">Co recyklovali lidé ve středověké Ostravě</a><a href="#sekce-dekuji-za-park" id="sekce-dekuji-za-park">Děkuji za park</a><a href="#sekce-po-stopach-podvodu" id="sekce-po-stopach-podvodu">Po stopách podvodu</a></div></details>
-<details><summary>Archiv akcí</summary><div class="details-links"><a href="#sekce-2026" id="sekce-2026">2026</a><a href="#sekce-2025" id="sekce-2025">2025</a><a href="#sekce-2024" id="sekce-2024">2024</a><a href="#sekce-2023" id="sekce-2023">2023</a><a href="#sekce-2022" id="sekce-2022">2022</a><a href="#sekce-2021" id="sekce-2021">2021</a><a href="#sekce-2020" id="sekce-2020">2020</a><a href="#sekce-2019" id="sekce-2019">2019</a><a href="#sekce-2018" id="sekce-2018">2018</a><a href="#sekce-2017" id="sekce-2017">2017</a><a href="#sekce-2016" id="sekce-2016">2016</a><a href="#sekce-2015" id="sekce-2015">2015</a><a href="#sekce-2014" id="sekce-2014">2014</a><a href="#sekce-2013" id="sekce-2013">2013</a><a href="#sekce-2012" id="sekce-2012">2012</a><a href="#sekce-2011" id="sekce-2011">2011</a><a href="#sekce-2010" id="sekce-2010">2010</a><a href="#sekce-2009" id="sekce-2009">2009</a><a href="#sekce-odkazy-o-nas" id="sekce-odkazy-o-nas">Odkazy o nás</a><a href="#sekce-vystavy-ostravskeho-muzea-1993-2009" id="sekce-vystavy-ostravskeho-muzea-1993-2009">Výstavy Ostravského muzea 1993–2009</a><a href="#sekce-dekuji-za-park-projekt-roku-2020-2021" id="sekce-dekuji-za-park-projekt-roku-2020-2021">Děkuji za park – projekt roku 2020–2021</a></div></details>
-<details><summary>Mykologická poradna</summary><div class="details-links"><a href="#kalendar" id="sekce-mykologicka-poradna">Mykologická poradna</a><a href="#sekce-archiv-doprovodneho-programu-k-mykologicke-poradne" id="sekce-archiv-doprovodneho-programu-k-mykologicke-poradne">Archiv doprovodného programu k mykologické poradně</a></div></details>
-</div>
-<div class="partners stagger">
-<div class="partner-card"><div><a href="https://ostrava.cz/cs" rel="noopener" target="_blank"><img alt="Statutární město Ostrava" src="https://www.ostrmuz.cz/__file/web/11493/ostrava_lg_cb.png"/></a><p>Ostravské muzeum, příspěvkovou organizaci, zřizuje a financuje statutární město Ostrava.</p></div></div>
-<div class="partner-card"><a href="https://www.kudyznudy.cz/?utm_source=kzn&amp;utm_medium=partneri_kzn&amp;utm_campaign=banner" rel="noopener" target="_blank"><img alt="Kudyznudy.cz – tipy na výlet" height="33" src="https://www.kudyznudy.cz/App_Themes/KzN/CSS/Images/svg/new-logo.svg" width="150"/></a></div>
-</div>
-</div>
-</section>
 </main>
 <footer class="site-footer">
 <div class="container">
 <div class="footer-grid">
 <div class="footer-brand"><h2>OSTRAVSKÉ<br/><span>muzeum</span></h2><p>Muzeum | Webové stránky Ostravského muzea. Kontakt: <a href="mailto:muzeum@ostrmuz.cz" style="color:#fff">muzeum@ostrmuz.cz</a></p></div>
 <div class="footer-col"><h3>Návštěva</h3><a href="#program">Aktuální program</a><a href="#program">Stálé expozice</a><a href="#program">Sbírky</a><a href="#navsteva">Otevírací doba a vstupné</a></div>
-<div class="footer-col"><h3>Další</h3><a href="#cely-web">Mapa stránek</a><a href="#kontakt">Kontakty</a><a href="#cely-web">GDPR</a><a data-action="print" href="#top" rel="nofollow" title="Vytisknout tuto stránku">Otevřít verzi pro tisk</a></div>
+<div class="footer-col"><h3>Další</h3><a href="#top" data-open-mega="true">Mapa stránek</a><a href="#kontakt">Kontakty</a><a href="#top" data-open-mega="true">GDPR</a><a data-action="print" href="#top" rel="nofollow" title="Vytisknout tuto stránku">Otevřít verzi pro tisk</a></div>
 <div class="footer-col"><h3>Systém</h3><a href="#administrace" id="administrace">Administrace</a><a href="http://www.growjob.com">Created by GrowJOB institute</a><a data-set-lang="en" href="#top">English version</a></div>
 </div>
-<div class="footer-bottom"><span>© 2026 Digitory.cz</span><span></span></div>
+<div class="footer-partners"><span>Ostravské muzeum, příspěvkovou organizaci, zřizuje a financuje <a href="https://ostrava.cz/cs" rel="noopener" target="_blank">statutární město Ostrava</a>.</span><a href="https://www.kudyznudy.cz/?utm_source=kzn&amp;utm_medium=partneri_kzn&amp;utm_campaign=banner" rel="noopener" target="_blank">Kudyznudy.cz – tipy na výlet</a></div>
+<div class="footer-bottom"><span>© 2005–2026 Ostravské muzeum</span></div>
 </div>
 </footer>
 <div aria-hidden="true" class="search-modal" id="searchModal">
@@ -684,13 +667,13 @@
 <details><summary>Kontakty</summary><div class="mobile-sub"><a href="#sekce-kontakty-na-zamestnance">Kontakty na zaměstnance</a><a href="#navsteva">Otevírací doba a vstupné</a><a href="#sekce-partneri">Partneři</a><a href="#sekce-pro-media">Pro média</a><a href="#sekce-pronajem-prostor">Pronájem prostor</a></div></details>
 <details><summary>Odborná pracoviště</summary><div class="mobile-sub"><a href="#sekce-prirodni-vedy">Přírodní vědy</a><a href="#sekce-spolecenske-vedy">Společenské vědy</a><a href="#sekce-knihovna">Knihovna</a></div></details>
 <details><summary>On-line výstavy</summary><div class="mobile-sub"><a href="#sekce-divka-jmenem-mariana">Dívka jménem Mariana</a><a href="#sekce-stripky-ostravske-archeologie">Střípky ostravské archeologie</a><a href="#sekce-pribehy-predmetu">Příběhy předmětů</a><a href="#sekce-slezska-mesta-vcera-i-dneska">Slezská města včera i dneska</a><a href="#sekce-ostravske-mincovni-poklady">Ostravské mincovní poklady</a><a href="#sekce-co-recyklovali-lide-ve-stredoveke-ostrave">Co recyklovali lidé ve středověké Ostravě</a><a href="#sekce-dekuji-za-park">Děkuji za park</a><a href="#sekce-po-stopach-podvodu">Po stopách podvodu</a></div></details>
-<details><summary>Archiv akcí</summary><div class="mobile-sub"><a href="#sekce-2026">2026</a><a href="#sekce-2025">2025</a><a href="#sekce-2024">2024</a><a href="#sekce-2023">2023</a><a href="#sekce-2022">2022</a><a href="#sekce-2021">2021</a><a href="#sekce-2020">2020</a><a href="#sekce-2019">2019</a><a href="#sekce-2018">2018</a><a href="#sekce-2017">2017</a><a href="#sekce-2016">2016</a><a href="#sekce-2015">2015</a><a href="#sekce-2014">2014</a><a href="#sekce-2013">2013</a><a href="#sekce-2012">2012</a><a href="#sekce-2011">2011</a><a href="#sekce-2010">2010</a><a href="#sekce-2009">2009</a><a href="#sekce-odkazy-o-nas">Odkazy o nás</a><a href="#cely-web">Výstavy 1993–2009</a><a href="#cely-web">Děkuji za park – archiv</a></div></details>
-<details><summary>Mykologická poradna</summary><div class="mobile-sub"><a href="#kalendar">Mykologická poradna</a><a href="#cely-web">Archiv doprovodného programu</a></div></details>
+<details><summary>Archiv akcí</summary><div class="mobile-sub"><a href="#sekce-2026">2026</a><a href="#sekce-2025">2025</a><a href="#sekce-2024">2024</a><a href="#sekce-2023">2023</a><a href="#sekce-2022">2022</a><a href="#sekce-2021">2021</a><a href="#sekce-2020">2020</a><a href="#sekce-2019">2019</a><a href="#sekce-2018">2018</a><a href="#sekce-2017">2017</a><a href="#sekce-2016">2016</a><a href="#sekce-2015">2015</a><a href="#sekce-2014">2014</a><a href="#sekce-2013">2013</a><a href="#sekce-2012">2012</a><a href="#sekce-2011">2011</a><a href="#sekce-2010">2010</a><a href="#sekce-2009">2009</a><a href="#sekce-odkazy-o-nas">Odkazy o nás</a><a href="#program">Výstavy 1993–2009</a><a href="#program">Děkuji za park – archiv</a></div></details>
+<details><summary>Mykologická poradna</summary><div class="mobile-sub"><a href="#kalendar">Mykologická poradna</a><a href="#kalendar">Archiv doprovodného programu</a></div></details>
 </nav>
 <div aria-label="Výběr jazyka" class="mobile-utility language-picker">
-<button class="mobile-lang-btn active" data-lang="cs" type="button"><span aria-hidden="true" class="flag">🇨🇿</span><span>Čeština</span><small>CZ</small></button>
-<button class="mobile-lang-btn" data-lang="en" type="button"><span aria-hidden="true" class="flag">🇬🇧</span><span>English</span><small>EN</small></button>
-<button class="mobile-lang-btn" data-lang="pl" type="button"><span aria-hidden="true" class="flag">🇵🇱</span><span>Polski</span><small>PL</small></button>
+<button class="mobile-lang-btn active" data-lang="cs" type="button"><span>Čeština</span><small>CZ</small></button>
+<button class="mobile-lang-btn" data-lang="en" type="button"><span>English</span><small>EN</small></button>
+<button class="mobile-lang-btn" data-lang="pl" type="button"><span>Polski</span><small>PL</small></button>
 </div>
 </aside>
 </div>
@@ -714,10 +697,10 @@
       'Akce / vzdělávání':'Events / education','Akce / Vzdělávání':'Events / Education','Pro veřejnost':'For the public','Pro školy':'For schools','Putovní výstavy':'Travelling exhibitions','Kontakty':'Contacts','Kontakty na zaměstnance':'Staff contacts','Otevírací doba a vstupné':'Opening hours and admission','Partneři':'Partners','Pro média':'For media','Pronájem prostor':'Venue hire',
       'Odborná pracoviště':'Specialist departments','Přírodní vědy':'Natural sciences','Společenské vědy':'Social sciences','Knihovna':'Library','On-line výstavy':'Online exhibitions','Dívka jménem Mariana':'A Girl Named Mariana','Střípky ostravské archeologie':'Fragments of Ostrava Archaeology','Příběhy předmětů':'Stories of Objects','Slezská města včera i dneska':'Silesian Towns: Then and Now','Ostravské mincovní poklady':'Ostrava Coin Treasures','Co recyklovali lidé ve středověké Ostravě':'What People Recycled in Medieval Ostrava','Děkuji za park':'Thank You for the Park','Po stopách podvodu':'In the Footsteps of Fraud',
       'Archiv akcí':'Event archive','Odkazy o nás':'Links about us','Výstavy Ostravského muzea 1993–2009':'Ostrava Museum exhibitions 1993–2009','Děkuji za park – projekt roku 2020–2021':'Thank You for the Park – 2020–2021 project','Mykologická poradna':'Mycology advisory service','Archiv doprovodného programu k mykologické poradně':'Archive of the mycology advisory programme',
-      'Programy a vzdělávání':'Programmes and education','Projděte muzeum on-line':'Explore the museum online','Přírodní a společenské vědy':'Natural and social sciences','Co můžete objevit':'What you can discover','Tři cesty do světa muzea.':'Three ways into the world of the museum.','Původní tři hlavní vstupy webu zůstávají zachované, ale dostávají výraznější obrazovou podobu a jasnější hierarchii.':'The three original main gateways remain, now with a stronger visual identity and clearer hierarchy.','Aktuální program':'Current programme','Výstavy, akce a dění, které můžete navštívit právě teď.':'Exhibitions, events and activities you can visit right now.','Prozkoumat program':'Explore the programme','Příroda, hornictví a další témata Ostravska v dlouhodobých expozicích.':'Nature, mining and other Ostrava-region themes in long-term exhibitions.','Zobrazit expozice':'View exhibitions','Sbírky':'Collections','Archeologické, historické i přírodovědné předměty a jejich příběhy.':'Archaeological, historical and natural-science objects and their stories.','Objevit sbírky':'Discover the collections',
-      'Naplánujte návštěvu':'Plan your visit','Všechno důležité na jednom místě.':'Everything important in one place.','Otevírací doba, novinky, kalendář událostí i nejbližší program bez hledání v bočních sloupcích.':'Opening hours, news, event calendar and upcoming programme without searching through sidebars.','Otevírací doba':'Opening hours','Kdy máme':'When are we','otevřeno?':'open?','Informace pro návštěvu':'Visitor information','Pondělí':'Monday','Zavřeno':'Closed','Úterý':'Tuesday','Středa–neděle':'Wednesday–Sunday','Kalendář událostí · Srpen 2026':'Event calendar · August 2026','Každé pondělí':'Every Monday','Mykologická poradna pro veřejnost':'Public mycology advisory service','Každé pondělí od 15:00 do 16:30. Koná se v přízemí Ostravského muzea a svou radou Vám pomohou RNDr. Vít Balner nebo Mgr. Michal Graca. Vstup volný.':'Every Monday from 3:00 pm to 4:30 pm. It takes place on the ground floor of Ostrava Museum, where RNDr. Vít Balner or Mgr. Michal Graca will be happy to advise you. Free admission.','Více o mykologické poradně':'More about the mycology advisory service','Novinky':'News','Poslechněte si Příběhy z muzejního depozitáře.':'Listen to Stories from the Museum Depository.','Nový pořad vznikl ve spolupráci Ostravského muzea a Českého rozhlasu Ostrava. Kurátoři společně připravují rozhlasový pořad představující nejzajímavější předměty, o které v muzeu pečujeme. Poslouchat můžete každý čtvrtek ve 14:50 ve vysílání ČRo Ostrava, zpětně v audio archivu Českého rozhlasu, v aplikaci Můj rozhlas nebo na Spotify.':'A new programme was created in cooperation between Ostrava Museum and Czech Radio Ostrava. Museum curators present some of the most interesting objects cared for by the museum. Listen every Thursday at 2:50 pm on Czech Radio Ostrava, later in the Czech Radio audio archive, in the Můj rozhlas app or on Spotify.','Zobrazit novinku →':'View news →','Kalendář událostí':'Event calendar','Srpen 2026':'August 2026','Po':'Mon','Út':'Tue','St':'Wed','Čt':'Thu','Pá':'Fri','So':'Sat','Ne':'Sun',
+      'Programy a vzdělávání':'Programmes and education','Projděte muzeum on-line':'Explore the museum online','Přírodní a společenské vědy':'Natural and social sciences','Co můžete objevit':'What you can discover','Tři cesty do světa muzea.':'Three ways into the world of the museum.','Aktuální výstavy, stálé expozice a sbírky Ostravského muzea přehledně na jednom místě.':'Current exhibitions, permanent exhibitions and the Ostrava Museum collections, clearly presented in one place.','Aktuální program':'Current programme','Výstavy, akce a dění, které můžete navštívit právě teď.':'Exhibitions, events and activities you can visit right now.','Prozkoumat program':'Explore the programme','Příroda, hornictví a další témata Ostravska v dlouhodobých expozicích.':'Nature, mining and other Ostrava-region themes in long-term exhibitions.','Zobrazit expozice':'View exhibitions','Sbírky':'Collections','Archeologické, historické i přírodovědné předměty a jejich příběhy.':'Archaeological, historical and natural-science objects and their stories.','Objevit sbírky':'Discover the collections',
+      'Naplánujte návštěvu':'Plan your visit','Všechno důležité na jednom místě.':'Everything important in one place.','Otevírací doba, novinky, kalendář událostí a informace pro návštěvníky.':'Opening hours, news, event calendar and visitor information.','Otevírací doba':'Opening hours','Kdy máme':'When are we','otevřeno?':'open?','Informace pro návštěvu':'Visitor information','Pondělí':'Monday','Zavřeno':'Closed','Úterý':'Tuesday','Středa–neděle':'Wednesday–Sunday','Kalendář událostí · Srpen 2026':'Event calendar · August 2026','Každé pondělí':'Every Monday','Mykologická poradna pro veřejnost':'Public mycology advisory service','Každé pondělí od 15:00 do 16:30. Koná se v přízemí Ostravského muzea a svou radou Vám pomohou RNDr. Vít Balner nebo Mgr. Michal Graca. Vstup volný.':'Every Monday from 3:00 pm to 4:30 pm. It takes place on the ground floor of Ostrava Museum, where RNDr. Vít Balner or Mgr. Michal Graca will be happy to advise you. Free admission.','Více o mykologické poradně':'More about the mycology advisory service','Novinky':'News','Poslechněte si Příběhy z muzejního depozitáře.':'Listen to Stories from the Museum Depository.','Nový pořad vznikl ve spolupráci Ostravského muzea a Českého rozhlasu Ostrava. Kurátoři společně připravují rozhlasový pořad představující nejzajímavější předměty, o které v muzeu pečujeme. Poslouchat můžete každý čtvrtek ve 14:50 ve vysílání ČRo Ostrava, zpětně v audio archivu Českého rozhlasu, v aplikaci Můj rozhlas nebo na Spotify.':'A new programme was created in cooperation between Ostrava Museum and Czech Radio Ostrava. Museum curators present some of the most interesting objects cared for by the museum. Listen every Thursday at 2:50 pm on Czech Radio Ostrava, later in the Czech Radio audio archive, in the Můj rozhlas app or on Spotify.','Zobrazit novinku →':'View news →','Kalendář událostí':'Event calendar','Srpen 2026':'August 2026','Po':'Mon','Út':'Tue','St':'Wed','Čt':'Thu','Pá':'Fri','So':'Sat','Ne':'Sun',
       'Zůstaňte s námi ve spojení':'Stay connected','Muzeum i mimo budovu.':'The museum beyond its walls.','Sociální sítě, newsletter a mapa zůstávají na očích — bez dlouhého scrollování přes prázdná místa.':'Social media, newsletter and map stay easy to find — without long scrolling through empty space.','Sledujte, co se děje.':'Follow what is happening.','Program, pozvánky i novinky z muzea najdete na sociálních sítích a pravidelně přímo ve svém e-mailu.':'Find the programme, invitations and museum news on social media and regularly in your inbox.','Newsletter Ostravského muzea':'Ostrava Museum newsletter','Program, pozvánky i novinky z muzea pravidelně přímo na Váš e-mail.':'Programme, invitations and museum news delivered regularly to your email.','Přihlásit se k odběru →':'Subscribe →','49.8349439, 18.2932017 · zobrazit na mapě':'49.8349439, 18.2932017 · view on map',
-      'Celý web':'Full website','Nic jsme nezahodili.':'Nothing has been left out.','Všechny informační položky z původní hlavní navigace jsou dostupné i v kompaktním přehledu níže.':'All information items from the original main navigation are also available in the compact overview below.','PŘIHLASTE SE K ODBĚRU NEWSLETTERU':'SUBSCRIBE TO THE NEWSLETTER','Ostravské muzeum, příspěvkovou organizaci, zřizuje a financuje statutární město Ostrava.':'Ostrava Museum is a contributory organisation established and funded by the Statutory City of Ostrava.','Muzeum | Webové stránky Ostravského muzea. Kontakt:':'Museum | Ostrava Museum website. Contact:','Další':'More','Mapa stránek':'Sitemap','Otevřít verzi pro tisk':'Open print version','Systém':'System','Administrace':'Administration','English version':'English version','Obsah z původní verze webu je zachován v novém rozložení.':'Content and links retained from the original website.','Vyhledávání na webu':'Website search','Hledat':'Search','Vyhledávání prohledává obsah této stránky.':'Search redirects the query to the original Ostrava Museum search.','Newsletter':'Newsletter','Výstavy 1993–2009':'Exhibitions 1993–2009','Děkuji za park – archiv':'Thank You for the Park – archive','Archiv doprovodného programu':'Programme archive','OPENING HOURS':'OPENING HOURS','Monday closed · Tuesday 10 am–8 pm · Wednesday–Sunday 10 am–6 pm':'Monday closed · Tuesday 10 am–8 pm · Wednesday–Sunday 10 am–6 pm'
+      'PŘIHLASTE SE K ODBĚRU NEWSLETTERU':'SUBSCRIBE TO THE NEWSLETTER','Ostravské muzeum, příspěvkovou organizaci, zřizuje a financuje statutární město Ostrava.':'Ostrava Museum is a contributory organisation established and funded by the Statutory City of Ostrava.','Muzeum | Webové stránky Ostravského muzea. Kontakt:':'Museum | Ostrava Museum website. Contact:','Další':'More','Mapa stránek':'Sitemap','Otevřít verzi pro tisk':'Open print version','Systém':'System','Administrace':'Administration','English version':'English version','Vyhledávání na webu':'Website search','Hledat':'Search','Vyhledávání prohledává obsah této stránky.':'Searches the content of this page.','Newsletter':'Newsletter','Výstavy 1993–2009':'Exhibitions 1993–2009','Děkuji za park – archiv':'Thank You for the Park – archive','Archiv doprovodného programu':'Programme archive','OPENING HOURS':'OPENING HOURS','Monday closed · Tuesday 10 am–8 pm · Wednesday–Sunday 10 am–6 pm':'Monday closed · Tuesday 10 am–8 pm · Wednesday–Sunday 10 am–6 pm'
     },
     pl: {
       'Přejít na obsah':'Przejdź do treści','Historie města živě':'Historia miasta na żywo','Program':'Program','Stálé expozice':'Wystawy stałe','Návštěva':'Wizyta','Vše o muzeu':'Wszystko o muzeum',
@@ -725,10 +708,10 @@
       'Akce / vzdělávání':'Wydarzenia / edukacja','Akce / Vzdělávání':'Wydarzenia / Edukacja','Pro veřejnost':'Dla publiczności','Pro školy':'Dla szkół','Putovní výstavy':'Wystawy objazdowe','Kontakty':'Kontakt','Kontakty na zaměstnance':'Kontakty do pracowników','Otevírací doba a vstupné':'Godziny otwarcia i bilety','Partneři':'Partnerzy','Pro média':'Dla mediów','Pronájem prostor':'Wynajem przestrzeni',
       'Odborná pracoviště':'Działy specjalistyczne','Přírodní vědy':'Nauki przyrodnicze','Společenské vědy':'Nauki społeczne','Knihovna':'Biblioteka','On-line výstavy':'Wystawy online','Dívka jménem Mariana':'Dziewczyna imieniem Mariana','Střípky ostravské archeologie':'Okruchy ostrawskiej archeologii','Příběhy předmětů':'Historie przedmiotów','Slezská města včera i dneska':'Śląskie miasta dawniej i dziś','Ostravské mincovní poklady':'Ostrawskie skarby monet','Co recyklovali lidé ve středověké Ostravě':'Co poddawano recyklingowi w średniowiecznej Ostrawie','Děkuji za park':'Dziękuję za park','Po stopách podvodu':'Śladami oszustwa',
       'Archiv akcí':'Archiwum wydarzeń','Odkazy o nás':'Linki o nas','Výstavy Ostravského muzea 1993–2009':'Wystawy Muzeum Ostrawskiego 1993–2009','Děkuji za park – projekt roku 2020–2021':'Dziękuję za park – projekt 2020–2021','Mykologická poradna':'Poradnia mykologiczna','Archiv doprovodného programu k mykologické poradně':'Archiwum programu towarzyszącego poradni mykologicznej',
-      'Programy a vzdělávání':'Programy i edukacja','Projděte muzeum on-line':'Zwiedź muzeum online','Přírodní a společenské vědy':'Nauki przyrodnicze i społeczne','Co můžete objevit':'Co możesz odkryć','Tři cesty do světa muzea.':'Trzy drogi do świata muzeum.','Původní tři hlavní vstupy webu zůstávají zachované, ale dostávají výraznější obrazovou podobu a jasnější hierarchii.':'Trzy główne wejścia z pierwotnej strony zostały zachowane, ale zyskały mocniejszą oprawę wizualną i czytelniejszą hierarchię.','Aktuální program':'Aktualny program','Výstavy, akce a dění, které můžete navštívit právě teď.':'Wystawy, wydarzenia i atrakcje, które możesz odwiedzić właśnie teraz.','Prozkoumat program':'Zobacz program','Příroda, hornictví a další témata Ostravska v dlouhodobých expozicích.':'Przyroda, górnictwo i inne tematy regionu ostrawskiego na wystawach długoterminowych.','Zobrazit expozice':'Zobacz wystawy','Sbírky':'Zbiory','Archeologické, historické i přírodovědné předměty a jejich příběhy.':'Przedmioty archeologiczne, historyczne i przyrodnicze oraz ich historie.','Objevit sbírky':'Odkryj zbiory',
-      'Naplánujte návštěvu':'Zaplanuj wizytę','Všechno důležité na jednom místě.':'Wszystko, co ważne, w jednym miejscu.','Otevírací doba, novinky, kalendář událostí i nejbližší program bez hledání v bočních sloupcích.':'Godziny otwarcia, aktualności, kalendarz wydarzeń i najbliższy program bez szukania w bocznych kolumnach.','Otevírací doba':'Godziny otwarcia','Kdy máme':'Kiedy jesteśmy','otevřeno?':'otwarci?','Informace pro návštěvu':'Informacje dla odwiedzających','Pondělí':'Poniedziałek','Zavřeno':'Zamknięte','Úterý':'Wtorek','Středa–neděle':'Środa–niedziela','OPENING HOURS':'GODZINY OTWARCIA','Monday closed · Tuesday 10 am–8 pm · Wednesday–Sunday 10 am–6 pm':'Poniedziałek zamknięte · Wtorek 10:00–20:00 · Środa–niedziela 10:00–18:00','Kalendář událostí · Srpen 2026':'Kalendarz wydarzeń · Sierpień 2026','Každé pondělí':'W każdy poniedziałek','Mykologická poradna pro veřejnost':'Poradnia mykologiczna dla publiczności','Každé pondělí od 15:00 do 16:30. Koná se v přízemí Ostravského muzea a svou radou Vám pomohou RNDr. Vít Balner nebo Mgr. Michal Graca. Vstup volný.':'W każdy poniedziałek od 15:00 do 16:30. Spotkania odbywają się na parterze Muzeum Ostrawskiego, a porad udzielają RNDr. Vít Balner lub Mgr. Michal Graca. Wstęp wolny.','Více o mykologické poradně':'Więcej o poradni mykologicznej','Novinky':'Aktualności','Poslechněte si Příběhy z muzejního depozitáře.':'Posłuchaj Historii z muzealnego magazynu.','Nový pořad vznikl ve spolupráci Ostravského muzea a Českého rozhlasu Ostrava. Kurátoři společně připravují rozhlasový pořad představující nejzajímavější předměty, o které v muzeu pečujeme. Poslouchat můžete každý čtvrtek ve 14:50 ve vysílání ČRo Ostrava, zpětně v audio archivu Českého rozhlasu, v aplikaci Můj rozhlas nebo na Spotify.':'Nowa audycja powstała we współpracy Muzeum Ostrawskiego i Czeskiego Radia Ostrava. Kuratorzy przedstawiają najciekawsze przedmioty, którymi opiekuje się muzeum. Audycji można słuchać w każdy czwartek o 14:50 na antenie ČRo Ostrava, później w archiwum audio Czeskiego Radia, w aplikacji Můj rozhlas lub na Spotify.','Zobrazit novinku →':'Zobacz aktualność →','Kalendář událostí':'Kalendarz wydarzeń','Srpen 2026':'Sierpień 2026','Po':'Pn','Út':'Wt','St':'Śr','Čt':'Cz','Pá':'Pt','So':'Sb','Ne':'Nd',
+      'Programy a vzdělávání':'Programy i edukacja','Projděte muzeum on-line':'Zwiedź muzeum online','Přírodní a společenské vědy':'Nauki przyrodnicze i społeczne','Co můžete objevit':'Co możesz odkryć','Tři cesty do světa muzea.':'Trzy drogi do świata muzeum.','Aktuální výstavy, stálé expozice a sbírky Ostravského muzea přehledně na jednom místě.':'Aktualne wystawy, wystawy stałe i zbiory Muzeum Ostrawskiego w jednym przejrzystym miejscu.','Aktuální program':'Aktualny program','Výstavy, akce a dění, které můžete navštívit právě teď.':'Wystawy, wydarzenia i atrakcje, które możesz odwiedzić właśnie teraz.','Prozkoumat program':'Zobacz program','Příroda, hornictví a další témata Ostravska v dlouhodobých expozicích.':'Przyroda, górnictwo i inne tematy regionu ostrawskiego na wystawach długoterminowych.','Zobrazit expozice':'Zobacz wystawy','Sbírky':'Zbiory','Archeologické, historické i přírodovědné předměty a jejich příběhy.':'Przedmioty archeologiczne, historyczne i przyrodnicze oraz ich historie.','Objevit sbírky':'Odkryj zbiory',
+      'Naplánujte návštěvu':'Zaplanuj wizytę','Všechno důležité na jednom místě.':'Wszystko, co ważne, w jednym miejscu.','Otevírací doba, novinky, kalendář událostí a informace pro návštěvníky.':'Godziny otwarcia, aktualności, kalendarz wydarzeń i informacje dla odwiedzających.','Otevírací doba':'Godziny otwarcia','Kdy máme':'Kiedy jesteśmy','otevřeno?':'otwarci?','Informace pro návštěvu':'Informacje dla odwiedzających','Pondělí':'Poniedziałek','Zavřeno':'Zamknięte','Úterý':'Wtorek','Středa–neděle':'Środa–niedziela','OPENING HOURS':'GODZINY OTWARCIA','Monday closed · Tuesday 10 am–8 pm · Wednesday–Sunday 10 am–6 pm':'Poniedziałek zamknięte · Wtorek 10:00–20:00 · Środa–niedziela 10:00–18:00','Kalendář událostí · Srpen 2026':'Kalendarz wydarzeń · Sierpień 2026','Každé pondělí':'W każdy poniedziałek','Mykologická poradna pro veřejnost':'Poradnia mykologiczna dla publiczności','Každé pondělí od 15:00 do 16:30. Koná se v přízemí Ostravského muzea a svou radou Vám pomohou RNDr. Vít Balner nebo Mgr. Michal Graca. Vstup volný.':'W każdy poniedziałek od 15:00 do 16:30. Spotkania odbywają się na parterze Muzeum Ostrawskiego, a porad udzielają RNDr. Vít Balner lub Mgr. Michal Graca. Wstęp wolny.','Více o mykologické poradně':'Więcej o poradni mykologicznej','Novinky':'Aktualności','Poslechněte si Příběhy z muzejního depozitáře.':'Posłuchaj Historii z muzealnego magazynu.','Nový pořad vznikl ve spolupráci Ostravského muzea a Českého rozhlasu Ostrava. Kurátoři společně připravují rozhlasový pořad představující nejzajímavější předměty, o které v muzeu pečujeme. Poslouchat můžete každý čtvrtek ve 14:50 ve vysílání ČRo Ostrava, zpětně v audio archivu Českého rozhlasu, v aplikaci Můj rozhlas nebo na Spotify.':'Nowa audycja powstała we współpracy Muzeum Ostrawskiego i Czeskiego Radia Ostrava. Kuratorzy przedstawiają najciekawsze przedmioty, którymi opiekuje się muzeum. Audycji można słuchać w każdy czwartek o 14:50 na antenie ČRo Ostrava, później w archiwum audio Czeskiego Radia, w aplikacji Můj rozhlas lub na Spotify.','Zobrazit novinku →':'Zobacz aktualność →','Kalendář událostí':'Kalendarz wydarzeń','Srpen 2026':'Sierpień 2026','Po':'Pn','Út':'Wt','St':'Śr','Čt':'Cz','Pá':'Pt','So':'Sb','Ne':'Nd',
       'Zůstaňte s námi ve spojení':'Bądź z nami w kontakcie','Muzeum i mimo budovu.':'Muzeum także poza budynkiem.','Sociální sítě, newsletter a mapa zůstávají na očích — bez dlouhého scrollování přes prázdná místa.':'Media społecznościowe, newsletter i mapa są zawsze pod ręką — bez długiego przewijania pustych przestrzeni.','Sledujte, co se děje.':'Śledź, co się dzieje.','Program, pozvánky i novinky z muzea najdete na sociálních sítích a pravidelně přímo ve svém e-mailu.':'Program, zaproszenia i aktualności muzeum znajdziesz w mediach społecznościowych oraz regularnie w swojej skrzynce e-mail.','Newsletter Ostravského muzea':'Newsletter Muzeum Ostrawskiego','Program, pozvánky i novinky z muzea pravidelně přímo na Váš e-mail.':'Program, zaproszenia i aktualności muzeum regularnie prosto na Twój e-mail.','Přihlásit se k odběru →':'Zapisz się →','49.8349439, 18.2932017 · zobrazit na mapě':'49.8349439, 18.2932017 · zobacz na mapie',
-      'Celý web':'Cała strona','Nic jsme nezahodili.':'Niczego nie pominęliśmy.','Všechny informační položky z původní hlavní navigace jsou dostupné i v kompaktním přehledu níže.':'Wszystkie pozycje informacyjne z pierwotnej głównej nawigacji są dostępne także w kompaktowym zestawieniu poniżej.','PŘIHLASTE SE K ODBĚRU NEWSLETTERU':'ZAPISZ SIĘ DO NEWSLETTERA','Ostravské muzeum, příspěvkovou organizaci, zřizuje a financuje statutární město Ostrava.':'Muzeum Ostrawskie jest organizacją utworzoną i finansowaną przez statutowe miasto Ostrawa.','Muzeum | Webové stránky Ostravského muzea. Kontakt:':'Muzeum | Strona Muzeum Ostrawskiego. Kontakt:','Další':'Więcej','Mapa stránek':'Mapa strony','Otevřít verzi pro tisk':'Otwórz wersję do druku','Systém':'System','Administrace':'Administracja','English version':'Wersja angielska','Obsah z původní verze webu je zachován v novém rozložení.':'Treść i linki zachowano z pierwotnej wersji strony.','Vyhledávání na webu':'Wyszukiwanie na stronie','Hledat':'Szukaj','Vyhledávání prohledává obsah této stránky.':'Wyszukiwanie przekieruje zapytanie do oryginalnej wyszukiwarki Muzeum Ostrawskiego.','Newsletter':'Newsletter','Výstavy 1993–2009':'Wystawy 1993–2009','Děkuji za park – archiv':'Dziękuję za park – archiwum','Archiv doprovodného programu':'Archiwum programu'
+      'PŘIHLASTE SE K ODBĚRU NEWSLETTERU':'ZAPISZ SIĘ DO NEWSLETTERA','Ostravské muzeum, příspěvkovou organizaci, zřizuje a financuje statutární město Ostrava.':'Muzeum Ostrawskie jest organizacją utworzoną i finansowaną przez statutowe miasto Ostrawa.','Muzeum | Webové stránky Ostravského muzea. Kontakt:':'Muzeum | Strona Muzeum Ostrawskiego. Kontakt:','Další':'Więcej','Mapa stránek':'Mapa strony','Otevřít verzi pro tisk':'Otwórz wersję do druku','Systém':'System','Administrace':'Administracja','English version':'Wersja angielska','Vyhledávání na webu':'Wyszukiwanie na stronie','Hledat':'Szukaj','Vyhledávání prohledává obsah této stránky.':'Przeszukuje treść tej strony.','Newsletter':'Newsletter','Výstavy 1993–2009':'Wystawy 1993–2009','Děkuji za park – archiv':'Dziękuję za park – archiwum','Archiv doprovodného programu':'Archiwum programu'
     }
   };
 
@@ -788,10 +771,9 @@
     if (mobileMenu.classList.contains('open')) closeMobile();
   }));
 
-  const savedTheme = localStorage.getItem('om-theme');
-  const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (savedTheme) root.dataset.theme = savedTheme;
-  else if (systemDark) root.dataset.theme = 'dark';
+  const savedTheme = localStorage.getItem('om-theme-v2');
+  if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
+  else root.dataset.theme = 'light';
 
   function showToast(message) {
     toast.textContent = message;
@@ -802,10 +784,19 @@
 
   applyLanguage(localStorage.getItem('om-lang') || 'cs');
 
+  document.querySelectorAll('[data-open-mega]').forEach(link => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      megaMenu?.classList.add('open');
+      megaTrigger?.setAttribute('aria-expanded', 'true');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
   themeToggle.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
     root.dataset.theme = next;
-    localStorage.setItem('om-theme', next);
+    localStorage.setItem('om-theme-v2', next);
     const meta = languageMeta[currentLanguage];
     showToast(next === 'dark' ? meta.themeDark : meta.themeLight);
   });
