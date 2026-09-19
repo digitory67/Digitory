@@ -6,6 +6,16 @@
   <meta name="description" content="Truhlářství Petr Klán – zakázkový nábytek, kuchyně a interiéry na míru v Plzni od roku 1995. Návrh, výroba i montáž.">
   <meta name="theme-color" content="#101210">
   <title>Truhlářství Petr Klán | Nábytek na míru od roku 1995</title>
+  <base id="site-base" href="/truhlarstvi/">
+  <script>
+    (() => {
+      const base = document.querySelector('#site-base');
+      const path = window.location.pathname;
+      const lastSegment = path.slice(path.lastIndexOf('/') + 1);
+      if (window.location.protocol === 'file:' || path === '/' || lastSegment.includes('.')) base.href = './';
+      else base.href = path.endsWith('/') ? path : `${path}/`;
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101210'/%3E%3Cpath d='M16 16h32v9H37v23H27V25H16z' fill='%23f4bd3f'/%3E%3C/svg%3E">
   <link rel="preload" href="assets/hero.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="styles.css">
