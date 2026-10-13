@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uplatnění slevy | Digitory</title>
+    <style>
+        /* Základní styly - uprav si podle hlavního CSS na Digitory */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f9fafb;
+            color: #111827;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .discount-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+            border-top: 4px solid #111827; /* Můžeš změnit na brandovou barvu */
+        }
+
+        .discount-container h1 {
+            font-size: 26px;
+            margin-bottom: 16px;
+            margin-top: 0;
+            color: #000;
+        }
+
+        .discount-container p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 20px;
+        }
+
+        .email-box {
+            background-color: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 24px;
+            color: #111827;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #111827;
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:hover {
+            background-color: #374151;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="discount-container">
+        <h1>Máte speciální kód?</h1>
+        <p>Pokud jste obdrželi naši kartičku s unikátním kódem, máte nárok na slevu při tvorbě nového webu.</p>
+        
+        <p>Pro uplatnění slevy nás stačí kontaktovat s poptávkou na e-mail:</p>
+        
+        <div class="email-box">
+            smatera@digitory.cz
+        </div>
+        
+        <p>Do zprávy prosím stručně popište svou představu o webu a <span class="highlight">nezapomeňte uvést váš unikátní kód</span> z kartičky.</p>
+        
+        <!-- Mailto odkaz předvyplní předmět a tělo e-mailu -->
+        <a href="mailto:smatera@digitory.cz?subject=Poptávka webu - slevový kód&body=Dobrý den,%0A%0Aměl(a) bych zájem o tvorbu webu.%0A%0AMůj slevový kód z kartičky je: [ZDE DOPLŇTE KÓD]%0A%0AStručná představa o webu:%0A[ZDE NAPIŠTE, CO POTŘEBUJETE]" class="btn">
+            Napsat e-mail
+        </a>
+    </div>
+
+</body>
+</html>
