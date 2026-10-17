@@ -2,7 +2,7 @@
 <html lang="cs" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Malířství a natěračství Náchod | Precizní výmalba, střechy a fasády</title>
   <meta name="description" content="Profesionální malířské a natěračské práce v Náchodě a okolí. Malování bytů a kanceláří včetně úklidu, nátěry střech, fasád, chalup a výškové práce. Hodnocení 4,9 ★." />
   
@@ -48,6 +48,12 @@
       background-color: #F8F6F1;
       color: #0F141C;
       overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Odsazení pro kotvy kvůli sticky hlavičce */
+    section[id] {
+      scroll-margin-top: 84px;
     }
 
     .bg-grid-pattern {
@@ -127,11 +133,11 @@
       transform: translate(-50%, -50%) scale(1.08);
     }
 
-    /* Custom Range Input */
+    /* Custom Range Input - Zvětšený dotyk pro mobil */
     input[type="range"].custom-range {
       -webkit-appearance: none;
       appearance: none;
-      height: 8px;
+      height: 10px;
       background: #E2DDD2;
       border-radius: 999px;
       outline: none;
@@ -140,8 +146,8 @@
     input[type="range"].custom-range::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: #E05328;
       border: 3px solid #fff;
@@ -153,25 +159,34 @@
       transform: scale(1.12);
     }
     input[type="range"].custom-range::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: #E05328;
       border: 3px solid #fff;
       box-shadow: 0 4px 10px rgba(224,83,40,0.4);
       cursor: pointer;
     }
+
+    /* Skrytí scrollbaru u horizontálních filtrů na mobilu */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
-<body class="antialiased selection:bg-brand-accent selection:text-white">
+<body class="antialiased selection:bg-brand-accent selection:text-white pb-20 lg:pb-0">
 
   <!-- TOP INFO BAR -->
-  <div class="bg-brand-dark text-white/90 text-xs sm:text-sm py-2.5 px-4 border-b border-white/10">
+  <div class="bg-brand-dark text-white/90 text-[11px] sm:text-sm py-2 sm:py-2.5 px-4 border-b border-white/10">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-4 flex-wrap">
         <span class="inline-flex items-center gap-1.5 font-medium text-brand-amber">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          4,9 / 5 na Firmy.cz (38 recenzí) • TOP 7 v Královéhradeckém kraji
+          <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current shrink-0" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <span>4,9 / 5 na Firmy.cz (38 recenzí) <span class="hidden xs:inline">• TOP 7 v kraji</span></span>
         </span>
         <span class="hidden md:inline text-white/30">|</span>
         <span class="hidden md:inline-flex items-center gap-1.5 text-white/75">
@@ -182,7 +197,7 @@
       <div class="flex items-center gap-5 ml-auto">
         <span class="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Příjem poptávek: Nonstop
+          <span class="hidden sm:inline">Příjem poptávek:</span> Nonstop
         </span>
         <a href="mailto:malovani-js@seznam.cz" class="hidden sm:inline hover:text-brand-amber transition">malovani-js@seznam.cz</a>
       </div>
@@ -190,19 +205,19 @@
   </div>
 
   <!-- STICKY NAVIGATION -->
-  <header class="sticky top-0 z-40 bg-brand-cream/90 backdrop-blur-md border-b border-black/5">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+  <header class="sticky top-0 z-40 bg-brand-cream/95 backdrop-blur-md border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
       <!-- Brand Logo -->
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="w-11 h-11 rounded-xl bg-brand-dark text-white flex items-center justify-center shadow-md group-hover:bg-brand-accent transition-colors relative overflow-hidden">
+      <a href="#" class="flex items-center gap-2.5 sm:gap-3 group min-w-0">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-dark text-white flex items-center justify-center shadow-md group-hover:bg-brand-accent transition-colors relative overflow-hidden shrink-0">
           <div class="absolute bottom-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-accent via-brand-amber to-emerald-400"></div>
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
           </svg>
         </div>
-        <div>
-          <span class="font-display font-bold text-xl tracking-tight text-brand-dark block leading-none">MALÍŘSTVÍ NÁCHOD</span>
-          <span class="text-xs font-semibold tracking-wider uppercase text-brand-accent mt-1 block">Malířské, natěračské & výškové práce</span>
+        <div class="truncate">
+          <span class="font-display font-bold text-base sm:text-xl tracking-tight text-brand-dark block leading-none truncate">MALÍŘSTVÍ NÁCHOD</span>
+          <span class="text-[10px] sm:text-xs font-semibold tracking-wider uppercase text-brand-accent mt-1 block truncate">Malířské, natěračské & výškové práce</span>
         </div>
       </a>
 
@@ -219,56 +234,116 @@
         <a href="#kontakt" class="hover:text-brand-accent transition">Kontakt</a>
       </nav>
 
-      <!-- Call CTA -->
-      <div class="flex items-center gap-3">
-        <a href="tel:+420702449338" class="inline-flex items-center gap-2.5 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-sm px-5 py-3 rounded-xl shadow-glow transition transform hover:-translate-y-0.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-          <span>702 449 338</span>
+      <!-- Call CTA + Mobile Menu Button -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <a href="tel:+420702449338" class="inline-flex items-center gap-2 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs sm:text-sm px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-glow transition transform hover:-translate-y-0.5 active:scale-95">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span class="hidden xs:inline sm:inline">702 449 338</span>
         </a>
+
+        <!-- Mobile Hamburger Trigger -->
+        <button type="button" onclick="toggleMobileMenu(true)" aria-label="Otevřít menu" class="lg:hidden w-10 h-10 rounded-xl bg-white border border-black/10 text-brand-dark flex items-center justify-center shadow-sm active:scale-95 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
       </div>
     </div>
   </header>
 
+  <!-- MOBILE SLIDE-OVER NAVIGATION DRAWER -->
+  <div id="mobile-menu-backdrop" onclick="toggleMobileMenu(false)" class="fixed inset-0 z-50 bg-brand-dark/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300 lg:hidden"></div>
+  <aside id="mobile-menu-drawer" class="fixed top-0 right-0 bottom-0 z-50 w-[86%] max-w-sm bg-brand-cream shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between lg:hidden">
+    <div>
+      <div class="p-5 border-b border-black/10 flex items-center justify-between bg-white">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-lg bg-brand-dark text-white flex items-center justify-center font-bold">🎨</div>
+          <div>
+            <span class="font-display font-bold text-base text-brand-dark block leading-none">MALÍŘSTVÍ NÁCHOD</span>
+            <span class="text-[11px] text-brand-accent font-semibold">Josef Soural • 4,9 ★</span>
+          </div>
+        </div>
+        <button type="button" onclick="toggleMobileMenu(false)" aria-label="Zavřít menu" class="w-10 h-10 rounded-xl bg-brand-cream text-brand-dark flex items-center justify-center font-bold">
+          ✕
+        </button>
+      </div>
+
+      <nav class="p-4 space-y-2">
+        <a href="#sluzby" onclick="toggleMobileMenu(false)" class="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-black/5 font-bold text-brand-dark active:bg-brand-sand">
+          <span>🛠️ Naše služby</span>
+          <span class="text-brand-accent">→</span>
+        </a>
+        <a href="#pred-a-po" onclick="toggleMobileMenu(false)" class="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-black/5 font-bold text-brand-dark active:bg-brand-sand">
+          <span>✨ Ukázka Před a Po</span>
+          <span class="px-2 py-0.5 text-[10px] rounded bg-brand-accent/15 text-brand-accent font-extrabold">TOP</span>
+        </a>
+        <a href="#realizace" onclick="toggleMobileMenu(false)" class="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-black/5 font-bold text-brand-dark active:bg-brand-sand">
+          <span>📸 Fotogalerie realizací</span>
+          <span class="text-brand-accent">→</span>
+        </a>
+        <a href="#kalkulacka" onclick="toggleMobileMenu(false)" class="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-black/5 font-bold text-brand-dark active:bg-brand-sand">
+          <span>🧮 Kalkulačka ceny</span>
+          <span class="text-brand-accent">→</span>
+        </a>
+        <a href="#recenze" onclick="toggleMobileMenu(false)" class="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-black/5 font-bold text-brand-dark active:bg-brand-sand">
+          <span>⭐ Recenze zákazníků (38)</span>
+          <span class="text-brand-accent">→</span>
+        </a>
+        <a href="#kontakt" onclick="toggleMobileMenu(false)" class="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-black/5 font-bold text-brand-dark active:bg-brand-sand">
+          <span>📩 Kontakt a poptávka</span>
+          <span class="text-brand-accent">→</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="p-4 border-t border-black/10 bg-white space-y-2.5">
+      <a href="tel:+420702449338" class="w-full flex items-center justify-center gap-2 bg-brand-accent text-white font-bold py-3.5 rounded-xl shadow-glow">
+        📞 Zavolat: 702 449 338
+      </a>
+      <a href="mailto:malovani-js@seznam.cz" class="w-full flex items-center justify-center gap-2 bg-brand-cream text-brand-dark font-semibold text-xs py-2.5 rounded-xl">
+        ✉️ malovani-js@seznam.cz
+      </a>
+    </div>
+  </aside>
+
   <!-- HERO SECTION -->
-  <section class="relative pt-10 pb-20 lg:pt-16 lg:pb-28 bg-grid-pattern overflow-hidden">
+  <section class="relative pt-6 pb-14 sm:pt-10 sm:pb-20 lg:pt-16 lg:pb-28 bg-grid-pattern overflow-hidden">
     <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-brand-accent/10 blur-3xl pointer-events-none"></div>
     <div class="absolute top-1/2 -left-24 w-80 h-80 rounded-full bg-brand-amber/10 blur-3xl pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
         
         <!-- Left Content (7 cols) -->
-        <div class="lg:col-span-7 space-y-7">
-          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white border border-black/10 shadow-sm">
-            <span class="px-2 py-0.5 text-xs font-extrabold rounded-full bg-brand-accent text-white">PROFI ŘEMESLO</span>
-            <span class="text-xs sm:text-sm font-semibold text-brand-dark/80">Malířské, natěračské a výškové práce v Náchodě a okolí</span>
+        <div class="lg:col-span-7 space-y-5 sm:space-y-7">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/10 shadow-sm max-w-full">
+            <span class="px-2 py-0.5 text-[10px] sm:text-xs font-extrabold rounded-full bg-brand-accent text-white shrink-0">PROFI ŘEMESLO</span>
+            <span class="text-xs sm:text-sm font-semibold text-brand-dark/80 truncate">Malířské, natěračské a výškové práce v Náchodě a okolí</span>
           </div>
 
-          <h1 class="font-display text-4xl sm:text-5xl lg:text-[58px] font-bold tracking-tight text-brand-dark leading-[1.08]">
+          <h1 class="font-display text-3xl sm:text-5xl lg:text-[58px] font-bold tracking-tight text-brand-dark leading-[1.12] sm:leading-[1.08]">
             Dáme vašemu bytu, střeše i fasádě <span class="paint-stroke-underline text-brand-accent">nový život.</span> Čistě a bez starostí.
           </h1>
 
-          <p class="text-lg sm:text-xl text-brand-dark/75 leading-relaxed max-w-2xl">
+          <p class="text-base sm:text-xl text-brand-dark/75 leading-relaxed max-w-2xl">
             Vymalujeme byt, rodinný dům či kancelář <strong>včetně oprav omítek a kompletního úklidu</strong>. Provádíme nátěry střech včetně obroušení, nátěry fasád, chalup, plotů i okapů. Každý den vás informujeme o postupu prací.
           </p>
 
           <!-- Key USPs Pills -->
-          <div class="grid sm:grid-cols-3 gap-3 pt-1">
-            <div class="flex items-center gap-3 bg-white/90 p-3.5 rounded-xl border border-black/5 shadow-sm">
+          <div class="grid sm:grid-cols-3 gap-2.5 sm:gap-3 pt-1">
+            <div class="flex items-center gap-3 bg-white/90 p-3 sm:p-3.5 rounded-xl border border-black/5 shadow-sm">
               <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0 font-bold">✓</div>
               <div class="text-xs sm:text-sm">
                 <div class="font-bold text-brand-dark">Včetně úklidu</div>
                 <div class="text-brand-dark/60">Zakrytí + čistota po práci</div>
               </div>
             </div>
-            <div class="flex items-center gap-3 bg-white/90 p-3.5 rounded-xl border border-black/5 shadow-sm">
+            <div class="flex items-center gap-3 bg-white/90 p-3 sm:p-3.5 rounded-xl border border-black/5 shadow-sm">
               <div class="w-10 h-10 rounded-lg bg-brand-accent/10 text-brand-accent flex items-center justify-center shrink-0 font-bold">⚡</div>
               <div class="text-xs sm:text-sm">
                 <div class="font-bold text-brand-dark">Rychlý nástup</div>
                 <div class="text-brand-dark/60">Často již do 48 hodin</div>
               </div>
             </div>
-            <div class="flex items-center gap-3 bg-white/90 p-3.5 rounded-xl border border-black/5 shadow-sm">
+            <div class="flex items-center gap-3 bg-white/90 p-3 sm:p-3.5 rounded-xl border border-black/5 shadow-sm">
               <div class="w-10 h-10 rounded-lg bg-brand-amber/15 text-amber-600 flex items-center justify-center shrink-0 font-bold">★</div>
               <div class="text-xs sm:text-sm">
                 <div class="font-bold text-brand-dark">Hodnocení 4,9 / 5</div>
@@ -278,13 +353,13 @@
           </div>
 
           <!-- CTA Buttons -->
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-            <a href="#kontakt" class="inline-flex items-center justify-center gap-3 bg-brand-dark hover:bg-brand-accent text-white font-bold text-base px-8 py-4 rounded-2xl shadow-premium transition-all duration-200">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1 sm:pt-2">
+            <a href="#kontakt" class="inline-flex items-center justify-center gap-3 bg-brand-dark hover:bg-brand-accent text-white font-bold text-sm sm:text-base px-6 sm:px-8 py-4 rounded-2xl shadow-premium transition-all duration-200 active:scale-[0.99]">
               <span>Nezávazně poptat malování / nátěr</span>
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
-            <a href="#kalkulacka" class="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-brand-sand text-brand-dark font-bold text-base px-7 py-4 rounded-2xl border border-black/10 shadow-sm transition">
-              <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            <a href="#kalkulacka" class="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-brand-sand text-brand-dark font-bold text-sm sm:text-base px-6 sm:px-7 py-4 rounded-2xl border border-black/10 shadow-sm transition active:scale-[0.99]">
+              <svg class="w-5 h-5 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
               <span>Spočítat orientační cenu</span>
             </a>
           </div>
@@ -295,7 +370,7 @@
           <div class="relative mx-auto max-w-lg lg:max-w-none">
             
             <!-- Main Hero Realization Card -->
-            <div class="relative rounded-3xl overflow-hidden shadow-premium border-4 border-white bg-brand-dark aspect-[4/4.3]">
+            <div class="relative rounded-3xl overflow-hidden shadow-premium border-4 border-white bg-brand-dark aspect-[4/3.6] sm:aspect-[4/4.3]">
               <img 
                 src="850244549_1588559603284118_8684010742655254480_n.jpg" 
                 data-fallback="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&w=1200&q=85"
@@ -305,18 +380,18 @@
               <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent"></div>
               
               <!-- Top Badge -->
-              <div class="absolute top-4 left-4 right-4 flex justify-between items-center">
-                <span class="px-3.5 py-1.5 rounded-full bg-brand-dark/80 backdrop-blur-md text-white text-xs font-bold border border-white/15">
+              <div class="absolute top-3.5 left-3.5 right-3.5 sm:top-4 sm:left-4 sm:right-4 flex justify-between items-center">
+                <span class="px-3 py-1.5 rounded-full bg-brand-dark/80 backdrop-blur-md text-white text-[11px] sm:text-xs font-bold border border-white/15">
                   📍 Královéhradecký kraj • Náchodsko
                 </span>
               </div>
 
               <!-- Bottom Overlay Info -->
-              <div class="absolute bottom-5 left-5 right-5 text-white">
-                <div class="flex items-end justify-between gap-4">
+              <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 text-white">
+                <div class="flex items-end justify-between gap-3">
                   <div>
-                    <p class="text-xs uppercase tracking-widest text-brand-amber font-bold">Ověřená kvalita • Reálné realizace</p>
-                    <h2 class="text-xl font-bold mt-0.5">Interiéry, střechy, fasády i dřevěné chalupy</h2>
+                    <p class="text-[11px] sm:text-xs uppercase tracking-widest text-brand-amber font-bold">Ověřená kvalita • Reálné realizace</p>
+                    <h2 class="text-base sm:text-xl font-bold mt-0.5 leading-snug">Interiéry, střechy, fasády i dřevěné chalupy</h2>
                   </div>
                   <a href="#pred-a-po" class="px-3.5 py-2 rounded-xl bg-brand-accent text-white text-xs font-bold shadow-lg hover:bg-brand-accentHover transition shrink-0">
                     Před a Po ↓
@@ -333,111 +408,111 @@
   </section>
 
   <!-- TRUST STATS STRIP -->
-  <section class="bg-brand-dark text-white py-10 border-y border-white/10">
+  <section class="bg-brand-dark text-white py-8 sm:py-10 border-y border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center lg:text-left">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center lg:text-left">
         <div class="lg:border-r border-white/10 lg:pr-6">
-          <div class="font-display text-3xl sm:text-4xl font-bold text-brand-amber">4,9 ★</div>
-          <p class="text-sm text-white/75 mt-1 font-medium">Fantastické hodnocení (38 recenzí na Firmy.cz a Mapy.com)</p>
+          <div class="font-display text-2xl sm:text-4xl font-bold text-brand-amber">4,9 ★</div>
+          <p class="text-xs sm:text-sm text-white/75 mt-1 font-medium">Fantastické hodnocení (38 recenzí na Firmy.cz a Mapy.com)</p>
         </div>
         <div class="lg:border-r border-white/10 lg:pr-6">
-          <div class="font-display text-3xl sm:text-4xl font-bold text-white">TOP 7</div>
-          <p class="text-sm text-white/75 mt-1 font-medium">Mezi nejlépe hodnocenými malíři v Královéhradeckém kraji</p>
+          <div class="font-display text-2xl sm:text-4xl font-bold text-white">TOP 7</div>
+          <p class="text-xs sm:text-sm text-white/75 mt-1 font-medium">Mezi nejlépe hodnocenými malíři v Královéhradeckém kraji</p>
         </div>
         <div class="lg:border-r border-white/10 lg:pr-6">
-          <div class="font-display text-3xl sm:text-4xl font-bold text-emerald-400">100 %</div>
-          <p class="text-sm text-white/75 mt-1 font-medium">Kompletní zakrytí a úklid po malování + každodenní komunikace</p>
+          <div class="font-display text-2xl sm:text-4xl font-bold text-emerald-400">100 %</div>
+          <p class="text-xs sm:text-sm text-white/75 mt-1 font-medium">Kompletní zakrytí a úklid po malování + každodenní komunikace</p>
         </div>
         <div>
-          <div class="font-display text-3xl sm:text-4xl font-bold text-brand-accent">Nonstop</div>
-          <p class="text-sm text-white/75 mt-1 font-medium">Rychlá domluva, poradenství na místě a dodržení termínů</p>
+          <div class="font-display text-2xl sm:text-4xl font-bold text-brand-accent">Nonstop</div>
+          <p class="text-xs sm:text-sm text-white/75 mt-1 font-medium">Rychlá domluva, poradenství na místě a dodržení termínů</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- SERVICES SECTION -->
-  <section id="sluzby" class="py-20 lg:py-28">
+  <section id="sluzby" class="py-14 sm:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-14 gap-4 sm:gap-6">
         <div>
           <span class="text-xs font-extrabold uppercase tracking-widest text-brand-accent bg-brand-accent/10 px-3 py-1.5 rounded-full">Co pro vás uděláme</span>
-          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-dark mt-4">
+          <h2 class="font-display text-2xl sm:text-4xl lg:text-5xl font-bold text-brand-dark mt-4">
             Kompletní malířské, natěračské <br class="hidden sm:inline" />a výškové práce
           </h2>
         </div>
-        <p class="text-brand-dark/70 max-w-md text-base">
+        <p class="text-brand-dark/70 max-w-md text-sm sm:text-base">
           Natřeme a vymalujeme vše, co bude třeba – včetně poctivého obroušení, oprav prasklin, sanačních omítek a závěrečného úklidu.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
         
         <!-- Service Card 1 -->
-        <div class="group bg-white rounded-3xl p-8 border border-black/5 shadow-sm hover:shadow-premium transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+        <div class="group bg-white rounded-3xl p-6 sm:p-8 border border-black/5 shadow-sm hover:shadow-premium transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
           <div class="absolute top-0 inset-x-0 h-1.5 bg-brand-accent"></div>
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-6 group-hover:bg-brand-accent group-hover:text-white transition">
-              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-5 sm:mb-6 group-hover:bg-brand-accent group-hover:text-white transition">
+              <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
             </div>
-            <h3 class="font-display text-2xl font-bold text-brand-dark mb-3">Malování bytů, domů a kanceláří</h3>
-            <p class="text-brand-dark/70 text-sm leading-relaxed mb-6">
+            <h3 class="font-display text-xl sm:text-2xl font-bold text-brand-dark mb-2.5 sm:mb-3">Malování bytů, domů a kanceláří</h3>
+            <p class="text-brand-dark/70 text-sm leading-relaxed mb-5 sm:mb-6">
               Čistá a precizní výmalba pokojů, celých bytů (1+kk až 4+1+), rodinných domů, schodišť, ordinací i firemních prostor. Rádi poradíme s výběrem vhodného typu barvy.
             </p>
             <ul class="space-y-2.5 text-sm font-medium text-brand-dark/85 mb-6">
-              <li class="flex items-center gap-2"><span class="text-brand-accent font-bold">✓</span> Škrábání starých maleb, tmelení a penetrace</li>
-              <li class="flex items-center gap-2"><span class="text-brand-accent font-bold">✓</span> Omyvatelné, otěruvzdorné a protiplísňové nátěry</li>
-              <li class="flex items-center gap-2"><span class="text-brand-accent font-bold">✓</span> Pečlivé zakrytí nábytku a kompletní úklid</li>
+              <li class="flex items-start gap-2"><span class="text-brand-accent font-bold">✓</span> <span>Škrábání starých maleb, tmelení a penetrace</span></li>
+              <li class="flex items-start gap-2"><span class="text-brand-accent font-bold">✓</span> <span>Omyvatelné, otěruvzdorné a protiplísňové nátěry</span></li>
+              <li class="flex items-start gap-2"><span class="text-brand-accent font-bold">✓</span> <span>Pečlivé zakrytí nábytku a kompletní úklid</span></li>
             </ul>
           </div>
-          <a href="#kontakt" onclick="prefillService('Malování bytu / interiéru')" class="inline-flex items-center gap-2 text-sm font-bold text-brand-accent group-hover:translate-x-1 transition">
+          <a href="#kontakt" onclick="prefillService('Malování bytu / interiéru')" class="inline-flex items-center gap-2 text-sm font-bold text-brand-accent py-2 group-hover:translate-x-1 transition">
             Poptat výmalbu interiéru →
           </a>
         </div>
 
         <!-- Service Card 2 -->
-        <div class="group bg-brand-dark text-white rounded-3xl p-8 shadow-premium transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+        <div class="group bg-brand-dark text-white rounded-3xl p-6 sm:p-8 shadow-premium transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
           <div class="absolute top-0 inset-x-0 h-1.5 bg-brand-amber"></div>
           <div>
-            <div class="flex items-center justify-between mb-6">
-              <div class="w-14 h-14 rounded-2xl bg-white/10 text-brand-amber flex items-center justify-center">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            <div class="flex items-center justify-between mb-5 sm:mb-6">
+              <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/10 text-brand-amber flex items-center justify-center">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
               </div>
               <span class="text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-brand-amber/20 text-brand-amber">Specializace</span>
             </div>
-            <h3 class="font-display text-2xl font-bold mb-3">Výškové práce a nátěry střech</h3>
-            <p class="text-white/75 text-sm leading-relaxed mb-6">
+            <h3 class="font-display text-xl sm:text-2xl font-bold mb-2.5 sm:mb-3">Výškové práce a nátěry střech</h3>
+            <p class="text-white/75 text-sm leading-relaxed mb-5 sm:mb-6">
               Prodlužte životnost své střechy o desítky let. Provádíme kompletní renovace a nátěry plechových i taškových střech ve výškách s profesionálním jištěním.
             </p>
             <ul class="space-y-2.5 text-sm font-medium text-white/90 mb-6">
-              <li class="flex items-center gap-2"><span class="text-brand-amber font-bold">✓</span> Důkladné mechanické obroušení rzi a starého nátěru</li>
-              <li class="flex items-center gap-2"><span class="text-brand-amber font-bold">✓</span> Odmaštění, antikorozní základ a vrchní odolný lak</li>
-              <li class="flex items-center gap-2"><span class="text-brand-amber font-bold">✓</span> Nátěry okapů, svodů, štítů a střešních prvků</li>
+              <li class="flex items-start gap-2"><span class="text-brand-amber font-bold">✓</span> <span>Důkladné mechanické obroušení rzi a starého nátěru</span></li>
+              <li class="flex items-start gap-2"><span class="text-brand-amber font-bold">✓</span> <span>Odmaštění, antikorozní základ a vrchní odolný lak</span></li>
+              <li class="flex items-start gap-2"><span class="text-brand-amber font-bold">✓</span> <span>Nátěry okapů, svodů, štítů a střešních prvků</span></li>
             </ul>
           </div>
-          <a href="#kontakt" onclick="prefillService('Nátěr střechy a výškové práce')" class="inline-flex items-center gap-2 text-sm font-bold text-brand-amber group-hover:translate-x-1 transition">
+          <a href="#kontakt" onclick="prefillService('Nátěr střechy a výškové práce')" class="inline-flex items-center gap-2 text-sm font-bold text-brand-amber py-2 group-hover:translate-x-1 transition">
             Poptat nátěr střechy →
           </a>
         </div>
 
         <!-- Service Card 3 -->
-        <div class="group bg-white rounded-3xl p-8 border border-black/5 shadow-sm hover:shadow-premium transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+        <div class="group bg-white rounded-3xl p-6 sm:p-8 border border-black/5 shadow-sm hover:shadow-premium transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
           <div class="absolute top-0 inset-x-0 h-1.5 bg-emerald-500"></div>
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition">
-              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-5 sm:mb-6 group-hover:bg-emerald-600 group-hover:text-white transition">
+              <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
-            <h3 class="font-display text-2xl font-bold text-brand-dark mb-3">Fasády, chalupy, ploty a opravy</h3>
-            <p class="text-brand-dark/70 text-sm leading-relaxed mb-6">
+            <h3 class="font-display text-xl sm:text-2xl font-bold text-brand-dark mb-2.5 sm:mb-3">Fasády, chalupy, ploty a opravy</h3>
+            <p class="text-brand-dark/70 text-sm leading-relaxed mb-5 sm:mb-6">
               Ochranné a estetické nátěry venkovních fasád, dřevěných podhledů, roubenek a chalup, kovových i dřevěných plotů, zárubní, radiátorů a oken.
             </p>
             <ul class="space-y-2.5 text-sm font-medium text-brand-dark/85 mb-6">
-              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Sanační omítky a opravy poškozeného zdiva</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Lazury a ochranné nátěry dřevěných chalup</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Odolné fasádní barvy proti povětrnostním vlivům</li>
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold">✓</span> <span>Sanační omítky a opravy poškozeného zdiva</span></li>
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold">✓</span> <span>Lazury a ochranné nátěry dřevěných chalup</span></li>
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold">✓</span> <span>Odolné fasádní barvy proti povětrnostním vlivům</span></li>
             </ul>
           </div>
-          <a href="#kontakt" onclick="prefillService('Nátěr fasády / chalupy / plotu')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-600 group-hover:translate-x-1 transition">
+          <a href="#kontakt" onclick="prefillService('Nátěr fasády / chalupy / plotu')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-600 py-2 group-hover:translate-x-1 transition">
             Poptat fasádu či natěračské práce →
           </a>
         </div>
@@ -447,40 +522,40 @@
   </section>
 
   <!-- BEFORE & AFTER SHOWCASE SECTION (PŘED A PO) -->
-  <section id="pred-a-po" class="py-20 lg:py-28 bg-brand-dark text-white bg-dark-grid relative overflow-hidden">
+  <section id="pred-a-po" class="py-14 sm:py-20 lg:py-28 bg-brand-dark text-white bg-dark-grid relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-12 gap-5 sm:gap-6">
         <div>
           <span class="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-brand-amber bg-brand-amber/15 px-3.5 py-1.5 rounded-full">
             ✨ Reálné výsledky naší práce
           </span>
-          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mt-4">
+          <h2 class="font-display text-2xl sm:text-4xl lg:text-5xl font-bold mt-4">
             Ukázka proměny: <span class="text-brand-amber">Před a Po</span>
           </h2>
-          <p class="text-white/70 mt-3 max-w-2xl text-base">
+          <p class="text-white/70 mt-2.5 sm:mt-3 max-w-2xl text-sm sm:text-base">
             Podívejte se na skutečné realizace – od sanace silně znečištěných stěn s prokresleným zdivem až po kompletní nátěry plechových střech.
           </p>
         </div>
 
-        <!-- Mode Switcher between the 2 Real Before/After Showcases -->
-        <div class="flex flex-wrap items-center gap-2 bg-white/10 p-1.5 rounded-2xl border border-white/10 self-start">
-          <button type="button" id="btn-mode-slider" onclick="switchBAMode('slider')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-accent text-white shadow transition">
+        <!-- Mode Switcher between the 2 Real Before/After Showcases (Plná šířka na mobilu) -->
+        <div class="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-2 bg-white/10 p-1.5 rounded-2xl border border-white/10 w-full sm:w-auto self-start">
+          <button type="button" id="btn-mode-slider" onclick="switchBAMode('slider')" class="w-full sm:w-auto px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-accent text-white shadow transition text-center">
             ↔ 1. Sanace a výmalba schodiště (Posuvník)
           </button>
-          <button type="button" id="btn-mode-combined" onclick="switchBAMode('combined')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white/80 hover:text-white transition">
+          <button type="button" id="btn-mode-combined" onclick="switchBAMode('combined')" class="w-full sm:w-auto px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white/80 hover:text-white transition text-center">
             🏠 2. Nátěr střechy (Srovnání 50/50)
           </button>
         </div>
       </div>
 
-      <div class="grid lg:grid-cols-12 gap-10 items-center">
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
         
         <!-- Left Interactive / Combined Image Area (8 cols) -->
         <div class="lg:col-span-8">
           
           <!-- SHOWCASE 1: Interactive Drag Slider (Staircase Before vs After) -->
-          <div id="ba-slider-view" class="ba-container rounded-3xl overflow-hidden shadow-2xl border-2 border-white/15 aspect-[4/3] sm:aspect-[16/11] bg-brand-slate relative cursor-ew-resize">
+          <div id="ba-slider-view" class="ba-container rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/15 aspect-[4/3.4] sm:aspect-[16/11] bg-brand-slate relative cursor-ew-resize">
             <!-- PO (After) Image - Full Background -->
             <img 
               id="ba-after-img" 
@@ -490,7 +565,7 @@
               alt="Po realizaci – čistě vymalované schodiště" 
               class="smart-img w-full h-full object-cover pointer-events-none select-none" 
             />
-            <span class="absolute top-4 right-4 z-10 px-3.5 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-extrabold uppercase tracking-wider shadow-lg pointer-events-none">
+            <span class="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-emerald-500 text-white text-[10px] sm:text-xs font-extrabold uppercase tracking-wider shadow-lg pointer-events-none">
               PO VÝMALBĚ A SANACI ✓
             </span>
 
@@ -505,7 +580,7 @@
                 class="smart-img w-full h-full object-cover pointer-events-none select-none" 
                 style="width: 100%; max-width: none;" 
               />
-              <span class="absolute top-4 left-4 z-10 px-3.5 py-1.5 rounded-full bg-brand-dark/90 text-white/90 text-xs font-extrabold uppercase tracking-wider border border-white/20 shadow-lg pointer-events-none">
+              <span class="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-brand-dark/90 text-white/90 text-[10px] sm:text-xs font-extrabold uppercase tracking-wider border border-white/20 shadow-lg pointer-events-none">
                 PŘED OPRAVOU STĚN
               </span>
             </div>
@@ -519,7 +594,7 @@
           </div>
 
           <!-- SHOWCASE 2: Drone 50/50 Roof Split Photo -->
-          <div id="ba-combined-view" class="hidden rounded-3xl overflow-hidden shadow-2xl border-2 border-white/15 aspect-[4/3] sm:aspect-[16/11] bg-brand-slate relative group">
+          <div id="ba-combined-view" class="hidden rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/15 aspect-[4/3.4] sm:aspect-[16/11] bg-brand-slate relative group">
             <img 
               id="ba-single-img" 
               src="847730580_1587806353359443_8105146506854053346_n.jpg" 
@@ -527,36 +602,36 @@
               alt="Nátěr plechové střechy – porovnání původní a natřené poloviny" 
               class="smart-img w-full h-full object-cover" 
             />
-            <span class="absolute top-4 left-4 z-10 px-3.5 py-1.5 rounded-full bg-brand-dark/90 text-white text-xs font-extrabold uppercase tracking-wider border border-white/20 shadow-lg">
-              ← PŮVODNÍ VYBLEDLÝ NÁTĚR
+            <span class="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-brand-dark/90 text-white text-[10px] sm:text-xs font-extrabold uppercase tracking-wider border border-white/20 shadow-lg">
+              ← PŮVODNÍ NÁTĚR
             </span>
-            <span class="absolute top-4 right-4 z-10 px-3.5 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-extrabold uppercase tracking-wider shadow-lg">
-              NOVÝ ODOLNÝ NÁTĚR STŘECHY →
+            <span class="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-emerald-500 text-white text-[10px] sm:text-xs font-extrabold uppercase tracking-wider shadow-lg">
+              NOVÝ NÁTĚR →
             </span>
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4 sm:p-6">
               <div>
-                <span class="px-3 py-1 rounded-full bg-brand-amber text-brand-dark text-xs font-extrabold uppercase">Záběr přímo z realizace</span>
-                <h4 class="text-lg sm:text-xl font-bold text-white mt-2">Renovace plechové střechy – přímé srovnání původní a nově natřené poloviny</h4>
+                <span class="px-2.5 py-1 rounded-full bg-brand-amber text-brand-dark text-[10px] sm:text-xs font-extrabold uppercase">Záběr přímo z realizace</span>
+                <h4 class="text-sm sm:text-xl font-bold text-white mt-1.5 sm:mt-2">Renovace plechové střechy – přímé srovnání původní a nově natřené poloviny</h4>
               </div>
             </div>
           </div>
 
-          <div class="flex flex-wrap items-center justify-between gap-4 mt-4 text-xs text-white/65">
-            <span>💡 Tip: Táhněte posuvníkem doleva nebo doprava, případně si nahoře přepněte na ukázku střechy.</span>
+          <div class="flex flex-wrap items-center justify-between gap-4 mt-3 sm:mt-4 text-xs text-white/65">
+            <span>💡 Tip: Táhněte posuvníkem prstem nebo myší doleva a doprava, případně si nahoře přepněte na ukázku střechy.</span>
           </div>
         </div>
 
         <!-- Right Details & Process Breakdown (4 cols) -->
-        <div class="lg:col-span-4 space-y-6 bg-white/5 border border-white/10 rounded-3xl p-7 backdrop-blur-sm">
+        <div class="lg:col-span-4 space-y-5 sm:space-y-6 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-7 backdrop-blur-sm">
           <div class="inline-flex items-center gap-2 text-brand-amber text-xs font-bold uppercase tracking-wider">
             <span>Jak probíhá renovace</span>
           </div>
-          <h3 class="font-display text-2xl font-bold">Proč naše nátěry a malby drží roky?</h3>
+          <h3 class="font-display text-xl sm:text-2xl font-bold">Proč naše nátěry a malby drží roky?</h3>
           <p class="text-sm text-white/75 leading-relaxed">
             Nikdy nemalujeme na nepřipravený nebo mastný podklad. Základem pěkného výsledku je poctivá příprava před samotným nátěrem:
           </p>
 
-          <div class="space-y-4 pt-2">
+          <div class="space-y-4 pt-1 sm:pt-2">
             <div class="flex gap-3.5">
               <div class="w-8 h-8 rounded-lg bg-brand-accent text-white font-bold text-sm flex items-center justify-center shrink-0">1</div>
               <div>
@@ -592,31 +667,31 @@
   </section>
 
   <!-- PHOTO GALLERY / REALIZATIONS SECTION -->
-  <section id="realizace" class="py-20 lg:py-28">
+  <section id="realizace" class="py-14 sm:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-5 sm:gap-6">
         <div>
           <span class="text-xs font-extrabold uppercase tracking-widest text-brand-accent bg-brand-accent/10 px-3 py-1.5 rounded-full">Ukázky z praxe</span>
-          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-dark mt-4">
+          <h2 class="font-display text-2xl sm:text-4xl lg:text-5xl font-bold text-brand-dark mt-4">
             Naše realizace v Náchodě a okolí
           </h2>
         </div>
 
-        <!-- Category Filters -->
-        <div class="flex flex-wrap gap-2">
-          <button type="button" onclick="filterGallery('all', this)" class="gal-filter px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-brand-dark text-white transition">Všechny práce</button>
-          <button type="button" onclick="filterGallery('strechy', this)" class="gal-filter px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-brand-dark/75 hover:bg-brand-sand border border-black/5 transition">Střechy & Výšky</button>
-          <button type="button" onclick="filterGallery('interier', this)" class="gal-filter px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-brand-dark/75 hover:bg-brand-sand border border-black/5 transition">Byty & Rodinné domy</button>
-          <button type="button" onclick="filterGallery('komerce', this)" class="gal-filter px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-brand-dark/75 hover:bg-brand-sand border border-black/5 transition">Ordinace & Komerce</button>
+        <!-- Category Filters (Horizontálně posuvné na mobilu) -->
+        <div class="flex overflow-x-auto no-scrollbar sm:flex-wrap gap-2 pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+          <button type="button" onclick="filterGallery('all', this)" class="gal-filter shrink-0 px-4 py-2.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-brand-dark text-white transition">Všechny práce</button>
+          <button type="button" onclick="filterGallery('strechy', this)" class="gal-filter shrink-0 px-4 py-2.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-brand-dark/75 hover:bg-brand-sand border border-black/5 transition">Střechy & Výšky</button>
+          <button type="button" onclick="filterGallery('interier', this)" class="gal-filter shrink-0 px-4 py-2.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-brand-dark/75 hover:bg-brand-sand border border-black/5 transition">Byty & Rodinné domy</button>
+          <button type="button" onclick="filterGallery('komerce', this)" class="gal-filter shrink-0 px-4 py-2.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-brand-dark/75 hover:bg-brand-sand border border-black/5 transition">Ordinace & Komerce</button>
         </div>
       </div>
 
       <!-- Bento Grid with Real Photos -->
-      <div id="gallery-grid" class="grid sm:grid-cols-2 lg:grid-cols-12 gap-6">
+      <div id="gallery-grid" class="grid sm:grid-cols-2 lg:grid-cols-12 gap-5 sm:gap-6">
         
         <!-- Photo Slot 1: Roof 50/50 Comparison (Large 7-col) -->
-        <div data-cat="strechy" class="gallery-item lg:col-span-7 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[16/10] bg-brand-dark cursor-pointer" onclick="openLightbox(0)">
+        <div data-cat="strechy" class="gallery-item lg:col-span-7 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[16/11] sm:aspect-[16/10] bg-brand-dark cursor-pointer" onclick="openLightbox(0)">
           <img 
             id="gal-img-0" 
             src="847730580_1587806353359443_8105146506854053346_n.jpg" 
@@ -625,10 +700,10 @@
             class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" 
           />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/15 to-transparent"></div>
-          <div class="absolute bottom-5 left-5 right-5 flex items-end justify-between text-white">
+          <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-end justify-between gap-3 text-white">
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-amber text-brand-dark">Výškové práce • Před a Po</span>
-              <h3 class="text-xl font-bold mt-2">Obroušení a nátěr plechové střechy (srovnání v průběhu realizace)</h3>
+              <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-amber text-brand-dark">Výškové práce • Před a Po</span>
+              <h3 class="text-base sm:text-xl font-bold mt-2 leading-snug">Obroušení a nátěr plechové střechy (srovnání v průběhu realizace)</h3>
               <p class="text-xs text-white/75 mt-0.5">Důkladná příprava podkladu a odolný vrchní nátěr</p>
             </div>
             <span class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:bg-brand-accent transition shrink-0">🔍</span>
@@ -636,7 +711,7 @@
         </div>
 
         <!-- Photo Slot 2: Finished Roof (5-col) -->
-        <div data-cat="strechy" class="gallery-item lg:col-span-5 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[16/10] lg:aspect-auto bg-brand-dark cursor-pointer" onclick="openLightbox(1)">
+        <div data-cat="strechy" class="gallery-item lg:col-span-5 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[16/11] sm:aspect-[16/10] lg:aspect-auto bg-brand-dark cursor-pointer" onclick="openLightbox(1)">
           <img 
             id="gal-img-1" 
             src="850244549_1588559603284118_8684010742655254480_n.jpg" 
@@ -645,10 +720,10 @@
             class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" 
           />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/15 to-transparent"></div>
-          <div class="absolute bottom-5 left-5 right-5 flex items-end justify-between text-white">
+          <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-end justify-between gap-3 text-white">
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-amber text-brand-dark">Nátěry střech</span>
-              <h3 class="text-lg font-bold mt-2">Dokončený ochranný nátěr plechové střechy</h3>
+              <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-amber text-brand-dark">Nátěry střech</span>
+              <h3 class="text-base sm:text-lg font-bold mt-2 leading-snug">Dokončený ochranný nátěr plechové střechy</h3>
               <p class="text-xs text-white/75 mt-0.5">Kompletní nátěr včetně klempířských prvků</p>
             </div>
             <span class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:bg-brand-accent transition shrink-0">🔍</span>
@@ -665,10 +740,10 @@
             class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" 
           />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent"></div>
-          <div class="absolute bottom-5 left-5 right-5 flex items-end justify-between text-white">
+          <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-end justify-between gap-3 text-white">
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-accent">Rodinné domy</span>
-              <h3 class="text-lg font-bold mt-2">Precizní výmalba moderního schodiště a haly</h3>
+              <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-accent">Rodinné domy</span>
+              <h3 class="text-base sm:text-lg font-bold mt-2 leading-snug">Precizní výmalba moderního schodiště a haly</h3>
             </div>
             <span class="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:bg-brand-accent transition shrink-0">🔍</span>
           </div>
@@ -684,10 +759,10 @@
             class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" 
           />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent"></div>
-          <div class="absolute bottom-5 left-5 right-5 flex items-end justify-between text-white">
+          <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-end justify-between gap-3 text-white">
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-accent">Malování bytů</span>
-              <h3 class="text-lg font-bold mt-2">Výmalba obývacího pokoje včetně kompletního úklidu</h3>
+              <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-accent">Malování bytů</span>
+              <h3 class="text-base sm:text-lg font-bold mt-2 leading-snug">Výmalba obývacího pokoje včetně kompletního úklidu</h3>
             </div>
             <span class="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:bg-brand-accent transition shrink-0">🔍</span>
           </div>
@@ -703,10 +778,10 @@
             class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" 
           />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent"></div>
-          <div class="absolute bottom-5 left-5 right-5 flex items-end justify-between text-white">
+          <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-end justify-between gap-3 text-white">
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-emerald-600">Komerční prostory</span>
-              <h3 class="text-lg font-bold mt-2">Dvoubarevná omyvatelná výmalba chodeb a čekárny</h3>
+              <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-emerald-600">Komerční prostory</span>
+              <h3 class="text-base sm:text-lg font-bold mt-2 leading-snug">Dvoubarevná omyvatelná výmalba chodeb a čekárny</h3>
             </div>
             <span class="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:bg-brand-accent transition shrink-0">🔍</span>
           </div>
@@ -717,13 +792,13 @@
   </section>
 
   <!-- INTERACTIVE PRICE CALCULATOR SECTION -->
-  <section id="kalkulacka" class="py-20 lg:py-28 bg-brand-sand/70 border-y border-black/5">
+  <section id="kalkulacka" class="py-14 sm:py-20 lg:py-28 bg-brand-sand/70 border-y border-black/5">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-premium border border-black/5">
-        <div class="max-w-2xl mb-8">
+      <div class="bg-white rounded-3xl p-5 sm:p-12 shadow-premium border border-black/5">
+        <div class="max-w-2xl mb-6 sm:mb-8">
           <span class="text-xs font-extrabold uppercase tracking-widest text-brand-accent bg-brand-accent/10 px-3 py-1 rounded-full">Okamžitý odhad</span>
-          <h2 class="font-display text-3xl sm:text-4xl font-bold text-brand-dark mt-3">
+          <h2 class="font-display text-2xl sm:text-4xl font-bold text-brand-dark mt-3">
             Orientační kalkulačka malování a nátěrů
           </h2>
           <p class="text-sm sm:text-base text-brand-dark/70 mt-2">
@@ -731,12 +806,12 @@
           </p>
         </div>
 
-        <div class="grid lg:grid-cols-12 gap-8 items-center">
+        <div class="grid lg:grid-cols-12 gap-7 sm:gap-8 items-center">
           <div class="lg:col-span-7 space-y-6">
             <!-- Step 1: Service Type -->
             <div>
               <label class="block text-xs font-extrabold uppercase tracking-wider text-brand-dark/70 mb-2.5">1. Co potřebujete vymalovat nebo natřít?</label>
-              <div class="grid sm:grid-cols-2 gap-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 <button type="button" onclick="setCalcType('byt', this)" class="calc-type-btn active text-left p-3.5 rounded-2xl border-2 border-brand-accent bg-brand-accent/5 transition">
                   <div class="font-bold text-sm text-brand-dark">🏠 Byt / Rodinný dům</div>
                   <div class="text-xs text-brand-dark/60">Výmalba pokojů, chodeb a stropů</div>
@@ -760,13 +835,15 @@
             <div>
               <div class="flex justify-between items-center mb-2">
                 <label class="text-xs font-extrabold uppercase tracking-wider text-brand-dark/70">2. Přibližná plocha (podlahová nebo natíraná)</label>
-                <span class="font-display text-xl font-bold text-brand-accent"><span id="calc-area-val">75</span> m²</span>
+                <span class="font-display text-xl font-bold text-brand-accent shrink-0 ml-2"><span id="calc-area-val">75</span> m²</span>
               </div>
-              <input id="calc-area" type="range" min="15" max="400" step="5" value="75" oninput="updateCalculator()" class="custom-range w-full" />
+              <div class="py-1">
+                <input id="calc-area" type="range" min="15" max="400" step="5" value="75" oninput="updateCalculator()" class="custom-range w-full" />
+              </div>
               <div class="flex justify-between text-[11px] text-brand-dark/50 mt-1">
                 <span>Menší pokoj (15 m²)</span>
-                <span>Byt 3+1 / 4+1 (80 m²)</span>
-                <span>Velký dům / střecha (400 m²)</span>
+                <span>Byt 3+1 (80 m²)</span>
+                <span>Střecha / Dům (400 m²)</span>
               </div>
             </div>
 
@@ -774,12 +851,12 @@
             <div>
               <label class="block text-xs font-extrabold uppercase tracking-wider text-brand-dark/70 mb-2.5">3. Doplňkové požadavky</label>
               <div class="grid sm:grid-cols-2 gap-2.5 text-sm">
-                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-brand-cream border border-black/5 cursor-pointer">
-                  <input type="checkbox" id="chk-opravy" onchange="updateCalculator()" checked class="w-4 h-4 accent-brand-accent rounded" />
+                <label class="flex items-center gap-3 p-3.5 rounded-xl bg-brand-cream border border-black/5 cursor-pointer">
+                  <input type="checkbox" id="chk-opravy" onchange="updateCalculator()" checked class="w-5 h-5 accent-brand-accent rounded shrink-0" />
                   <span class="font-medium text-brand-dark">Opravy omítek / obroušení</span>
                 </label>
-                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-brand-cream border border-black/5 cursor-pointer">
-                  <input type="checkbox" id="chk-uklid" onchange="updateCalculator()" checked class="w-4 h-4 accent-brand-accent rounded" />
+                <label class="flex items-center gap-3 p-3.5 rounded-xl bg-brand-cream border border-black/5 cursor-pointer">
+                  <input type="checkbox" id="chk-uklid" onchange="updateCalculator()" checked class="w-5 h-5 accent-brand-accent rounded shrink-0" />
                   <span class="font-medium text-brand-dark">Zakrytí + kompletní úklid</span>
                 </label>
               </div>
@@ -787,10 +864,10 @@
           </div>
 
           <!-- Right Result Box (5 cols) -->
-          <div class="lg:col-span-5 bg-brand-dark text-white rounded-3xl p-7 sm:p-8 flex flex-col justify-between space-y-6">
+          <div class="lg:col-span-5 bg-brand-dark text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div>
               <span class="text-xs uppercase tracking-wider text-white/60 font-semibold">Orientační odhad ceny vč. materiálu</span>
-              <div class="font-display text-3xl sm:text-4xl font-bold text-brand-amber mt-2" id="calc-price-output">13 800 – 17 600 Kč</div>
+              <div class="font-display text-2xl sm:text-4xl font-bold text-brand-amber mt-2" id="calc-price-output">13 800 – 17 600 Kč</div>
               <span class="text-xs text-emerald-400 font-medium block mt-2" id="calc-time-output">⏱ Odhadovaná doba práce: 2–3 dny • Plocha nátěru cca 195 m²</span>
             </div>
 
@@ -800,7 +877,7 @@
               <div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> Každodenní telefonická komunikace</div>
             </div>
 
-            <button type="button" onclick="transferCalcToForm()" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-sm px-6 py-4 rounded-xl shadow-glow transition">
+            <button type="button" onclick="transferCalcToForm()" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-sm px-6 py-4 rounded-xl shadow-glow transition active:scale-[0.99]">
               Přenést výpočet do poptávky →
             </button>
           </div>
@@ -811,23 +888,23 @@
   </section>
 
   <!-- AUTHENTIC REVIEWS SECTION -->
-  <section id="recenze" class="py-20 lg:py-28">
+  <section id="recenze" class="py-14 sm:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-14">
+      <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-700 font-extrabold text-xs uppercase tracking-wider">
           ★★★★★ 4,9 z 5 • 38 ověřených hodnocení na Firmy.cz
         </div>
-        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-dark mt-4">
+        <h2 class="font-display text-2xl sm:text-4xl lg:text-5xl font-bold text-brand-dark mt-4">
           Co o nás říkají zákazníci z Náchodska
         </h2>
-        <p class="text-brand-dark/70 mt-3">
+        <p class="text-brand-dark/70 mt-3 text-sm sm:text-base">
           Zakládáme si na tom, že co domluvíme, to platí – od přesného termínu přes každodenní komunikaci až po závěrečný úklid.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-7">
+      <div class="grid md:grid-cols-3 gap-5 sm:gap-7">
         <!-- Review 1 -->
-        <div class="bg-white rounded-3xl p-8 border border-black/5 shadow-sm flex flex-col justify-between">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-black/5 shadow-sm flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4">
               <span class="text-amber-500 font-bold tracking-widest">★★★★★</span>
@@ -837,14 +914,14 @@
               „Super spolupráce, skvělá domluva, měli jsme poptávku vymalovat byt 4+1, jeden den zavoláno a do dvou dnů začala práce, během celého malování každý den malíř volal a informoval o průběhu a případných dodatcích. A během týdne měli i s úklidem hotovo. Fakt super.“
             </p>
           </div>
-          <div class="pt-6 mt-6 border-t border-black/5 flex items-center justify-between text-xs">
+          <div class="pt-5 sm:pt-6 mt-5 sm:mt-6 border-t border-black/5 flex items-center justify-between text-xs gap-2 flex-wrap">
             <span class="font-bold text-brand-dark">Zákazník • Výmalba 4+1</span>
             <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-700 font-bold">Cena • Termíny • Kvalita</span>
           </div>
         </div>
 
         <!-- Review 2 -->
-        <div class="bg-white rounded-3xl p-8 border border-black/5 shadow-sm flex flex-col justify-between">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-black/5 shadow-sm flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4">
               <span class="text-amber-500 font-bold tracking-widest">★★★★★</span>
@@ -854,14 +931,14 @@
               „Práce byla odvedena rychle a kvalitně. Cenově nakonec přijatelné vzhledem k tomu, v jaké kvalitě byla práce udělána a jak rychle od prvního kontaktu bylo hotovo. Až budeme řešit malování dalšího patra, tak se zase ozvu. :)“
             </p>
           </div>
-          <div class="pt-6 mt-6 border-t border-black/5 flex items-center justify-between text-xs">
+          <div class="pt-5 sm:pt-6 mt-5 sm:mt-6 border-t border-black/5 flex items-center justify-between text-xs gap-2 flex-wrap">
             <span class="font-bold text-brand-dark">Zákazník • Rodinný dům</span>
             <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-700 font-bold">Termíny • Komunikace</span>
           </div>
         </div>
 
         <!-- Review 3 -->
-        <div class="bg-white rounded-3xl p-8 border border-black/5 shadow-sm flex flex-col justify-between">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-black/5 shadow-sm flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4">
               <span class="text-amber-500 font-bold tracking-widest">★★★★★</span>
@@ -871,7 +948,7 @@
               „Malířské práce provedeny na jedničku s hvězdičkou. Na žádost provedeny i práce přesahující úklid po malování. Malířské práce i opravy provedeny kvalitně, rychle. Výborná komunikace. Velká spokojenost. Doporučuji.“
             </p>
           </div>
-          <div class="pt-6 mt-6 border-t border-black/5 flex items-center justify-between text-xs">
+          <div class="pt-5 sm:pt-6 mt-5 sm:mt-6 border-t border-black/5 flex items-center justify-between text-xs gap-2 flex-wrap">
             <span class="font-bold text-brand-dark">Zákazník • Náchod</span>
             <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-700 font-bold">100% Spokojenost</span>
           </div>
@@ -881,15 +958,15 @@
   </section>
 
   <!-- CONTACT & INQUIRY SECTION -->
-  <section id="kontakt" class="py-20 lg:py-28 bg-brand-dark text-white relative overflow-hidden">
+  <section id="kontakt" class="py-14 sm:py-20 lg:py-28 bg-brand-dark text-white relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid lg:grid-cols-12 gap-12 items-start">
+      <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
         
         <!-- Left Contact Details (5 cols) -->
-        <div class="lg:col-span-5 space-y-8">
+        <div class="lg:col-span-5 space-y-6 sm:space-y-8">
           <div>
             <span class="text-xs font-extrabold uppercase tracking-widest text-brand-amber bg-brand-amber/15 px-3.5 py-1.5 rounded-full">Ozvěte se nám kdykoliv</span>
-            <h2 class="font-display text-3xl sm:text-4xl font-bold mt-4">
+            <h2 class="font-display text-2xl sm:text-4xl font-bold mt-4">
               Domluvme si nezávaznou prohlídku a nacenění
             </h2>
             <p class="text-white/70 mt-3 text-sm leading-relaxed">
@@ -897,20 +974,20 @@
             </p>
           </div>
 
-          <div class="space-y-4">
-            <a href="tel:+420702449338" class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition">
+          <div class="space-y-3.5 sm:space-y-4">
+            <a href="tel:+420702449338" class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition active:scale-[0.99]">
               <div class="w-12 h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center shrink-0 font-bold">📞</div>
               <div>
                 <div class="text-xs text-white/60 uppercase tracking-wider font-semibold">Telefon (Nonstop příjem poptávek)</div>
-                <div class="font-display text-2xl font-bold text-white">+420 702 449 338</div>
+                <div class="font-display text-xl sm:text-2xl font-bold text-white">+420 702 449 338</div>
               </div>
             </a>
 
-            <a href="mailto:malovani-js@seznam.cz" class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition">
+            <a href="mailto:malovani-js@seznam.cz" class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition active:scale-[0.99]">
               <div class="w-12 h-12 rounded-xl bg-brand-amber text-brand-dark flex items-center justify-center shrink-0 font-bold">✉️</div>
-              <div>
+              <div class="min-w-0">
                 <div class="text-xs text-white/60 uppercase tracking-wider font-semibold">E-mail</div>
-                <div class="font-display text-lg font-bold text-white">malovani-js@seznam.cz</div>
+                <div class="font-display text-base sm:text-lg font-bold text-white truncate">malovani-js@seznam.cz</div>
               </div>
             </a>
 
@@ -918,38 +995,38 @@
               <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold">📍</div>
               <div>
                 <div class="text-xs text-white/60 uppercase tracking-wider font-semibold">Sídlo a oblast působnosti</div>
-                <div class="font-bold text-white mt-0.5">Josef Soural – Zelená 1955, 547 01 Náchod (Staré Město nad Metují)</div>
-                <div class="text-xs text-white/65 mt-1">IČO: 09163964 • Působíme v Náchodě, Hronově, Novém Městě nad Metují, Červeném Kostelci, České Skalici, Jaroměři, Dobrušce, Broumově a celém okolí.</div>
+                <div class="font-bold text-white mt-0.5 text-sm sm:text-base">Josef Soural – Zelená 1955, 547 01 Náchod (Staré Město nad Metují)</div>
+                <div class="text-xs text-white/65 mt-1 leading-relaxed">IČO: 09163964 • Působíme v Náchodě, Hronově, Novém Městě nad Metují, Červeném Kostelci, České Skalici, Jaroměři, Dobrušce, Broumově a celém okolí.</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Right Quick Inquiry Form (7 cols) -->
-        <div class="lg:col-span-7 bg-white text-brand-dark rounded-3xl p-8 sm:p-10 shadow-2xl">
-          <h3 class="font-display text-2xl font-bold mb-2">Rychlá nezávazná poptávka</h3>
-          <p class="text-sm text-brand-dark/65 mb-6">Vyplňte údaje níže – po kliknutí na tlačítko se vám otevře připravený e-mail se všemi vypsanými informacemi, který stačí jedním klikem odeslat.</p>
+        <!-- Right Quick Inquiry Form (7 cols) - S text-base na mobilu proti iOS zoomu -->
+        <div class="lg:col-span-7 bg-white text-brand-dark rounded-3xl p-6 sm:p-10 shadow-2xl">
+          <h3 class="font-display text-xl sm:text-2xl font-bold mb-2">Rychlá nezávazná poptávka</h3>
+          <p class="text-xs sm:text-sm text-brand-dark/65 mb-6">Vyplňte údaje níže – po kliknutí na tlačítko se vám otevře připravený e-mail se všemi vypsanými informacemi, který stačí jedním klikem odeslat.</p>
 
           <form id="inquiry-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
                 <label for="form-name" class="block text-xs font-bold uppercase tracking-wider text-brand-dark/70 mb-1.5">Vaše jméno *</label>
-                <input id="form-name" type="text" required placeholder="Např. Jan Novák" class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-sm font-medium" />
+                <input id="form-name" type="text" required placeholder="Např. Jan Novák" class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-base sm:text-sm font-medium" />
               </div>
               <div>
                 <label for="form-phone" class="block text-xs font-bold uppercase tracking-wider text-brand-dark/70 mb-1.5">Telefon *</label>
-                <input id="form-phone" type="tel" required placeholder="+420 777 123 456" class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-sm font-medium" />
+                <input id="form-phone" type="tel" required placeholder="+420 777 123 456" class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-base sm:text-sm font-medium" />
               </div>
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
                 <label for="form-city" class="block text-xs font-bold uppercase tracking-wider text-brand-dark/70 mb-1.5">Město / Obec realizace</label>
-                <input id="form-city" type="text" placeholder="Např. Náchod" class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-sm font-medium" />
+                <input id="form-city" type="text" placeholder="Např. Náchod" class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-base sm:text-sm font-medium" />
               </div>
               <div>
                 <label for="form-service" class="block text-xs font-bold uppercase tracking-wider text-brand-dark/70 mb-1.5">Typ práce</label>
-                <select id="form-service" class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-sm font-medium">
+                <select id="form-service" class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-base sm:text-sm font-medium">
                   <option value="Malování bytu / interiéru">Malování bytu / rodinného domu</option>
                   <option value="Nátěr střechy a výškové práce">Nátěr střechy / výškové práce</option>
                   <option value="Nátěr fasády / chalupy / plotu">Nátěr fasády / chalupy / plotu</option>
@@ -961,12 +1038,12 @@
 
             <div>
               <label for="form-message" class="block text-xs font-bold uppercase tracking-wider text-brand-dark/70 mb-1.5">Popis poptávky (rozsah, termín, stav podkladu)</label>
-              <textarea id="form-message" rows="4" placeholder="Napište nám přibližnou velikost prostoru nebo střechy a kdy by se vám realizace hodila..." class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-sm font-medium"></textarea>
+              <textarea id="form-message" rows="4" placeholder="Napište nám přibližnou velikost prostoru nebo střechy a kdy by se vám realizace hodila..." class="w-full px-4 py-3.5 rounded-xl bg-brand-cream border border-black/10 focus:border-brand-accent outline-none text-base sm:text-sm font-medium"></textarea>
             </div>
 
-            <button type="submit" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-base py-4 px-8 rounded-xl shadow-glow transition flex items-center justify-center gap-2">
+            <button type="submit" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-sm sm:text-base py-4 px-6 sm:px-8 rounded-xl shadow-glow transition flex items-center justify-center gap-2 active:scale-[0.99]">
               <span>Otevřít předvyplněný e-mail a odeslat</span>
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </button>
 
             <div id="form-success" class="hidden p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-800 text-sm font-semibold text-center">
@@ -981,7 +1058,7 @@
 
   <!-- FOOTER -->
   <footer class="bg-[#0A0D13] text-white/60 py-10 border-t border-white/10 text-xs sm:text-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
       <div>
         <strong class="text-white">Malířství a natěračství Náchod – Josef Soural</strong> • Zelená 1955, 547 01 Náchod • IČO: 09163964
       </div>
@@ -992,22 +1069,36 @@
     </div>
   </footer>
 
-  <!-- LIGHTBOX MODAL FOR FULLSCREEN GALLERY PREVIEW -->
+  <!-- MOBILE STICKY BOTTOM ACTION BAR (Zobrazuje se pouze na telefonech a menších tabletech) -->
+  <div class="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-brand-dark/95 backdrop-blur-md border-t border-white/15 px-3 pt-2.5 pb-[calc(0.65rem+env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgba(0,0,0,0.3)]">
+    <div class="grid grid-cols-2 gap-2.5 max-w-md mx-auto">
+      <a href="tel:+420702449338" class="flex items-center justify-center gap-2 bg-brand-accent text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl shadow-glow active:scale-95 transition">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        <span>Zavolat ihned</span>
+      </a>
+      <a href="#kontakt" class="flex items-center justify-center gap-2 bg-white text-brand-dark font-bold text-xs sm:text-sm py-3 px-4 rounded-xl active:scale-95 transition">
+        <span>Rychlá poptávka</span>
+        <span class="text-brand-accent">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL FOR FULLSCREEN GALLERY PREVIEW (Podpora swipe na mobilu) -->
   <div id="lightbox-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4" onclick="closeLightbox()">
-    <button type="button" onclick="closeLightbox()" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 hover:bg-brand-accent text-white font-bold text-lg flex items-center justify-center transition">
+    <button type="button" onclick="closeLightbox()" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 hover:bg-brand-accent text-white font-bold text-lg flex items-center justify-center transition z-10">
       ✕
     </button>
 
-    <button type="button" onclick="event.stopPropagation(); changeLightboxSlide(-1)" class="absolute left-4 sm:left-8 w-12 h-12 rounded-full bg-white/10 hover:bg-brand-accent text-white font-bold text-xl flex items-center justify-center transition">
+    <button type="button" onclick="event.stopPropagation(); changeLightboxSlide(-1)" class="absolute left-3 sm:left-8 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/15 hover:bg-brand-accent text-white font-bold text-xl flex items-center justify-center transition z-10">
       ‹
     </button>
 
-    <div class="max-w-5xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
-      <img id="lightbox-img" src="" alt="Detail realizace" class="max-h-[82vh] w-auto rounded-2xl shadow-2xl border border-white/15 object-contain" />
-      <p id="lightbox-caption" class="text-white font-display font-bold text-base sm:text-lg mt-4 text-center"></p>
+    <div id="lightbox-touch-area" class="max-w-5xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
+      <img id="lightbox-img" src="" alt="Detail realizace" class="max-h-[78vh] sm:max-h-[82vh] w-auto rounded-2xl shadow-2xl border border-white/15 object-contain" />
+      <p id="lightbox-caption" class="text-white font-display font-bold text-sm sm:text-lg mt-4 text-center px-4"></p>
     </div>
 
-    <button type="button" onclick="event.stopPropagation(); changeLightboxSlide(1)" class="absolute right-4 sm:right-8 w-12 h-12 rounded-full bg-white/10 hover:bg-brand-accent text-white font-bold text-xl flex items-center justify-center transition">
+    <button type="button" onclick="event.stopPropagation(); changeLightboxSlide(1)" class="absolute right-3 sm:right-8 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/15 hover:bg-brand-accent text-white font-bold text-xl flex items-center justify-center transition z-10">
       ›
     </button>
   </div>
@@ -1047,6 +1138,27 @@
     document.querySelectorAll('img.smart-img').forEach(attachSmartImageFallback);
 
     // =========================================================================
+    // MOBILNÍ VYSOUVACÍ MENU
+    // =========================================================================
+    function toggleMobileMenu(open) {
+      const backdrop = document.getElementById('mobile-menu-backdrop');
+      const drawer = document.getElementById('mobile-menu-drawer');
+      if (!backdrop || !drawer) return;
+
+      if (open) {
+        backdrop.classList.remove('hidden');
+        setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+        drawer.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden';
+      } else {
+        backdrop.classList.add('opacity-0');
+        drawer.classList.add('translate-x-full');
+        document.body.style.overflow = '';
+        setTimeout(() => backdrop.classList.add('hidden'), 300);
+      }
+    }
+
+    // =========================================================================
     // NASTAVENÍ KALKULAČKY
     // =========================================================================
     const CENIK_NASTAVENI = {
@@ -1057,10 +1169,13 @@
         kancelar: { cenaZaM2: 60, koeficientSten: 2.5, nazev: 'Malování kanceláří / komerčních prostor' }
       },
       priplatekOpravyKoeficient: 1.18,
+      priplatekUkl
       priplatekUklidKc: 1200
     };
 
-    // 1. BEFORE / AFTER DRAGGABLE SLIDER
+    // =========================================================================
+    // 1. BEFORE / AFTER DRAGGABLE SLIDER (S optimalizací pro dotyk)
+    // =========================================================================
     const baContainer = document.getElementById('ba-slider-view');
     const baBeforeWrapper = document.getElementById('ba-before-wrapper');
     const baBeforeImg = document.getElementById('ba-before-img');
@@ -1118,18 +1233,20 @@
       if (mode === 'combined') {
         sliderView.classList.add('hidden');
         combinedView.classList.remove('hidden');
-        btnCombined.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-accent text-white shadow transition';
-        btnSlider.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white/80 hover:text-white transition';
+        btnCombined.className = 'w-full sm:w-auto px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-accent text-white shadow transition text-center';
+        btnSlider.className = 'w-full sm:w-auto px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white/80 hover:text-white transition text-center';
       } else {
         combinedView.classList.add('hidden');
         sliderView.classList.remove('hidden');
-        btnSlider.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-accent text-white shadow transition';
-        btnCombined.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white/80 hover:text-white transition';
+        btnSlider.className = 'w-full sm:w-auto px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-accent text-white shadow transition text-center';
+        btnCombined.className = 'w-full sm:w-auto px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white/80 hover:text-white transition text-center';
         syncBeforeImageWidth();
       }
     }
 
+    // =========================================================================
     // 2. PRICE & SCOPE CALCULATOR
+    // =========================================================================
     let currentCalcKey = 'byt';
 
     function setCalcType(typeKey, btnEl) {
@@ -1188,13 +1305,15 @@
       if (selectEl) selectEl.value = serviceName;
     }
 
+    // =========================================================================
     // 3. GALLERY FILTER
+    // =========================================================================
     function filterGallery(cat, btnEl) {
       document.querySelectorAll('.gal-filter').forEach(btn => {
-        btn.className = 'gal-filter px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-brand-dark/75 hover:bg-brand-sand border border-black/5 transition';
+        btn.className = 'gal-filter shrink-0 px-4 py-2.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-brand-dark/75 hover:bg-brand-sand border border-black/5 transition';
       });
       if (btnEl) {
-        btnEl.className = 'gal-filter px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-brand-dark text-white transition';
+        btnEl.className = 'gal-filter shrink-0 px-4 py-2.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-brand-dark text-white transition';
       }
 
       document.querySelectorAll('.gallery-item').forEach(item => {
@@ -1206,7 +1325,9 @@
       });
     }
 
-    // 4. LIGHTBOX FOR GALLERY PHOTOS (bere aktuálně načtené src přímo z galerie)
+    // =========================================================================
+    // 4. LIGHTBOX PRO GALERII (S podporou swipe gest na telefonu)
+    // =========================================================================
     const galleryItems = [
       { id: 'gal-img-0', title: 'Obroušení a nátěr plechové střechy – přímé srovnání v průběhu práce' },
       { id: 'gal-img-1', title: 'Dokončený ochranný nátěr plechové střechy rodinného domu' },
@@ -1220,10 +1341,12 @@
       currentLightboxIndex = index;
       updateLightboxContent();
       document.getElementById('lightbox-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
       document.getElementById('lightbox-modal').classList.add('hidden');
+      document.body.style.overflow = '';
     }
 
     function changeLightboxSlide(step) {
@@ -1243,6 +1366,25 @@
       }
     }
 
+    // Swipe doleva/doprava v otevřeném Lightboxu na mobilu
+    const lbTouchArea = document.getElementById('lightbox-touch-area');
+    let touchStartX = 0;
+
+    if (lbTouchArea) {
+      lbTouchArea.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      lbTouchArea.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 45) {
+          if (diff > 0) changeLightboxSlide(1);
+          else changeLightboxSlide(-1);
+        }
+      }, { passive: true });
+    }
+
     window.addEventListener('keydown', (e) => {
       const lb = document.getElementById('lightbox-modal');
       if (!lb || lb.classList.contains('hidden')) return;
@@ -1251,7 +1393,9 @@
       if (e.key === 'ArrowLeft') changeLightboxSlide(-1);
     });
 
+    // =========================================================================
     // 5. INQUIRY FORM SUBMIT -> OPENS PRE-FILLED EMAIL CLIENT (mailto:)
+    // =========================================================================
     function handleFormSubmit(event) {
       event.preventDefault();
 
