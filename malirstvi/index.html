@@ -170,8 +170,8 @@
     </div>
   </div>
 
-  <!-- STICKY NAVIGATION -->
-  <header class="sticky top-0 z-40 bg-brand-cream/95 backdrop-blur-md border-b border-black/5">
+  <!-- STICKY NAVIGATION (z-50 aby byla vždy nad mlhou) -->
+  <header class="sticky top-0 z-50 bg-brand-cream/95 backdrop-blur-md border-b border-black/5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 lg:h-20 flex items-center justify-between gap-2">
       
       <!-- Brand Logo -->
@@ -204,7 +204,7 @@
         </a>
         
         <!-- Animated Hamburger Button pro mobil -->
-        <button id="hamburger-btn" type="button" onclick="toggleMobileMenu()" class="lg:hidden w-11 h-11 rounded-xl bg-white border border-black/10 flex flex-col items-center justify-center gap-[5px] shadow-sm relative z-50 transition-colors">
+        <button id="hamburger-btn" type="button" onclick="toggleMobileMenu()" class="lg:hidden w-11 h-11 rounded-xl bg-white border border-black/10 flex flex-col items-center justify-center gap-[5px] shadow-sm relative transition-colors">
           <span class="hamburger-line line-1 w-5 h-[2px] bg-brand-dark rounded-full"></span>
           <span class="hamburger-line line-2 w-5 h-[2px] bg-brand-dark rounded-full"></span>
           <span class="hamburger-line line-3 w-5 h-[2px] bg-brand-dark rounded-full"></span>
@@ -213,7 +213,7 @@
     </div>
   </header>
 
-  <!-- MOBILE FULLSCREEN MENU OVERLAY -->
+  <!-- MOBILE FULLSCREEN MENU OVERLAY (z-40, takže se zobrazí pod hlavičkou) -->
   <div id="mobile-menu-overlay" class="fixed inset-0 z-40 bg-brand-cream/98 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300 lg:hidden flex flex-col justify-center items-center">
     <nav class="flex flex-col items-center space-y-6 text-center w-full px-6">
       <a href="#sluzby" onclick="toggleMobileMenu()" class="text-3xl font-display font-bold text-brand-dark">Služby</a>
@@ -296,8 +296,8 @@
         <div class="lg:col-span-5 relative mt-6 lg:mt-0 w-full">
           <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden shadow-premium border-4 border-white bg-brand-dark aspect-[4/3.5] lg:aspect-[4/4.3]">
             <img 
-              src="malirstvi/850244549_1588559603284118_8684010742655254480_n.jpg" 
-              data-fallback="malirstvi/850244549_1588559603284118_8684010742655254480_n.jpg"
+              src="850244549_1588559603284118_8684010742655254480_n.jpg" 
+              data-fallback="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&w=1200&q=85"
               alt="Nátěr plechové střechy Náchod" 
               class="smart-img w-full h-full object-cover" 
             />
@@ -353,7 +353,7 @@
     </div>
   </section>
 
-  <!-- SERVICES SECTION (Zpět přidáno) -->
+  <!-- SERVICES SECTION -->
   <section id="sluzby" class="py-14 sm:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-14 gap-4 sm:gap-6 text-center lg:text-left">
@@ -478,8 +478,8 @@
             <img 
               id="ba-after-img" 
               draggable="false" 
-              src="malirstvi/806453323_1554981113308634_709067594057854729_n.jpg" 
-              data-fallback="malirstvi/806453323_1554981113308634_709067594057854729_n.jpg"
+              src="806453323_1554981113308634_709067594057854729_n.jpg" 
+              data-fallback="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85"
               class="smart-img w-full h-full object-cover pointer-events-none select-none" 
             />
             <span class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 px-2.5 py-1.5 rounded-full bg-emerald-500 text-white text-[10px] lg:text-xs font-extrabold shadow-lg">
@@ -490,8 +490,8 @@
               <img 
                 id="ba-before-img" 
                 draggable="false" 
-                src="malirstvi/807084507_1554981006641978_7834916237745555571_n.jpg" 
-                data-fallback="malirstvi/807084507_1554981006641978_7834916237745555571_n.jpg"
+                src="807084507_1554981006641978_7834916237745555571_n.jpg" 
+                data-fallback="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1400&q=80"
                 class="smart-img w-full h-full object-cover pointer-events-none select-none" 
                 style="width: 100%; max-width: none;" 
               />
@@ -510,8 +510,8 @@
           <div id="ba-combined-view" class="hidden rounded-3xl overflow-hidden shadow-2xl border-2 border-white/15 aspect-[4/3.5] lg:aspect-[16/11] bg-brand-slate relative">
             <img 
               id="ba-single-img" 
-              src="malirstvi/847730580_1587806353359443_8105146506854053346_n.jpg" 
-              data-fallback="malirstvi/847730580_1587806353359443_8105146506854053346_n.jpg"
+              src="847730580_1587806353359443_8105146506854053346_n.jpg" 
+              data-fallback="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&w=1400&q=85"
               class="smart-img w-full h-full object-cover" 
             />
             <span class="absolute top-3 left-3 z-10 px-2.5 py-1.5 rounded-full bg-brand-dark/90 text-white text-[10px] font-extrabold border border-white/20 shadow-lg">← PŮVODNÍ</span>
@@ -552,7 +552,7 @@
     </div>
   </section>
 
-  <!-- PHOTO GALLERY / REALIZATIONS SECTION (Zpět přidáno) -->
+  <!-- PHOTO GALLERY / REALIZATIONS SECTION -->
   <section id="realizace" class="py-14 sm:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
@@ -577,7 +577,7 @@
       <div id="gallery-grid" class="grid sm:grid-cols-2 lg:grid-cols-12 gap-5 sm:gap-6">
         
         <div data-cat="strechy" class="gallery-item lg:col-span-7 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[16/11] sm:aspect-[16/10] bg-brand-dark cursor-pointer text-left" onclick="openLightbox(0)">
-          <img src="malirstvi/847730580_1587806353359443_8105146506854053346_n.jpg" data-fallback="malirstvi/847730580_1587806353359443_8105146506854053346_n.jpg" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+          <img src="847730580_1587806353359443_8105146506854053346_n.jpg" data-fallback="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&w=1200&q=80" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/15 to-transparent"></div>
           <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-end justify-between gap-3 text-white">
             <div>
@@ -589,7 +589,7 @@
         </div>
 
         <div data-cat="strechy" class="gallery-item lg:col-span-5 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[16/11] sm:aspect-[16/10] lg:aspect-auto bg-brand-dark cursor-pointer text-left" onclick="openLightbox(1)">
-          <img src="malirstvi/850244549_1588559603284118_8684010742655254480_n.jpg" data-fallback="malirstvi/850244549_1588559603284118_8684010742655254480_n.jpg" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+          <img src="850244549_1588559603284118_8684010742655254480_n.jpg" data-fallback="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/15 to-transparent"></div>
           <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-end justify-between gap-3 text-white">
             <div>
@@ -601,7 +601,7 @@
         </div>
 
         <div data-cat="interier" class="gallery-item lg:col-span-4 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[4/3] bg-brand-dark cursor-pointer text-left" onclick="openLightbox(2)">
-          <img src="malirstvi/836514537_1578124510994294_5236676018079017726_n.jpg" data-fallback="malirstvi/836514537_1578124510994294_5236676018079017726_n.jpg" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+          <img src="836514537_1578124510994294_5236676018079017726_n.jpg" data-fallback="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent"></div>
           <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3 text-white">
             <div>
@@ -612,7 +612,7 @@
         </div>
 
         <div data-cat="interier" class="gallery-item lg:col-span-4 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[4/3] bg-brand-dark cursor-pointer text-left" onclick="openLightbox(3)">
-          <img src="malirstvi/834647086_1578124627660949_3042886217361800681_n.jpg" data-fallback="malirstvi/834647086_1578124627660949_3042886217361800681_n.jpg" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+          <img src="834647086_1578124627660949_3042886217361800681_n.jpg" data-fallback="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent"></div>
           <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3 text-white">
             <div>
@@ -623,7 +623,7 @@
         </div>
 
         <div data-cat="komerce" class="gallery-item lg:col-span-4 group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-premium border border-black/5 aspect-[4/3] bg-brand-dark cursor-pointer text-left" onclick="openLightbox(4)">
-          <img src="malirstvi/836333663_1578124807660931_9031813043126568491_n.jpg" data-fallback="malirstvi/836333663_1578124807660931_9031813043126568491_n.jpg" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+          <img src="836333663_1578124807660931_9031813043126568491_n.jpg" data-fallback="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" class="smart-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent"></div>
           <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3 text-white">
             <div>
@@ -637,7 +637,7 @@
     </div>
   </section>
 
-  <!-- INTERACTIVE PRICE CALCULATOR SECTION (Zpět přidáno) -->
+  <!-- INTERACTIVE PRICE CALCULATOR SECTION -->
   <section id="kalkulacka" class="py-14 sm:py-20 lg:py-28 bg-brand-sand/70 border-y border-black/5">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-white rounded-3xl p-5 sm:p-12 shadow-premium border border-black/5">
@@ -719,7 +719,7 @@
     </div>
   </section>
 
-  <!-- AUTHENTIC REVIEWS SECTION (Zpět přidáno) -->
+  <!-- AUTHENTIC REVIEWS SECTION -->
   <section id="recenze" class="py-14 sm:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
@@ -789,7 +789,7 @@
     </div>
   </section>
 
-  <!-- OSTATNÍ SEKCÍ A FORMULÁŘ -->
+  <!-- CONTACT & INQUIRY SECTION -->
   <section id="kontakt" class="py-14 lg:py-28 bg-brand-dark text-white relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start text-center lg:text-left">
@@ -832,7 +832,7 @@
           </div>
         </div>
 
-        <!-- Right Quick Inquiry Form (S anti-zoom text-base pro iOS) -->
+        <!-- Right Quick Inquiry Form -->
         <div class="lg:col-span-7 bg-white text-brand-dark rounded-3xl p-6 sm:p-10 shadow-2xl text-left">
           <h3 class="font-display text-xl sm:text-2xl font-bold mb-2">Rychlá nezávazná poptávka</h3>
           <p class="text-xs sm:text-sm text-brand-dark/65 mb-6">Vyplňte údaje níže – po kliknutí na tlačítko se vám otevře připravený e-mail se všemi vypsanými informacemi, který stačí jedním klikem odeslat.</p>
@@ -892,7 +892,7 @@
     </div>
   </footer>
 
-  <!-- MOBILE STICKY BOTTOM ACTION BAR (Zobrazuje se pouze na telefonech) -->
+  <!-- MOBILE STICKY BOTTOM ACTION BAR -->
   <div class="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-white/95 backdrop-blur-md border-t border-black/10 px-4 pt-3 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
     <div class="flex gap-3 max-w-md mx-auto">
       <a href="tel:+420702449338" class="flex-1 flex items-center justify-center gap-2 bg-brand-accent text-white font-bold text-sm py-3.5 rounded-xl active:scale-95 transition">
@@ -924,7 +924,7 @@
       img.addEventListener('error', function() {
         const fallback = this.getAttribute('data-fallback');
         if (fallback && !this.src.endsWith('fallback_used')) {
-          this.src = fallback + '?fallback_used';
+          this.src = fallback;
         }
       });
     }
