@@ -12,7 +12,7 @@
         /* CSS Proměnné pro snadnou změnu barev */
         :root {
             --primary-bg: #1a1a1a;
-            --accent-color: #d4af37; /* Zlatavá barva piva */
+            --accent-color: #d4af37;
             --text-dark: #333;
             --text-light: #fff;
             --bg-light: #fdfbf7;
@@ -55,7 +55,7 @@
             top: 0;
             width: 100%;
             padding: 1.2rem 5%;
-            background: rgba(26, 26, 26, 0.95);
+            background: rgba(26, 26, 26, 0.8);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
@@ -63,7 +63,12 @@
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        header.scrolled {
+            padding: 0.8rem 5%;
+            background: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .logo {
@@ -138,70 +143,47 @@
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: rotate(-45deg); top: 11px; }
 
-        /* Úvodní sekce (Rozdělená obrazovka - eliminuje rozmazání) */
+        /* Úvodní sekce - Fullscreen s novou kvalitní fotkou */
         .hero {
-            min-height: 100vh;
-            background-color: var(--primary-bg);
+            height: 100vh;
+            /* Načítání kvalitnější verze _2.jpg */
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('https://digitory.cz/nahorickach/unnamed-4_2.jpg') no-repeat center center;
+            background-size: cover;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            padding: 120px 8% 50px;
+            text-align: center;
             color: var(--text-light);
-            gap: 4rem;
+            padding: 0 1rem;
         }
 
-        .hero-text {
-            flex: 1;
-            max-width: 600px;
-            opacity: 0;
-            transform: translateX(-30px);
-            animation: slideInLeft 1s forwards 0.3s;
-        }
-
-        .hero-text h1 {
-            font-size: 4.5rem;
-            margin-bottom: 1.5rem;
+        .hero h1 {
+            font-size: 4vw;
+            margin-bottom: 1rem;
             color: var(--accent-color);
-            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s forwards 0.5s;
         }
 
-        .hero-text p {
+        .hero p {
             font-size: 1.2rem;
             font-weight: 300;
-            margin-bottom: 2rem;
-            color: #ddd;
-        }
-
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
+            max-width: 600px;
             opacity: 0;
-            transform: translateX(30px);
-            animation: slideInRight 1s forwards 0.6s;
+            transform: translateY(30px);
+            animation: fadeUp 1s forwards 0.8s;
         }
 
-        .hero-image img {
-            max-width: 100%;
-            height: auto;
-            max-height: 75vh; /* Zabrání přehnanému zvětšení */
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            object-fit: cover;
-        }
-
-        @keyframes slideInLeft {
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-            to { opacity: 1; transform: translateX(0); }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Animace prvků při rolování */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(50px);
             transition: all 0.8s ease-out;
         }
 
@@ -210,10 +192,10 @@
             transform: translateY(0);
         }
 
-        /* Info Sekce */
+        /* Info Sekce - vystupující nad Hero */
         .info-section {
             max-width: 1200px;
-            margin: 4rem auto;
+            margin: -100px auto 4rem;
             position: relative;
             z-index: 10;
             padding: 0 5%;
@@ -222,27 +204,27 @@
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
+            gap: 2rem;
         }
 
         .info-card {
             background: #fff;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 5px solid var(--accent-color);
+            border-top: 4px solid var(--accent-color);
         }
 
         .info-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
         .info-card h3 {
             color: var(--primary-bg);
-            margin-bottom: 2rem;
-            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
         }
 
         .info-card ul {
@@ -252,14 +234,13 @@
         .info-card ul li {
             display: flex;
             justify-content: space-between;
-            padding: 1rem 0;
+            padding: 0.8rem 0;
             border-bottom: 1px solid #f0f0f0;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
         }
 
         .info-card p {
-            margin-bottom: 1.2rem;
-            font-size: 1.05rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -270,26 +251,26 @@
             margin-top: 2rem;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         .map-wrapper iframe {
             width: 100%;
-            height: 300px;
+            height: 350px;
             border: none;
             display: block;
         }
 
         /* Recenze */
         .reviews-section {
-            padding: 6rem 5%;
+            padding: 5rem 5%;
             background-color: #fff;
             text-align: center;
         }
 
         .section-title {
             font-size: 2.5rem;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
             color: var(--primary-bg);
             position: relative;
             display: inline-block;
@@ -298,84 +279,76 @@
         .section-title::after {
             content: '';
             position: absolute;
-            width: 60px;
+            width: 50px;
             height: 3px;
             background: var(--accent-color);
-            bottom: -15px;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
         }
 
         .reviews-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 3rem;
-            max-width: 1100px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .review-card {
             background: var(--bg-light);
-            padding: 3rem;
-            border-radius: 20px;
+            padding: 2.5rem;
+            border-radius: 15px;
             position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
         .review-card::before {
             content: '"';
             font-family: 'Playfair Display', serif;
-            font-size: 6rem;
-            color: rgba(212, 175, 55, 0.15);
+            font-size: 5rem;
+            color: rgba(212, 175, 55, 0.2);
             position: absolute;
-            top: -20px;
-            left: 30px;
+            top: -10px;
+            left: 20px;
         }
 
         .stars {
             color: var(--accent-color);
-            margin-bottom: 1.5rem;
-            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
 
         .review-card p {
             font-style: italic;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: #555;
-            font-size: 1.1rem;
-            position: relative;
-            z-index: 2;
         }
 
         .review-card h4 {
             font-family: 'Montserrat', sans-serif;
             text-transform: uppercase;
-            font-size: 0.95rem;
-            letter-spacing: 1.5px;
-            color: var(--primary-bg);
-            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
         }
 
-        /* Profi Slider Galerie - Zúženo pro fotky na výšku */
+        /* Profi Slider Galerie - Původní široká verze */
         .gallery-section {
-            padding: 6rem 5%;
+            padding: 5rem 5%;
             background-color: var(--primary-bg);
             color: var(--text-light);
-            text-align: center;
         }
 
         .gallery-section .section-title {
             color: var(--text-light);
         }
 
-        /* Užší kontejner pro zachování kvality mobilních fotek */
         .slider-container {
-            max-width: 500px;
+            max-width: 900px;
             margin: 0 auto;
             position: relative;
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             background-color: #000;
         }
 
@@ -390,13 +363,13 @@
         }
 
         @keyframes fadeEffect {
-            from {opacity: 0.5}
+            from {opacity: 0.4}
             to {opacity: 1}
         }
 
         .slide img {
             width: 100%;
-            height: 650px; /* Ideální pro fotky na výšku */
+            height: 500px;
             object-fit: cover;
             display: block;
         }
@@ -406,14 +379,14 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.95));
-            padding: 4rem 2rem 2rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 3rem 2rem 2rem;
             text-align: center;
         }
 
         .slide-content h3 {
             color: var(--accent-color);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
@@ -422,10 +395,10 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
             color: white;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: none;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -440,16 +413,15 @@
         .slider-btn:hover {
             background: var(--accent-color);
             color: var(--primary-bg);
-            border-color: var(--accent-color);
         }
 
-        .prev { left: 15px; }
-        .next { right: 15px; }
+        .prev { left: 20px; }
+        .next { right: 20px; }
 
         /* Tečky slideru */
         .dots-container {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             width: 100%;
             text-align: center;
         }
@@ -458,78 +430,58 @@
             cursor: pointer;
             height: 10px;
             width: 10px;
-            margin: 0 6px;
+            margin: 0 5px;
             background-color: rgba(255,255,255,0.3);
             border-radius: 50%;
             display: inline-block;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .dot.active-dot, .dot:hover {
             background-color: var(--accent-color);
-            transform: scale(1.3);
+            transform: scale(1.2);
         }
 
         /* Patička */
         footer {
-            background: #0a0a0a;
-            color: #777;
+            background: #111;
+            color: #888;
             text-align: center;
-            padding: 3rem 5%;
-            font-size: 0.95rem;
+            padding: 2rem 5%;
+            font-size: 0.9rem;
         }
 
         /* Responzivní design */
-        @media (max-width: 992px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                padding-top: 150px;
-            }
-            .hero-text {
-                transform: translateX(0);
-                animation: fadeUp 1s forwards 0.3s;
-            }
-            .hero-image {
-                transform: translateX(0);
-                animation: fadeUp 1s forwards 0.6s;
-            }
-            .hero-text h1 { font-size: 3.5rem; }
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            
             .hamburger { display: block; }
 
             .nav-links {
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 280px;
+                width: 250px;
                 height: 100vh;
                 background: var(--primary-bg);
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                transition: right 0.4s cubic-bezier(0.77, 0.2, 0.05, 1.0);
-                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+                transition: right 0.4s ease;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.5);
             }
 
             .nav-links.active-menu {
                 right: 0;
             }
 
-            .slide img { height: 500px; }
+            .info-section { margin-top: -50px; }
+            .slide img { height: 350px; }
+            .slider-btn { width: 40px; height: 40px; font-size: 1.2rem; }
         }
-        
         @media (max-width: 480px) {
-            .hero-text h1 { font-size: 2.5rem; }
-            .info-card { padding: 2rem 1.5rem; }
-            .slide img { height: 450px; }
+            .hero h1 { font-size: 2rem; }
+            .slide img { height: 250px; }
         }
     </style>
 </head>
@@ -550,13 +502,8 @@
     </header>
 
     <section class="hero">
-        <div class="hero-text">
-            <h1>Na Hořičkách</h1>
-            <p>Kde poctivá česká gastronomie potkává mistrovsky ošetřené pivo. Zastavte se u nás na vynikající oběd či večeři.</p>
-        </div>
-        <div class="hero-image">
-            <img src="https://digitory.cz/nahorickach/unnamed-4.jpg" alt="Skvěle načepované pivo">
-        </div>
+        <h1>Na Hořičkách</h1>
+        <p>Kde poctivá česká gastronomie potkává mistrovsky ošetřené pivo.</p>
     </section>
 
     <section id="info" class="info-section reveal">
@@ -604,30 +551,30 @@
     </section>
 
     <section id="galerie" class="gallery-section reveal">
-        <h2 class="section-title">Naše speciality</h2>
+        <h2 class="section-title" style="text-align: center; display: block;">Naše speciality</h2>
         <div class="slider-container">
             
-            <!-- Snímek 1 -->
+            <!-- Snímek 1 (Nová kvalitnější fotka _2.jpg) -->
             <div class="slide active-slide">
-                <img src="https://digitory.cz/nahorickach/unnamed-3.jpg" alt="Vepřo knedlo zelo">
+                <img src="https://digitory.cz/nahorickach/unnamed-3_2.jpg" alt="Vepřo knedlo zelo">
                 <div class="slide-content">
                     <h3>Vepřo knedlo zelo</h3>
                     <p>Česká klasika z těch nejlepších surovin</p>
                 </div>
             </div>
             
-            <!-- Snímek 2 -->
+            <!-- Snímek 2 (Nová kvalitnější fotka _2.jpeg) -->
             <div class="slide">
-                <img src="https://digitory.cz/nahorickach/668e.mpo.jpeg" alt="Vepřová panenka">
+                <img src="https://digitory.cz/nahorickach/668e.mpo_2.jpeg" alt="Vepřová panenka">
                 <div class="slide-content">
                     <h3>Vepřová panenka</h3>
-                    <p>Šťavnaté maso s domácím dipem</p>
+                    <p>Šťavnaté maso doplněné zlatavými hranolky a domácím dipem</p>
                 </div>
             </div>
             
-            <!-- Snímek 3 -->
+            <!-- Snímek 3 (Nová kvalitnější fotka _2.jpg) -->
             <div class="slide">
-                <img src="https://digitory.cz/nahorickach/unnamed-4.jpg" alt="Čepované pivo">
+                <img src="https://digitory.cz/nahorickach/unnamed-4_2.jpg" alt="Čepované pivo">
                 <div class="slide-content">
                     <h3>Zlatavý mok</h3>
                     <p>Mistrovsky načepované pivo s bohatou pěnou</p>
@@ -652,7 +599,17 @@
     </footer>
 
     <script>
-        /* Moderní Hamburger menu (Boční panel) */
+        /* 1. Změna vzhledu hlavičky při skrolování */
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        /* 2. Moderní Hamburger menu (Boční panel) */
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
         const links = document.querySelectorAll('.nav-links a');
@@ -669,7 +626,7 @@
             });
         });
 
-        /* Animace prvků při skrolování (Intersection Observer) */
+        /* 3. Animace prvků při skrolování (Intersection Observer) */
         const reveals = document.querySelectorAll('.reveal');
         
         const revealOptions = {
@@ -689,7 +646,7 @@
             revealOnScroll.observe(reveal);
         });
 
-        /* Profi Slider s tečkami a auto-přehráváním */
+        /* 4. Profi Slider s tečkami a auto-přehráváním */
         let slideIndex = 1;
         let slideTimer;
 
