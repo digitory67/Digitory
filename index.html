@@ -5,30 +5,52 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Digitory — z nápadu do reality</title>
   <meta name="description" content="Digitory: z nápadu do reality. Technologie, automatizace a chytrá řešení v moderním designu." />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Fonty -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Animace (AOS) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
   <link rel="icon" type="image/png" href="assets/favicon.png">
   
   <style>
-    /* === MONOCHROME MINIMALISM S BAREVNÝM AKCENTEM - REDESIGN === */
+    /* === LUXURY REDESIGN: SVĚTLÝ REŽIM (DEFAULT) === */
     :root {
+      --bg: #f8f9fa; 
+      --text: #1a1a1a;
+      --muted: #6c757d;
+      --border: rgba(0, 0, 0, 0.08); 
+      --accent: #DDA756; 
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --glass: rgba(255, 255, 255, 0.6);
+      --nav-bg: rgba(248, 249, 250, 0.85);
+      --shadow: 0 15px 35px rgba(0,0,0,0.05);
+      --ambient: radial-gradient(circle at 50% 0%, rgba(221, 167, 86, 0.15) 0%, rgba(248, 249, 250, 0) 60%);
+      
+      --max: 1200px;
+      --radius: 24px; 
+      --header-height: 85px;
+    }
+
+    /* === TMAVÝ REŽIM === */
+    [data-theme="dark"] {
       --bg: #080808; 
       --text: #ffffff;
       --muted: #a3a3a3;
       --border: rgba(255, 255, 255, 0.08); 
-      --accent: #DDA756; 
-      --card-bg: rgba(255, 255, 255, 0.02);
-      --glass: rgba(255, 255, 255, 0.03);
-      --max: 1200px;
-      --radius: 16px; /* Modernější měkčí zaoblení pro karty */
-      --header-height: 80px;
+      --card-bg: rgba(20, 20, 20, 0.5);
+      --glass: rgba(0, 0, 0, 0.6);
+      --nav-bg: rgba(8, 8, 8, 0.85);
+      --shadow: 0 20px 40px rgba(0,0,0,0.4);
+      --ambient: radial-gradient(circle at 50% -10%, rgba(221, 167, 86, 0.15) 0%, rgba(8, 8, 8, 0) 50%);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     
     html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
       background: var(--bg);
       color: var(--text);
       font-family: 'Poppins', system-ui, sans-serif;
@@ -37,110 +59,198 @@
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
-      position: relative;
+      transition: background-color 0.5s ease, color 0.5s ease;
     }
 
-    /* Přidání jemného tech gridu na pozadí pro profesionálnější vzhled */
+    /* Luxusní ambientní pozadí */
+    .page-ambient {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: var(--ambient);
+      transition: background 0.5s ease;
+    }
+    
     body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
+      content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
       background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 50px 50px;
-      z-index: -2;
-      pointer-events: none;
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.5;
     }
 
     body.no-scroll { overflow: hidden; }
 
-    .page-ambient {
-      position: fixed; inset: -50%; z-index: -1; pointer-events: none;
-      background: radial-gradient(circle at 50% -10%, rgba(221, 167, 86, 0.15) 0%, rgba(8, 8, 8, 0) 50%);
-    }
-
     /* --- NAVBAR --- */
     header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      background: rgba(8, 8, 8, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       height: var(--header-height);
-      display: flex;
-      align-items: center; 
+      display: flex; align-items: center; 
+      transition: background 0.5s ease, border-color 0.5s ease;
     }
     .nav {
-        width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px;
-        display: flex; align-items: center; justify-content: space-between; height: 100%;
+      width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 100%;
     }
-    .nav-links { display: flex; gap: 36px; align-items: center; }
+    
+    .nav-left { display: flex; align-items: center; gap: 32px; }
+    
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { height: 32px; width: auto; transition: transform 0.4s ease; display: block; }
+    .nav-logo:hover img { transform: scale(1.05); }
+
+    .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-links a { 
-      color: var(--muted); text-decoration: none; font-weight: 600; font-size: 13px; 
-      text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.3s; position: relative;
+      color: var(--muted); text-decoration: none; font-weight: 500; font-size: 14px; 
+      text-transform: uppercase; letter-spacing: 1.5px; transition: all 0.3s; position: relative;
     }
     .nav-links a::after {
-      content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
-      background: var(--accent); opacity: 0; transform: scaleX(0); transition: 0.3s ease;
+      content: ""; position: absolute; left: 50%; right: 50%; bottom: -6px; height: 2px;
+      background: var(--accent); transition: 0.3s ease; border-radius: 2px;
     }
     .nav-links a:hover, .nav-links a.active { color: var(--text); }
-    .nav-links a:hover::after, .nav-links a.active::after { opacity: 1; transform: scaleX(1); }
+    .nav-links a:hover::after, .nav-links a.active::after { left: 0; right: 0; }
 
-    .nav-logo img { height: 28px; width: auto; transition: opacity 0.3s; display: block; }
-    .nav-logo img:hover { opacity: 0.8; }
+    /* === LIQUID GLASS THEME TOGGLE === */
+    .theme-toggle {
+      position: relative;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+      box-shadow: 
+        0 8px 24px 0 rgba(0, 0, 0, 0.05),
+        inset 0 2px 4px rgba(255, 255, 255, 0.9), /* Vnitřní světlo nahoře */
+        inset 0 -2px 4px rgba(0, 0, 0, 0.05); /* Vnitřní stín dole */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    /* Fyzický odlesk skla (Highlight) */
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 15%;
+      width: 70%;
+      height: 35%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0));
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Tmavý režim pro Liquid Glass */
+    [data-theme="dark"] .theme-toggle {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, rgba(40,40,40,0.6), rgba(10,10,10,0.4));
+      box-shadow: 
+        0 8px 24px 0 rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.15),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="dark"] .theme-toggle::before {
+      background: linear-gradient(to bottom, rgba(255,255,255,0.12), rgba(255,255,255,0));
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 
+        0 12px 24px 0 rgba(221, 167, 86, 0.2), /* Akcentní glow */
+        inset 0 2px 4px rgba(255, 255, 255, 0.9);
+      border-color: rgba(221, 167, 86, 0.5);
+    }
+    [data-theme="dark"] .theme-toggle:hover {
+       box-shadow: 
+        0 12px 24px 0 rgba(221, 167, 86, 0.15),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+       border-color: rgba(221, 167, 86, 0.3);
+    }
+
+    /* Apple-style tenké ikony */
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5; 
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      position: relative;
+      z-index: 2;
+    }
+
+    .theme-toggle:hover svg {
+      transform: rotate(15deg);
+    }
 
     /* --- HAMBURGER --- */
     .nav-toggle {
-      display: none; flex-direction: column; justify-content: space-between;
-      width: 40px; height: 40px; padding: 12px 6px; background: transparent; border: none; cursor: pointer; 
+      display: none; flex-direction: column; justify-content: center; gap: 6px;
+      width: 44px; height: 44px; background: none; border: none; cursor: pointer; z-index: 201;
     }
     .nav-toggle span {
-      display: block; width: 100%; height: 2px; background-color: var(--text);
-      transition: all 0.3s ease; transform-origin: center;
+      display: block; width: 28px; height: 2px; background-color: var(--text);
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); margin: 0 auto;
     }
-    .nav-toggle.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); background-color: var(--accent); }
+    .nav-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background-color: var(--accent); }
     .nav-toggle.is-active span:nth-child(2) { opacity: 0; }
-    .nav-toggle.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background-color: var(--accent); }
+    .nav-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background-color: var(--accent); }
 
     /* --- MOBILE MENU --- */
     .nav-mobile-panel {
-      display: flex; flex-direction: column; position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 5, 0.98);
-      backdrop-filter: blur(20px);
-      padding: 100px 24px 24px; z-index: 190;
+      display: flex; flex-direction: column; position: fixed; justify-content: center; align-items: center;
+      top: 0; left: 0; right: 0; bottom: 0; background: var(--glass);
+      backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      padding: 24px; z-index: 190;
       opacity: 0; visibility: hidden; pointer-events: none;
-      transform: translateY(-20px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(1.05); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .nav-mobile-panel.open { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+    .nav-mobile-panel.open { opacity: 1; visibility: visible; transform: scale(1); pointer-events: auto; }
     .nav-mobile-panel a {
-      display: block; width: 100%; padding: 20px 0; border-bottom: 1px solid var(--border);
-      color: var(--text); text-decoration: none; font-weight: 600; font-size: 20px;
-      text-transform: uppercase; letter-spacing: 2px; transition: color 0.3s;
+      display: block; padding: 15px 0; margin: 10px 0;
+      color: var(--text); text-decoration: none; font-weight: 600; font-size: 24px;
+      text-transform: uppercase; letter-spacing: 3px; transition: all 0.3s;
+      text-align: center; width: 100%;
     }
-    .nav-mobile-panel a:hover, .nav-mobile-panel a.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .nav-mobile-panel a:hover, .nav-mobile-panel a.active { color: var(--accent); transform: translateY(-3px); }
 
-    @media (max-width: 850px){
-      .nav { gap: 12px; } .nav-links { display: none; } .nav-toggle { display: flex; }
+    @media (max-width: 900px){
+      .nav-links { display: none; } 
+      .nav-toggle { display: flex; }
     }
 
     /* --- PAGE SYSTEM --- */
     main.content-wrapper { flex: 1 0 auto; width: 100%; position: relative; padding-top: var(--header-height); }
-    .page { display: none; width: 100%; animation: none; padding-bottom: 100px; }
+    .page { display: none; width: 100%; padding-bottom: 120px; }
     .page.active { display: block; animation: fadeInPage 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
     @keyframes fadeInPage {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+        from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+        to { opacity: 1; transform: translateY(0); filter: blur(0); }
     }
-    .page-inner { width: 100%; max-width: 1100px; margin: 0 auto; padding: 60px 20px 0px; }
+    .page-inner { width: 100%; max-width: 1100px; margin: 0 auto; padding: 80px 24px 0px; }
 
     /* --- HERO --- */
-    .hero { position: relative; padding: 140px 0 60px; max-width: 900px; margin: 0 auto; text-align: center; }
+    .hero { position: relative; padding: 120px 0 60px; max-width: 900px; margin: 0 auto; text-align: center; }
     .hero h1 { 
-      margin: 0 0 24px; font-size: clamp(48px, 10vw, 110px); line-height: 1.05; 
+      margin: 0 0 24px; font-size: clamp(50px, 10vw, 120px); line-height: 1.05; 
       font-weight: 800; letter-spacing: -0.04em; text-transform: uppercase; 
-      color: #ffffff;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .slogan { 
       font-size: clamp(16px, 3vw, 22px); font-weight: 600; color: var(--accent); 
@@ -148,188 +258,185 @@
     }
     .sub { 
       margin: 0 auto; max-width: 650px; font-size: 18px; color: var(--muted); 
-      line-height: 1.8; font-weight: 300; 
+      line-height: 1.8; font-weight: 400; 
     }
 
-    .cta-hero-extension { padding: 20px 0; margin-bottom: 80px; }
-    .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+    .cta-hero-extension { padding: 20px 0; margin-bottom: 100px; }
+    .cta-buttons { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
     
-    /* --- TLAČÍTKA (Nyní zaoblená do tvaru pilulky pro modernější look) --- */
+    /* --- TLAČÍTKA --- */
     .btn { 
       display: inline-flex; align-items: center; justify-content: center; 
-      padding: 16px 40px; font-weight: 600; font-size: 13px; text-transform: uppercase; 
-      letter-spacing: 2px; transition: all 0.3s ease; text-decoration: none; 
-      border-radius: 50px; cursor: pointer; 
+      padding: 18px 46px; font-weight: 600; font-size: 14px; text-transform: uppercase; 
+      letter-spacing: 2px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-decoration: none; 
+      border-radius: 50px; cursor: pointer; position: relative; overflow: hidden;
     }
+    .btn::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.6s ease;
+    }
+    .btn:hover::before { left: 100%; }
+    
     .btn-accent { 
-      background: var(--accent); color: #000; border: 1px solid var(--accent); 
-      box-shadow: 0 8px 25px rgba(221, 167, 86, 0.25); 
+      background: var(--accent); color: #fff; border: 1px solid var(--accent); 
+      box-shadow: 0 10px 30px rgba(221, 167, 86, 0.3); 
     }
     .btn-accent:hover { 
-      background: transparent; color: var(--accent); 
-      transform: translateY(-3px); box-shadow: 0 12px 30px rgba(221, 167, 86, 0.4); 
+      transform: translateY(-5px); box-shadow: 0 15px 40px rgba(221, 167, 86, 0.5); 
     }
     .btn-outline { 
-      background: transparent; border: 1px solid var(--muted); color: var(--text); 
+      background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
+      backdrop-filter: blur(10px);
     }
     .btn-outline:hover { 
-      border-color: var(--accent); color: var(--accent); transform: translateY(-3px); 
+      border-color: var(--accent); color: var(--accent); transform: translateY(-5px); 
+      box-shadow: var(--shadow);
     }
     .btn-block { width: 100%; }
 
     /* --- SPOLEČNÉ STYLY --- */
-    h2 { font-size: clamp(32px, 5vw, 56px); margin-bottom: 16px; text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; }
-    h2.section-title { margin-top: 80px; }
-    p.lead { color: var(--muted); text-align: center; margin-bottom: 50px; font-size: 18px; font-weight: 300; max-width: 700px; margin-left: auto; margin-right: auto;}
+    h2 { font-size: clamp(36px, 6vw, 64px); margin-bottom: 20px; text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; }
+    h2.section-title { margin-top: 60px; }
+    p.lead { color: var(--muted); text-align: center; margin-bottom: 60px; font-size: 20px; font-weight: 400; max-width: 700px; margin-left: auto; margin-right: auto;}
     
+    .card-glass {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); 
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--shadow); transition: all 0.4s ease;
+    }
+
     .about-box, .contact-box { 
-      background: var(--card-bg); border: 1px solid var(--border); padding: 50px; 
-      line-height: 1.9; color: var(--muted); font-weight: 300; border-radius: var(--radius); 
-      backdrop-filter: blur(10px);
+      padding: 60px; line-height: 2; color: var(--text); font-weight: 400; font-size: 16px;
     }
     
     /* --- NAŠE PRÁCE --- */
-    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin-top: 50px; }
     
     .portfolio-item { 
-      background: var(--card-bg); display: flex; flex-direction: column; 
-      text-decoration: none; transition: all 0.4s ease; position: relative; 
-      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; height: 100%;
-      backdrop-filter: blur(10px);
+      display: flex; flex-direction: column; text-decoration: none; overflow: hidden; height: 100%;
     }
     .portfolio-item:hover { 
-      border-color: rgba(221, 167, 86, 0.4); transform: translateY(-8px); 
-      box-shadow: 0 20px 40px -10px rgba(221, 167, 86, 0.15); 
+      border-color: rgba(221, 167, 86, 0.5); transform: translateY(-10px); 
     }
-    
-    .portfolio-info { padding: 40px 30px; display: flex; flex-direction: column; flex-grow: 1; }
-    .portfolio-info h3 { margin: 0 0 12px 0; color: var(--text); font-size: 22px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+    .portfolio-info { padding: 40px; display: flex; flex-direction: column; flex-grow: 1; }
+    .portfolio-info h3 { margin: 0 0 16px 0; color: var(--text); font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
     .portfolio-item:hover .portfolio-info h3 { color: var(--accent); }
-    
-    .portfolio-info p { margin: 0 0 32px 0; color: var(--muted); font-size: 15px; font-weight: 300; flex-grow: 1; line-height: 1.7; }
-    
+    .portfolio-info p { margin: 0 0 32px 0; color: var(--muted); font-size: 16px; flex-grow: 1; line-height: 1.8; }
     .portfolio-item .fake-btn { width: 100%; justify-content: center; pointer-events: none; margin-top: auto; }
-    .portfolio-item:hover .fake-btn { border-color: var(--accent); color: var(--accent); background: rgba(221, 167, 86, 0.05); }
+    .portfolio-item:hover .fake-btn { background: var(--accent); color: #fff; border-color: var(--accent); }
 
     /* --- TÝM --- */
-    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 40px; }
-    .team-member { 
-      background: var(--card-bg); padding: 50px 30px; text-align: center; 
-      transition: all 0.4s ease; border: 1px solid var(--border); border-radius: var(--radius);
-      backdrop-filter: blur(10px);
-    }
-    .team-member:hover { 
-      border-color: rgba(221, 167, 86, 0.4); transform: translateY(-8px); 
-      box-shadow: 0 20px 40px -10px rgba(221, 167, 86, 0.15); 
-    }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-top: 50px; }
+    .team-member { padding: 60px 40px; text-align: center; }
+    .team-member:hover { border-color: var(--accent); transform: translateY(-10px); }
     .member-avatar { 
-      width: 140px; height: 140px; margin: 0 auto 30px; border-radius: 50%; 
-      overflow: hidden; border: 2px solid var(--border); transition: all 0.4s ease; 
+      width: 160px; height: 160px; margin: 0 auto 32px; border-radius: 50%; 
+      overflow: hidden; border: 3px solid var(--border); transition: all 0.5s ease; 
+      padding: 5px; background: var(--bg);
     }
-    .team-member:hover .member-avatar { border-color: var(--accent); box-shadow: 0 0 20px rgba(221, 167, 86, 0.3); }
-    .member-avatar img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: filter 0.6s ease, transform 0.6s ease; }
-    .team-member:hover .member-avatar img { filter: grayscale(0%); transform: scale(1.08); }
-    .member-name { font-size: 24px; font-weight: 800; margin: 0; color: var(--text); text-transform: uppercase; letter-spacing: 1px;}
-    .member-role { color: var(--accent); font-weight: 600; font-size: 11px; margin: 12px 0 24px; text-transform: uppercase; letter-spacing: 2.5px; }
-    .member-bio { color: var(--muted); font-size: 14px; line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+    .team-member:hover .member-avatar { border-color: var(--accent); transform: scale(1.05); }
+    .member-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; filter: grayscale(100%); transition: all 0.5s ease; }
+    .team-member:hover .member-avatar img { filter: grayscale(0%); }
+    .member-name { font-size: 26px; font-weight: 800; margin: 0; color: var(--text); text-transform: uppercase; letter-spacing: 1px;}
+    .member-role { color: var(--accent); font-weight: 600; font-size: 12px; margin: 16px 0 24px; text-transform: uppercase; letter-spacing: 2.5px; }
+    .member-bio { color: var(--muted); font-size: 15px; line-height: 1.9; margin-bottom: 0; }
 
     /* --- SLUŽBY --- */
-    .services-grid { 
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; 
-    }
-    .service-card { 
-      background: var(--card-bg); padding: 60px 40px; transition: all 0.4s ease; 
-      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-      border: 1px solid var(--border); border-radius: var(--radius);
-      min-height: 380px; backdrop-filter: blur(10px);
-    }
-    .service-card:hover { 
-      border-color: rgba(221, 167, 86, 0.4); transform: translateY(-8px); 
-      box-shadow: 0 20px 40px -10px rgba(221, 167, 86, 0.15); 
-    }
-    .service-icon { font-size: 52px; margin-bottom: 30px; transition: transform 0.4s ease; }
-    .service-card:hover .service-icon { transform: scale(1.1); }
-    .service-card h3 { color: var(--text); margin: 0 0 16px; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 50px; }
+    .service-card { padding: 60px 40px; text-align: center; min-height: 400px; display: flex; flex-direction: column; justify-content: center; }
+    .service-card:hover { border-color: var(--accent); transform: translateY(-10px); }
+    .service-icon { font-size: 64px; margin-bottom: 32px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .service-card:hover .service-icon { transform: scale(1.15) translateY(-5px); }
+    .service-card h3 { color: var(--text); margin: 0 0 20px; font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
     .service-card:hover h3 { color: var(--accent); }
-    .service-card p { color: var(--muted); font-size: 15px; line-height: 1.8; font-weight: 300; margin: 0; }
+    .service-card p { color: var(--muted); font-size: 16px; line-height: 1.8; margin: 0; }
 
     /* --- CENÍK --- */
-    .pricing-grid { 
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; 
-    }
-    .pricing-card { 
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); 
-      padding: 50px 40px; display: flex; flex-direction: column; transition: all 0.4s ease; 
-      position: relative; backdrop-filter: blur(10px);
-    }
-    .pricing-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 50px; align-items: center; }
+    .pricing-card { padding: 60px 40px; display: flex; flex-direction: column; position: relative; }
+    .pricing-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+    
     .pricing-card.pro { 
-      border-color: rgba(221, 167, 86, 0.5); transform: scale(1.03); z-index: 2; 
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(221,167,86,0.1); 
+      border-color: var(--accent); transform: scale(1.05); z-index: 2; 
+      background: var(--bg); box-shadow: 0 30px 60px rgba(0,0,0,0.1); 
     }
-    .pricing-card.pro:hover { transform: scale(1.05); border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 40px rgba(221,167,86,0.2); }
+    [data-theme="dark"] .pricing-card.pro { box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+    .pricing-card.pro:hover { transform: scale(1.05) translateY(-10px); }
+    
     .pricing-badge { 
-      position: absolute; top: -14px; left: 50%; transform: translateX(-50%); 
-      background: var(--accent); color: #000; padding: 6px 20px; border-radius: 30px; 
-      font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+      position: absolute; top: -16px; left: 50%; transform: translateX(-50%); 
+      background: var(--accent); color: #fff; padding: 8px 24px; border-radius: 30px; 
+      font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+      box-shadow: 0 5px 15px rgba(221, 167, 86, 0.4);
     }
-    .pricing-title { font-size: 22px; font-weight: 800; text-transform: uppercase; margin: 0 0 10px; letter-spacing: 1px; }
+    .pricing-title { font-size: 24px; font-weight: 800; text-transform: uppercase; margin: 0 0 16px; letter-spacing: 1px; }
     .pricing-card.pro .pricing-title { color: var(--accent); }
-    .pricing-price { font-size: 42px; font-weight: 800; color: var(--text); margin-bottom: 30px; }
-    .pricing-price span { font-size: 16px; font-weight: 400; color: var(--muted); text-transform: uppercase; letter-spacing: 1px;}
+    .pricing-price { font-size: 48px; font-weight: 800; color: var(--text); margin-bottom: 40px; }
+    .pricing-price span { font-size: 18px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 1px;}
     .pricing-features { list-style: none; padding: 0; margin: 0 0 40px; flex-grow: 1; }
-    .pricing-features li { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+    .pricing-features li { display: flex; align-items: flex-start; gap: 16px; font-size: 15px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
     .pricing-features li.yes { color: var(--text); }
-    .pricing-features li.no { text-decoration: line-through; opacity: 0.3; }
-    .check-icon { color: var(--accent); font-weight: bold; font-size: 16px; }
-    .cross-icon { color: #555; font-size: 16px; }
+    .pricing-features li.no { text-decoration: line-through; opacity: 0.4; }
+    .check-icon { color: var(--accent); font-weight: bold; font-size: 18px; }
+    .cross-icon { color: var(--muted); font-size: 18px; }
 
     /* --- INDIVIDUÁLNÍ ŘEŠENÍ --- */
     .custom-box {
-      margin-top: 60px; padding: 60px 40px; border: 1px solid var(--border); border-radius: var(--radius); 
-      background: var(--card-bg); text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;
-      backdrop-filter: blur(10px);
+      margin-top: 80px; padding: 80px 40px; text-align: center; max-width: 900px; margin-left: auto; margin-right: auto;
     }
-    .custom-box h3 { font-size: 28px; text-transform: uppercase; margin-top: 0; margin-bottom: 20px; color: var(--text);}
-    .custom-box p { color: var(--muted); margin-bottom: 40px; font-weight: 300; line-height: 1.8; max-width: 600px; margin-left: auto; margin-right: auto;}
+    .custom-box h3 { font-size: 32px; font-weight: 800; text-transform: uppercase; margin-top: 0; margin-bottom: 24px; color: var(--text);}
+    .custom-box p { color: var(--muted); margin-bottom: 40px; font-size: 18px; line-height: 1.8; max-width: 700px; margin-left: auto; margin-right: auto;}
 
     /* --- KONTAKT --- */
     #contact .contact-box { max-width: 800px; margin: 0 auto; text-align: center; }
-    #contact .emails { margin: 20px 0; color: var(--text); line-height: 2.4; font-size: 18px; font-weight: 300; }
-    .emails strong { font-weight: 600; color: #fff; transition: color 0.3s; letter-spacing: 1px;}
+    #contact .emails { margin: 20px 0; color: var(--text); line-height: 2.6; font-size: 20px; }
+    .emails strong { font-weight: 800; transition: color 0.3s; letter-spacing: 1px;}
     .emails strong:hover { color: var(--accent); }
 
-    /* --- FOOTER & OSTATNÍ --- */
-    footer { text-align: center; padding: 50px 0; border-top: 1px solid var(--border); background: rgba(8,8,8,0.9); color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; margin-top: auto; backdrop-filter: blur(10px); }
-    footer a { color: var(--muted); text-decoration: none; transition: color 0.3s; margin: 0 12px; }
+    /* --- FOOTER --- */
+    footer { 
+      text-align: center; padding: 60px 24px; border-top: 1px solid var(--border); 
+      background: var(--nav-bg); color: var(--muted); font-size: 13px; 
+      text-transform: uppercase; letter-spacing: 1.5px; margin-top: auto; 
+      backdrop-filter: blur(20px); transition: background 0.5s ease;
+    }
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.3s; margin: 0 16px; font-weight: 500;}
     footer a:hover { color: var(--accent); }
-    .social-link { display: inline-block; color: var(--muted); transition: all 0.3s ease; text-decoration: none; margin-top: 10px; }
-    .social-link svg { width: 24px; height: 24px; fill: currentColor; }
-    .social-link:hover { color: var(--accent); transform: scale(1.15); }
+    .social-link { display: inline-block; color: var(--text); transition: all 0.3s ease; text-decoration: none; margin-top: 10px; }
+    .social-link svg { width: 28px; height: 28px; fill: currentColor; }
+    .social-link:hover { color: var(--accent); transform: scale(1.2) translateY(-3px); }
 
-    @media (max-width: 950px){
+    /* --- RESPONSIVE --- */
+    @media (max-width: 1000px){
       .services-grid, .pricing-grid { grid-template-columns: 1fr; }
-      .service-card { min-height: auto; padding: 40px 20px; }
+      .pricing-grid { gap: 40px; }
       .pricing-card.pro { transform: scale(1); }
-      .pricing-card.pro:hover { transform: translateY(-5px); }
+      .pricing-card.pro:hover { transform: translateY(-10px); }
     }
     @media (max-width: 700px){
-      .nav { padding: 0 20px; }
-      .page-inner { padding: 40px 20px; }
-      .hero { padding: 100px 0 40px; }
-      .about-box, .contact-box, .custom-box, .pricing-card { padding: 32px 24px; }
+      .page-inner { padding: 60px 20px; }
+      .hero { padding: 80px 0 40px; }
+      .about-box, .contact-box, .custom-box, .pricing-card, .service-card, .portfolio-info { padding: 40px 24px; }
+      .cta-buttons { flex-direction: column; gap: 16px; }
+      .btn { width: 100%; }
+      #contact .emails { font-size: 16px; }
     }
     
     /* --- COOKIES LIŠTA --- */
-    .cookies { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(15px); border-top: 1px solid var(--border); color: var(--text); padding: 30px 24px; z-index: 99999; text-align: center; display: none; }
-    .cookies h3 { margin: 0 0 12px; font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--accent); letter-spacing: 1px;}
-    .cookies p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 24px; font-weight: 400; max-width: 600px; margin-left: auto; margin-right: auto; }
-    .cookies-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .cookies button { padding: 12px 28px; border: 1px solid transparent; cursor: pointer; font-size: 12px; font-weight: 600; text-transform: uppercase; transition: all 0.3s; border-radius: 50px; letter-spacing: 1px;}
-    .cookies .accept { background: var(--accent); color: #000; }
-    .cookies .accept:hover { background: transparent; color: var(--accent); border-color: var(--accent); }
-    .cookies .necessary, .cookies .deny { background: transparent; border-color: var(--border); color: var(--text); }
-    .cookies .necessary:hover, .cookies .deny:hover { border-color: var(--accent); color: var(--accent); }
+    .cookies { 
+      position: fixed; bottom: 24px; left: 24px; right: 24px; max-width: 900px; margin: 0 auto;
+      background: var(--nav-bg); backdrop-filter: blur(25px); border: 1px solid var(--border); 
+      color: var(--text); padding: 40px; z-index: 99999; text-align: center; border-radius: var(--radius);
+      box-shadow: var(--shadow); display: none;
+    }
+    .cookies h3 { margin: 0 0 16px; font-size: 20px; font-weight: 800; text-transform: uppercase; color: var(--accent); letter-spacing: 1px;}
+    .cookies p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 32px; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .cookies-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    
+    @media (max-width: 600px){
+      .cookies { bottom: 0; left: 0; right: 0; border-radius: 24px 24px 0 0; padding: 30px 20px; }
+    }
   </style>
 </head>
 
@@ -338,23 +445,31 @@
 
   <header>
     <nav class="nav">
-      <div class="nav-left" style="display:flex;align-items:center;gap:12px;">
+      <div class="nav-logo">
+        <a href="#" data-page-link="home">
+            <img src="assets/favicon.png" alt="Digitory logo">
+        </a>
+      </div>
+
+      <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
+        <a href="#" data-page="home" class="active">Domů</a>
+        <a href="#" data-page="onas">O nás</a>
+        <a href="#" data-page="tym">Náš tým</a> 
+        <a href="#" data-page="sluzby">Služby</a>
+        <a href="#" data-page="kontakt">Kontakt</a>
+      </div>
+
+      <div class="nav-left">
+        <!-- Přepínač Theme -->
+        <button class="theme-toggle" id="themeToggle" aria-label="Přepnout režim">
+            <!-- Ikona se mění přes JS -->
+            <svg viewBox="0 0 24 24"><path d="M12 21c-4.962 0-9-4.038-9-9s4.038-9 9-9 9 4.038 9 9-4.038 9-9 9zm0-16c-3.859 0-7 3.141-7 7s3.141 7 7 7 7-3.141 7-7-3.141-7-7-7z"/></svg>
+        </button>
+
+        <!-- Hamburger pro mobil -->
         <button class="nav-toggle" id="navToggle" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
-        <div class="nav-links" role="navigation" aria-label="Hlavní navigace">
-          <a href="#" data-page="home" class="active">Domů</a>
-          <a href="#" data-page="onas">O nás</a>
-          <a href="#" data-page="tym">Náš tým</a> 
-          <a href="#" data-page="sluzby">Služby</a>
-          <a href="#" data-page="kontakt">Kontakt</a>
-        </div>
-      </div>
-
-      <div class="nav-logo">
-        <a href="#" data-page-link="home" style="display:block;">
-            <img src="assets/favicon.png" alt="Digitory logo">
-        </a>
       </div>
     </nav>
   </header>
@@ -371,16 +486,16 @@
       
       <section id="home" class="page active">
         <div class="page-inner">
-          <div class="hero" id="home-hero">
+          <div class="hero" id="home-hero" data-aos="fade-up">
             <h1>Digitory</h1>
-            <div class="slogan">Z nápadu do reality</div>
-            <p class="sub">
+            <div class="slogan" data-aos="fade-up" data-aos-delay="100">Z nápadu do reality</div>
+            <p class="sub" data-aos="fade-up" data-aos-delay="200">
               Pomáháme lidem a firmám proměnit nápady v digitální realitu.
               Naše řešení šetří čas, zjednodušují procesy a otevírají nové možnosti.
             </p>
           </div>
 
-          <section class="cta-hero-extension" aria-hidden="true">
+          <section class="cta-hero-extension" aria-hidden="true" data-aos="fade-up" data-aos-delay="300">
             <div class="cta-wrap">
               <div class="cta-buttons">
                 <a href="#" class="btn btn-outline" data-page-link="prace">Naše práce</a>
@@ -389,33 +504,33 @@
             </div>
           </section>
 
-          <h2 class="section-title">Ceník webů</h2>
-          <p class="lead">Vyberte si řešení, které přesně sedne vašemu byznysu.</p>
+          <h2 class="section-title" data-aos="fade-up">Ceník webů</h2>
+          <p class="lead" data-aos="fade-up" data-aos-delay="100">Vyberte si řešení, které přesně sedne vašemu byznysu.</p>
           
           <div class="pricing-grid">
             
-            <div class="pricing-card">
+            <div class="pricing-card card-glass" data-aos="fade-up" data-aos-delay="200">
               <h3 class="pricing-title">Lite</h3>
               <div class="pricing-price">8 900 <span>Kč</span></div>
               <ul class="pricing-features">
                 <li class="yes"><span class="check-icon">✓</span> Základní webová vizitka</li>
-                <li class="yes"><span class="check-icon">✓</span> Optimalizace pro všechny zařízení</li>
-                <li class="no"><span class="cross-icon">✗</span> Emaily s vlastní doménou</li>
+                <li class="yes"><span class="check-icon">✓</span> Optimalizace pro všechna zařízení</li>
+                <li class="no"><span class="cross-icon">✗</span> E-maily s vlastní doménou</li>
                 <li class="no"><span class="cross-icon">✗</span> Přednostní podpora</li>
                 <li class="no"><span class="cross-icon">✗</span> Formuláře</li>
               </ul>
               <a href="#" class="btn btn-outline btn-block" data-page-link="kontakt">Zvolit Lite</a>
             </div>
 
-            <div class="pricing-card pro">
+            <div class="pricing-card pro card-glass" data-aos="fade-up" data-aos-delay="300">
               <div class="pricing-badge">Nejčastější volba</div>
               <h3 class="pricing-title">Pro</h3>
               <div class="pricing-price">9 900 <span>Kč</span></div>
               <ul class="pricing-features">
                 <li class="yes"><span class="check-icon">✓</span> Profesionální webové stránky</li>
                 <li class="yes"><span class="check-icon">✓</span> Formuláře</li>
-                <li class="yes"><span class="check-icon">✓</span> Optimalizace pro všechny zařízení</li>
-                <li class="yes"><span class="check-icon">✓</span> Emaily s vlastní doménou zdarma</li>
+                <li class="yes"><span class="check-icon">✓</span> Optimalizace pro všechna zařízení</li>
+                <li class="yes"><span class="check-icon">✓</span> E-maily s vlastní doménou zdarma</li>
                 <li class="yes"><span class="check-icon">✓</span> Základní animace</li>
                 <li class="no"><span class="cross-icon">✗</span> Extrémně složitý design</li>
                 <li class="no"><span class="cross-icon">✗</span> Přednostní podpora</li>
@@ -423,7 +538,7 @@
               <a href="#" class="btn btn-accent btn-block" data-page-link="kontakt">Zvolit Pro</a>
             </div>
 
-            <div class="pricing-card">
+            <div class="pricing-card card-glass" data-aos="fade-up" data-aos-delay="400">
               <h3 class="pricing-title">Premium</h3>
               <div class="pricing-price">18 000 <span>Kč</span></div>
               <ul class="pricing-features">
@@ -431,14 +546,14 @@
                 <li class="yes"><span class="check-icon">✓</span> Ultra design na míru</li>
                 <li class="yes"><span class="check-icon">✓</span> Složité animace a efekty</li>
                 <li class="yes"><span class="check-icon">✓</span> Napojení na externí systémy</li>
-                <li class="yes"><span class="check-icon">✓</span> Přednostní VIP podpora na 3 měsíce zdarma</li>
+                <li class="yes"><span class="check-icon">✓</span> Přednostní VIP podpora zdarma</li>
               </ul>
               <a href="#" class="btn btn-outline btn-block" data-page-link="kontakt">Zvolit Premium</a>
             </div>
 
           </div>
 
-          <div class="custom-box">
+          <div class="custom-box card-glass" data-aos="fade-up" data-aos-offset="100">
             <h3>Potřebujete něco speciálního?</h3>
             <p>Máte zájem o komplexní e-shop, webovou aplikaci na míru, uživatelské účty nebo napojení na specifické systémy? Každý takový projekt je unikátní a vyžaduje individuální nacenění. Pojďme si o vašich cílech promluvit osobně a my vám připravíme nabídku, která bude dávat smysl.</p>
             <a href="#" class="btn btn-accent" data-page-link="kontakt">Probrat projekt a cenu</a>
@@ -450,34 +565,31 @@
       <!-- SEKCE NAŠE PRÁCE -->
       <section id="prace" class="page">
         <div class="page-inner">
-          <h2>Naše Práce</h2>
-          <p class="lead">Ukázky našich stylů. Vyberte si směr, který k vaší značce sedí nejvíce.</p>
+          <h2 data-aos="fade-down">Naše Práce</h2>
+          <p class="lead" data-aos="fade-up">Ukázky našich stylů. Vyberte si směr, který k vaší značce sedí nejvíce.</p>
           
           <div class="portfolio-grid">
             
-            <!-- Ukázka 1: Luxury -->
-            <a href="https://digitory.cz/luxury.html" class="portfolio-item" target="_blank">
+            <a href="https://digitory.cz/luxury.html" class="portfolio-item card-glass" target="_blank" data-aos="fade-up" data-aos-delay="100">
               <div class="portfolio-info">
                 <h3>Luxury Design</h3>
-                <p>Exkluzivní tmavý styl se zlatými detaily. Pomalé, elegantní animace pro prémiové značky.</p>
+                <p>Exkluzivní styl se zlatými detaily. Pomalé, elegantní animace pro prémiové značky.</p>
                 <span class="btn btn-outline fake-btn">Zobrazit ukázku</span>
               </div>
             </a>
             
-            <!-- Ukázka 2: Modern -->
-            <a href="https://digitory.cz/modern.html" class="portfolio-item" target="_blank">
+            <a href="https://digitory.cz/modern.html" class="portfolio-item card-glass" target="_blank" data-aos="fade-up" data-aos-delay="200">
               <div class="portfolio-info">
-                <h3>Modern Dark</h3>
+                <h3>Modern Look</h3>
                 <p>Ostrý a technický design. Čisté geometrické tvary a výrazný kontrast pro moderní dobu.</p>
                 <span class="btn btn-outline fake-btn">Zobrazit ukázku</span>
               </div>
             </a>
             
-            <!-- Ukázka 3: Action Light -->
-            <a href="https://digitory.cz/light.html" class="portfolio-item" target="_blank">
+            <a href="https://digitory.cz/light.html" class="portfolio-item card-glass" target="_blank" data-aos="fade-up" data-aos-delay="300">
               <div class="portfolio-info">
-                <h3>Action Light</h3>
-                <p>Světlý, ultra-animovaný a dynamický zážitek. Rychlost a energie, která udrží uživatele v akci.</p>
+                <h3>Action Style</h3>
+                <p>Ultra-animovaný a dynamický zážitek. Rychlost a energie, která udrží uživatele v akci.</p>
                 <span class="btn btn-outline fake-btn">Zobrazit ukázku</span>
               </div>
             </a>
@@ -488,24 +600,24 @@
 
       <section id="sluzby" class="page">
         <div class="page-inner">
-          <h2>Služby</h2>
-          <p class="lead">Tři hlavní pilíře, na kterých stavíme digitální realitu pro naše klienty.</p>
+          <h2 data-aos="fade-down">Služby</h2>
+          <p class="lead" data-aos="fade-up">Tři hlavní pilíře, na kterých stavíme digitální realitu pro naše klienty.</p>
           
           <div class="services-grid" role="list">
             
-            <div class="service-card" role="listitem" onclick="this.clicks = (this.clicks || 0) + 1; if(this.clicks === 5) window.location.href='https://digitory.cz/tools.html'">
+            <div class="service-card card-glass" role="listitem" data-aos="zoom-in" data-aos-delay="100" onclick="this.clicks = (this.clicks || 0) + 1; if(this.clicks === 5) window.location.href='https://digitory.cz/tools.html'">
               <div class="service-icon">💻</div>
               <h3>Tvorba webů</h3>
               <p>Moderní a responzivní weby na míru. Rychlé načítání, bezpečnost a čistý design, který prodává.</p>
             </div>
             
-            <div class="service-card" role="listitem">
+            <div class="service-card card-glass" role="listitem" data-aos="zoom-in" data-aos-delay="200">
               <div class="service-icon">🎬</div>
               <h3>Střih videí</h3>
-              <p>Vytváříme dynamický obsah pro sociální sítě i firemní prezentace. Od reels až po promo videa.</p>
+              <p>Vytváříme dynamický obsah pro sociální sítě i firemní prezentace. Od rychlých reels až po promo videa.</p>
             </div>
             
-            <div class="service-card" role="listitem">
+            <div class="service-card card-glass" role="listitem" data-aos="zoom-in" data-aos-delay="300">
               <div class="service-icon">📸</div>
               <h3>Úprava fotek</h3>
               <p>Profesionální retuš, color grading a sjednocení vizuálního stylu pro vaše produkty či osobní značku.</p>
@@ -514,50 +626,41 @@
           </div>
         </div>
       </section>
-
-      <section id="vuprave" class="page">
-        <div class="page-inner">
-          <h2>Stránka v úpravě</h2>
-          <div style="text-align: center; margin-top: 40px;">
-            <a href="#" class="btn btn-accent" data-page-link="home">Zpět domů</a>
-          </div>
-        </div>
-      </section>
     
       <section id="onas" class="page">
         <div class="page-inner">
-          <h2>O nás</h2>
-          <p class="lead">Jsme mladý tým studentů, kteří mají technologii doslova v krvi.</p>
-          <div class="about-box" role="article">
+          <h2 data-aos="fade-down">O nás</h2>
+          <p class="lead" data-aos="fade-up">Jsme mladý tým, který má technologii doslova v krvi.</p>
+          <div class="about-box card-glass" role="article" data-aos="fade-up" data-aos-delay="200">
             <p>Digitory vzniklo z jednoduché myšlenky — že i studenti mohou tvořit profesionální digitální projekty. Jsme skupina lidí, které spojuje vášeň pro inovace, design a moderní technologie. Sledujeme trendy, zkoušíme nové postupy a dáváme do práce energii i kreativitu, kterou nám generace Z přináší přirozeně.</p>
-            <p>Naší silou je přístup — rychlý, otevřený a autentický. Nejsme velká agentura, která má na všechno tabulku a schvalování na tři týdny. Jsme studenti, kteří rozumí tomu, co funguje dnes — od umělé inteligence přes webdesign až po automatizaci procesů. Každý projekt bereme osobně a snažíme se, aby měl duši, vizuální styl a hlavně smysl.</p>
-            <p>Digitory je o lidech, nápadech a technologii, která posouvá věci kupředu. Ať už potřebujete web, branding, aplikaci nebo konzultaci, pomůžeme vám proměnit nápad v realitu — rychle, efektivně a moderně.</p>
+            <p>Naší silou je přístup — rychlý, otevřený a autentický. Nejsme velká agentura, která má na všechno tabulku a schvalování na tři týdny. Jsme lidé, kteří rozumí tomu, co funguje dnes — od umělé inteligence přes webdesign až po automatizaci procesů. Každý projekt bereme osobně a snažíme se, aby měl duši, vizuální styl a hlavně smysl.</p>
+            <p>Digitory je o lidech, nápadech a technologii, která posouvá věci kupředu. Ať už potřebujete web, branding, aplikaci nebo konzultaci, pomůžeme vám proměnit nápad v realitu — rychle, efektivně a luxusně.</p>
           </div>
         </div>
       </section>
 
       <section id="tym" class="page">
         <div class="page-inner">
-          <h2>Náš tým</h2>
-          <p class="lead">Seznamte se s lidmi, kteří stojí za Digitory.</p>
+          <h2 data-aos="fade-down">Náš tým</h2>
+          <p class="lead" data-aos="fade-up">Seznamte se s lidmi, kteří stojí za Digitory.</p>
           
           <div class="team-grid">
-            <div class="team-member">
+            <div class="team-member card-glass" data-aos="fade-up" data-aos-delay="100">
                 <div class="member-avatar">
                     <img src="assets/smataavatar.png" alt="Jakub Šmatera">
                 </div>
                 <h3 class="member-name">Jakub Šmatera</h3>
-                <div class="member-role">Ceo & Founder, Web creator, designer, social media</div>
+                <div class="member-role">CEO & Founder, Web Creator, Designer</div>
                 <p class="member-bio">Tvořím digitální světy, které fungují. Od prvního pixelu designu přes vývoj webu až po strategii na sociálních sítích. Mám na starosti vizi projektů a dohlížím na to, aby každý detail perfektně seděl.</p>
             </div>
 
-            <div class="team-member">
+            <div class="team-member card-glass" data-aos="fade-up" data-aos-delay="200">
                 <div class="member-avatar">
                       <img src="assets/vitavatar.png" alt="Vít Žižka">
                 </div>
                 <h3 class="member-name">Vít Žižka</h3>
-                <div class="member-role">Ceo & Founder, Web creator, AI developer, Programmer</div>
-                <p class="member-bio">Dávám digitálním nápadům život a logiku. Mým světem je kód, umělá inteligence a komplexní vývoj. Stavím technické základy našich projects tak, aby byly nejen rychlé a bezpečné, ale díky zapojení AI i o krok napřed.</p>
+                <div class="member-role">CEO & Founder, AI Developer, Programmer</div>
+                <p class="member-bio">Dávám digitálním nápadům život a logiku. Mým světem je kód, umělá inteligence a komplexní vývoj. Stavím technické základy našich projektů tak, aby byly nejen rychlé a bezpečné, ale i o krok napřed.</p>
             </div>
           </div>
         </div>
@@ -565,75 +668,74 @@
 
       <section id="kontakt" class="page">
         <div class="page-inner">
-          <h2>Kontakt</h2>
-          <p class="lead">Napište nám — rádi se ozveme zpět a pomůžeme vám rozjet váš nápad.</p>
-          <div class="contact-box">
+          <h2 data-aos="fade-down">Kontakt</h2>
+          <p class="lead" data-aos="fade-up">Napište nám — rádi se ozveme zpět a pomůžeme vám rozjet váš nápad.</p>
+          <div class="contact-box card-glass" data-aos="zoom-in" data-aos-delay="200">
             <div class="emails" aria-label="E-mailové kontakty">
               <div><strong>smatera@digitory.cz</strong> </div>
               <div><strong>zizka@digitory.cz</strong> </div>
-              <div><strong>kontakt@digitory.cz</strong> — hlavní kontakt</div>
+              <div style="margin-top:20px; color:var(--accent);"><strong>kontakt@digitory.cz</strong> — hlavní kontakt</div>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- Podmínky (Zkráceno na formát) -->
       <section id="cookies" class="page">
         <div class="page-inner">
-          <h2>Cookies</h2>
-          <div class="about-box" role="article">
-              <h3 style="color: var(--accent); font-weight: 600; font-size: 18px; margin-bottom: 12px; text-transform: uppercase;">Web používá následující typy cookies:</h3>
-              <p>
-              - Nezbytné technické cookies (nutné pro provoz)<br>
-              - Preferenční / funkční cookies<br>
-              - Analytické cookies (např. Vercel Analytics) – ukládány pouze na základě souhlasu Uživatele
-              </p>
-              <h3 style="color: var(--accent); font-weight: 600; font-size: 18px; margin: 24px 0 12px; text-transform: uppercase;">Uživatel může:</h3>
-              <p>
-              - přijmout všechny cookies,<br>
-              - odmítnout všechny cookies kromě nezbytných,<br>
-              - upravit své preference prostřednictvím cookies lišty.
-              </p>
+          <h2 data-aos="fade-down">Cookies</h2>
+          <div class="about-box card-glass" role="article" data-aos="fade-up">
+              <p>Aby naše webové stránky fungovaly správně a mohli jsme je neustále vylepšovat, používáme soubory cookies a technologie lokálního úložiště (Local Storage). Níže naleznete detailní informace o tom, jaké technologie používáme a jak s nimi můžete nakládat.</p>
+              
+              <h3 style="color: var(--accent); font-weight: 800; font-size: 18px; margin: 32px 0 16px; text-transform: uppercase; letter-spacing: 1px;">1. Co jsou to cookies?</h3>
+              <p>Cookies jsou malé textové soubory, které se ukládají do vašeho prohlížeče nebo zařízení při návštěvě našich stránek. Pomáhají nám pamatovat si vaše preference (například zvolený vzhled) a analyzovat návštěvnost.</p>
+
+              <h3 style="color: var(--accent); font-weight: 800; font-size: 18px; margin: 32px 0 16px; text-transform: uppercase; letter-spacing: 1px;">2. Jaké typy používáme?</h3>
+              <p><strong>Nezbytné (Technické) soubory:</strong> Tyto soubory jsou absolutně nutné pro správné fungování webu (např. uložení vaší volby ohledně samotných cookies do Local Storage nebo zabezpečení formulářů). Nelze je vypnout a nepodléhají nutnosti souhlasu.</p>
+              <p><strong>Funkční a preferenční soubory:</strong> Umožňují webu zapamatovat si informace, které mění, jak se web chová nebo jak vypadá (např. vámi zvolený světlý nebo tmavý režim). Tato data ukládáme přímo ve vašem prohlížeči.</p>
+              <p><strong>Analytické cookies:</strong> Používáme nástroje (např. Vercel Analytics) k anonymnímu měření návštěvnosti a pochopení toho, jak uživatelé náš web používají. Tyto cookies shromažďují informace agregovaně a neshromažďují údaje, které by vás přímo identifikovaly. Ukládají se pouze s vaším výslovným souhlasem.</p>
+
+              <h3 style="color: var(--accent); font-weight: 800; font-size: 18px; margin: 32px 0 16px; text-transform: uppercase; letter-spacing: 1px;">3. Vaše práva a správa cookies</h3>
+              <p>Máte plnou kontrolu nad tím, jaké analytické cookies nám povolíte zpracovávat. Můžete:</p>
+              <ul style="color: var(--muted); line-height: 1.8; margin-bottom: 16px;">
+                  <li>Přijmout všechny cookies pro plnohodnotný zážitek a pomoc s analýzou webu.</li>
+                  <li>Povolit pouze nezbytné cookies a analytické odmítnout.</li>
+                  <li>Své rozhodnutí kdykoliv změnit opětovným vyvoláním cookie lišty přes nastavení vašeho prohlížeče nebo promazáním mezipaměti.</li>
+              </ul>
           </div>
         </div>
       </section>
 
-      <section id="gdpr" class="page">
+<section id="gdpr" class="page">
         <div class="page-inner">
-          <h2>GDPR</h2>
-          <div class="about-box" role="article">
-            <h3 style="color: var(--accent); font-weight: 600; font-size: 18px; margin-bottom: 12px; text-transform: uppercase;">1. Správce osobních údajů</h3>  
-            <p>
-            Správcem osobních údajů je provozovatel této webové stránky (dále jen „Správce“).<br>
-            Kontaktní e-mail Správce je: kontakt@digitory.cz.<br>
-            Správce vystupuje jako fyzická nebo právnická osoba dle charakteru provozování stránek.
-            </p>
-            
-            <h3 style="color: var(--accent); font-weight: 600; font-size: 18px; margin: 24px 0 12px; text-transform: uppercase;">2. Rozsah zpracovávaných osobních údajů</h3>
-            <p><strong>a) Údaje zadávané Uživatelem prostřednictvím formuláře</strong><br>
-            - jméno, příjmení (nebo jiný identifikátor)<br>
-            - e-mailová adresa<br>
-            - obsah zprávy či popis požadavku<br>
-            - případně další dobrovolně vyplněné údaje</p>
+          <h2 data-aos="fade-down">Ochrana osobních údajů</h2>
+          <div class="about-box card-glass" role="article" data-aos="fade-up">
+            <p>Vaše soukromí je pro nás klíčové. Tento dokument vysvětluje, jak v projektu Digitory nakládáme s vašimi osobními údaji v souladu s nařízením GDPR (Obecné nařízení o ochraně osobních údajů).</p>
 
-            <p><strong>b) Údaje automaticky shromažďované při používání Webu</strong><br>
-            - IP adresa a geografická oblast přibližné polohy<br>
-            - technické údaje o zařízení a prohlížeči<br>
-            - cookies nezbytné pro fungování stránek<br>
-            - analytické cookies (např. Vercel Analytics) používané pouze s příslušným souhlasem</p>
+            <h3 style="color: var(--accent); font-weight: 800; font-size: 18px; margin: 32px 0 16px; text-transform: uppercase; letter-spacing: 1px;">1. Správce osobních údajů</h3>  
+            <p>Správcem osobních údajů jsou provozovatelé této webové stránky, zakladatelé projektu Digitory (Jakub Šmatera a Vít Žižka). V případě jakýchkoliv dotazů ohledně zpracování vašich dat nás můžete kontaktovat na centrálním e-mailu: <strong>kontakt@digitory.cz</strong>.</p>
             
-            <p><strong>c) Další provozní a protokolové údaje</strong><br>
-            - datum a čas odeslání formuláře<br>
-            - metadata přenesených dotazů<br>
-            - případné údaje nutné pro systémové logování</p>
-            
-            <h3 style="color: var(--accent); font-weight: 600; font-size: 18px; margin: 24px 0 12px; text-transform: uppercase;">3. Účely zpracování osobních údajů</h3>
-            <p>
-            1. Reakce na dotazy uživatelů – vyřízení požadavku, odpovědi na zprávu.<br>
-            2. Vedení interní evidence formulářů – archivace, přehled komunikace.<br>
-            3. Zlepšování funkčnosti webu – technické analyzování návštěvnosti a provozu.<br>
-            4. Plnění právních povinností – vedení dokumentace, řešení incidentů.<br>
-            5. Oprávněný zájem správce – ochrana webu, předcházení zneužití, bezpečnostní opatření.
-            </p>
+            <h3 style="color: var(--accent); font-weight: 800; font-size: 18px; margin: 32px 0 16px; text-transform: uppercase; letter-spacing: 1px;">2. Jaká data zpracováváme a proč?</h3>
+            <p><strong>Při kontaktování přes e-mail:</strong><br>
+            Zpracováváme vaši e-mailovou adresu, jméno a obsah vaší zprávy. Tyto údaje potřebujeme výhradně k tomu, abychom vám mohli odpovědět a řešit s vámi váš projekt. Právním základem je jednání o smlouvě a náš oprávněný zájem na komunikaci s klienty.</p>
+            <p><strong>Při procházení webu:</strong><br>
+            Automaticky shromažďujeme určité technické údaje (IP adresa, typ prohlížeče, hrubá lokalita), a to za účelem zajištění bezpečnosti webu a měření návštěvnosti (pokud nám k tomu dáte souhlas prostřednictvím cookies lišty).</p>
+
+            <h3 style="color: var(--accent); font-weight: 800; font-size: 18px; margin: 32px 0 16px; text-transform: uppercase; letter-spacing: 1px;">3. Kdo má k vašim údajům přístup?</h3>
+            <p>Vaše osobní údaje zpracováváme primárně my, jakožto zakladatelé studia. K datům mohou mít přístup také naši prověření zpracovatelé, kteří nám poskytují nezbytné technické zázemí (například poskytovatel hostingu Vercel nebo poskytovatel e-mailových schránek). Vaše údaje nikdy neprodáváme ani nepředáváme dalším třetím stranám pro marketingové účely.</p>
+
+            <h3 style="color: var(--accent); font-weight: 800; font-size: 18px; margin: 32px 0 16px; text-transform: uppercase; letter-spacing: 1px;">4. Doba uchování údajů</h3>
+            <p>Vaše e-mailové dotazy a s nimi spojené osobní údaje uchováváme pouze po dobu nezbytně nutnou k naplnění účelu, pro který byly shromážděny (např. po dobu trvání spolupráce), nebo po dobu vyžadovanou platnou legislativou. Poté jsou data bezpečně smazána.</p>
+
+            <h3 style="color: var(--accent); font-weight: 800; font-size: 18px; margin: 32px 0 16px; text-transform: uppercase; letter-spacing: 1px;">5. Jaká jsou vaše práva?</h3>
+            <p>Podle nařízení GDPR máte plné právo:</p>
+            <ul style="color: var(--muted); line-height: 1.8; margin-bottom: 0;">
+                <li>Požadovat informaci o tom, jaké vaše osobní údaje zpracováváme.</li>
+                <li>Vyžádat si přístup k těmto údajům a nechat je aktualizovat nebo opravit.</li>
+                <li>Požadovat výmaz vašich osobních údajů (právo „být zapomenut“).</li>
+                <li>Vznést námitku proti zpracování nebo požadovat omezení zpracování.</li>
+                <li>Podat stížnost u Úřadu pro ochranu osobních údajů, pokud se domníváte, že s vašimi daty nenakládáme v souladu se zákonem.</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -644,16 +746,15 @@
       <h3>Správa cookies</h3>
       <p>Tento web používá cookies k zajištění funkčnosti a analýze návštěvnosti. Vyberte, jaké chcete povolit.</p>
       <div class="cookies-btns">
-        <button class="accept" onclick="setCookies('all')">Přijmout vše</button>
-        <button class="necessary" onclick="setCookies('necessary')">Povolit pouze nezbytné</button>
-        <button class="deny" onclick="setCookies('deny')">Zakázat</button>
+        <button class="btn btn-accent" onclick="setCookies('all')">Přijmout vše</button>
+        <button class="btn btn-outline" onclick="setCookies('necessary')">Povolit pouze nezbytné</button>
       </div>
   </div>
 
   <footer>
     <div style="margin-bottom: 24px;">
       <a href="https://www.instagram.com/digitory.cz/" target="_blank" rel="noopener" class="social-link" aria-label="Sledujte nás na Instagramu">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
       </a>
     </div>
     &copy; 2025 - 2026 Digitory - Všechna práva vyhrazena <br><br>
@@ -661,7 +762,44 @@
     <a href="#cookies" data-page-link="cookies">Cookies</a>
   </footer>
 
+<!-- Skripty -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+  // Inicializace AOS (animací)
+  AOS.init({
+    duration: 800,
+    once: true,
+    offset: 50
+  });
+
+  // LOGIKA TÉMAT (Dark/Light)
+  const themeToggle = document.getElementById('themeToggle');
+  const root = document.documentElement;
+  
+  // Nové tenké Apple-style ikony
+  const iconSun = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+  const iconMoon = '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+  
+  if(localStorage.getItem('theme') === 'dark') {
+      root.setAttribute('data-theme', 'dark');
+      themeToggle.innerHTML = iconSun;
+  } else {
+      themeToggle.innerHTML = iconMoon;
+  }
+
+  themeToggle.addEventListener('click', () => {
+      if(root.getAttribute('data-theme') === 'dark') {
+          root.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+          themeToggle.innerHTML = iconMoon;
+      } else {
+          root.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+          themeToggle.innerHTML = iconSun;
+      }
+  });
+
+  // LOGIKA STRÁNEK A MENU
   const links = document.querySelectorAll('[data-page]');
   const pages = document.querySelectorAll('.page');
   const mobilePanel = document.getElementById('navMobilePanel');
@@ -670,7 +808,12 @@
   function openPage(id){
     pages.forEach(p => p.classList.remove('active'));
     const target = document.getElementById(id);
-    if(target){ target.classList.add('active'); window.scrollTo(0, 0); }
+    if(target){ 
+      target.classList.add('active'); 
+      window.scrollTo(0, 0); 
+      // Refresh AOS after page swap so animations trigger correctly
+      setTimeout(() => AOS.refresh(), 50);
+    }
     links.forEach(a => a.classList.toggle('active', a.dataset.page === id));
     mobilePanel.classList.remove('open');
     navToggle.classList.remove('is-active');
