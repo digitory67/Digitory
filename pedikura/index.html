@@ -4,32 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pedikúra u Stonožky | Přístrojová pedikúra, manikúra a kolagenové solárium Uherský Brod</title>
-  <meta name="description" content="Profesionální přístrojová pedikúra, manikúra a kolagenové solárium v centru Uherského Brodu (náměstí 1. máje 1571). Rezervujte si svůj termín online bez čekání." />
+  <meta name="description" content="Profesionální přístrojová pedikúra, manikúra, gel lak a kolagenové solárium v centru Uherského Brodu (náměstí 1. máje 1571). Rezervujte si svůj termín online." />
 
   <!-- Google Fonts: Cormorant Garamond (Nadpisy) & Plus Jakarta Sans (Tělo a čísla) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-main: #FAF7F2;
-      --bg-sand: #F0EAE1;
+      --bg-main: #FAF8F5;
+      --bg-sand: #F2ECE4;
       --surface-white: #FFFFFF;
-      --primary: #2E5A44;
-      --primary-hover: #234635;
-      --primary-light: #E3F2EA;
+      --primary: #2B533E;
+      --primary-hover: #214030;
+      --sage-btn: #7E996E;
+      --sage-btn-hover: #6D875E;
+      --primary-light: #E6F0EA;
       --terracotta: #C87D65;
-      --terracotta-light: #F9EBE6;
-      --text-dark: #1F2421;
-      --text-muted: #5C6460;
-      --border-soft: rgba(46, 90, 68, 0.12);
-      --shadow-soft: 0 14px 36px -8px rgba(31, 36, 33, 0.07);
-      --shadow-hover: 0 22px 44px -10px rgba(46, 90, 68, 0.14);
-      --radius-lg: 24px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
-      --transition-smooth: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      --text-dark: #1E2420;
+      --text-muted: #636B66;
+      --border-soft: rgba(43, 83, 62, 0.1);
+      --shadow-soft: 0 12px 32px -8px rgba(30, 36, 32, 0.06);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --transition-smooth: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     * {
@@ -55,24 +55,24 @@
 
     .container {
       width: 100%;
-      max-width: 1220px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
     /* ========================
-       1. STICKY NAVBAR & HAMBURGER
+       1. MINIMALISTICKÁ HLAVIČKA
        ======================== */
     .navbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 82px;
-      background: rgba(250, 247, 242, 0.92);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-soft);
+      height: 68px;
+      background: rgba(250, 248, 245, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(43, 83, 62, 0.08);
       z-index: 1000;
       transition: var(--transition-smooth);
       display: flex;
@@ -80,8 +80,8 @@
     }
 
     .navbar.scrolled {
-      height: 68px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+      height: 62px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     }
 
     .nav-inner {
@@ -92,7 +92,7 @@
     }
 
     .brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 12px;
       text-decoration: none;
@@ -100,47 +100,25 @@
       z-index: 1002;
     }
 
-    .brand-logo-wrap {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #FFFFFF;
-      border: 1.5px solid rgba(46, 90, 68, 0.18);
-      box-shadow: 0 4px 12px rgba(46, 90, 68, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+    .brand-wave-svg {
+      width: 38px;
+      height: 18px;
+      color: var(--primary);
       flex-shrink: 0;
     }
 
-    .brand-logo-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.18); /* Ořízne bílý okraj kolem kulatého loga stonožky */
-      display: block;
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-    }
-
     .brand-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      line-height: 1;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 600;
       letter-spacing: -0.01em;
+      color: var(--text-dark);
     }
 
-    .brand-sub {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      margin-top: 4px;
+    .brand-title em {
+      font-style: italic;
+      font-weight: 500;
+      color: #3B5246;
     }
 
     .nav-links {
@@ -154,7 +132,7 @@
       text-decoration: none;
       color: var(--text-dark);
       font-weight: 500;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       transition: color 0.2s ease;
     }
 
@@ -168,122 +146,51 @@
       gap: 12px;
     }
 
-    .btn-phone {
+    .btn-nav-book {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 16px;
+      padding: 10px 20px;
       border-radius: 999px;
-      background: var(--bg-sand);
-      color: var(--text-dark);
+      background: var(--primary);
+      color: #fff;
       text-decoration: none;
       font-weight: 600;
       font-size: 0.88rem;
-      border: 1px solid var(--border-soft);
       transition: var(--transition-smooth);
-      white-space: nowrap;
     }
 
-    .btn-phone:hover {
-      background: #e5ddd0;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border-radius: 999px;
-      background: var(--primary);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition-smooth);
-      box-shadow: 0 8px 20px -4px rgba(46, 90, 68, 0.35);
-      white-space: nowrap;
-    }
-
-    .btn-primary:hover {
+    .btn-nav-book:hover {
       background: var(--primary-hover);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--text-dark);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: 1.5px solid rgba(31, 36, 33, 0.2);
-      transition: var(--transition-smooth);
-      white-space: nowrap;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: rgba(46, 90, 68, 0.04);
-    }
-
-    /* Mobilní pravá část hlavičky (rychlé volání + hamburger) */
-    .mobile-nav-controls {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      z-index: 1002;
-    }
-
-    .mobile-call-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: var(--bg-sand);
-      border: 1px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      font-size: 1.05rem;
-      color: var(--primary);
-    }
-
+    /* Hamburger tlačítko (čisté 3 linky bez pozadí jako na návrhu) */
     .hamburger-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: var(--primary);
-      color: #fff;
+      display: none;
+      width: 40px;
+      height: 40px;
+      background: transparent;
       border: none;
-      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 5px;
       cursor: pointer;
+      z-index: 1002;
       padding: 0;
-      transition: var(--transition-smooth);
     }
 
     .hamburger-line {
-      width: 18px;
-      height: 2px;
-      background: #fff;
+      width: 22px;
+      height: 1.8px;
+      background: var(--text-dark);
       border-radius: 2px;
       transition: var(--transition-smooth);
     }
 
     .hamburger-btn.active .hamburger-line:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
+      transform: translateY(6.8px) rotate(45deg);
     }
 
     .hamburger-btn.active .hamburger-line:nth-child(2) {
@@ -291,24 +198,24 @@
     }
 
     .hamburger-btn.active .hamburger-line:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
+      transform: translateY(-6.8px) rotate(-45deg);
     }
 
-    /* Mobilní vysouvací menu (Drawer) */
+    /* Vysouvací mobilní menu */
     .mobile-menu-drawer {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       background: var(--bg-main);
-      padding: 90px 24px 28px;
+      padding: 84px 24px 28px;
       border-bottom: 1px solid var(--border-soft);
-      box-shadow: 0 24px 48px rgba(31, 36, 33, 0.16);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
       z-index: 999;
       transform: translateY(-105%);
       opacity: 0;
       pointer-events: none;
-      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: var(--transition-smooth);
     }
 
     .mobile-menu-drawer.open {
@@ -321,7 +228,7 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       margin-bottom: 20px;
     }
 
@@ -329,372 +236,285 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 13px 16px;
-      border-radius: var(--radius-sm);
-      background: var(--surface-white);
+      padding: 14px 8px;
+      border-bottom: 1px solid var(--border-soft);
       color: var(--text-dark);
       text-decoration: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
       font-weight: 600;
-      font-size: 1rem;
-      border: 1px solid var(--border-soft);
-    }
-
-    .mobile-menu-actions {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
     }
 
     /* ========================
-       2. HERO SECTION
+       2. NOVÁ MINIMALISTICKÁ HERO SEKCE
        ======================== */
     .hero {
-      padding: 136px 0 92px;
-      overflow: hidden;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 56px;
-      align-items: center;
-    }
-
-    .badge-location {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: var(--terracotta-light);
-      color: #9A523C;
-      font-size: 0.82rem;
-      font-weight: 600;
-      margin-bottom: 18px;
-      border: 1px solid rgba(200, 125, 101, 0.25);
-    }
-
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--terracotta);
-      flex-shrink: 0;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.35rem, 4.4vw, 3.85rem);
-      margin-bottom: 20px;
-      letter-spacing: -0.02em;
-    }
-
-    .hero h1 span {
-      color: var(--primary);
-      font-style: italic;
-    }
-
-    .hero-lead {
-      font-size: 1.08rem;
-      color: var(--text-muted);
-      margin-bottom: 30px;
-      max-width: 580px;
-    }
-
-    .hero-cta-group {
+      position: relative;
+      min-height: calc(100vh - 20px);
+      min-height: 640px;
+      margin-top: 68px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 32px;
-    }
-
-    .trust-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px 22px;
-      padding-top: 22px;
-      border-top: 1px solid var(--border-soft);
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text-muted);
-    }
-
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .trust-check {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--primary-light);
-      color: var(--primary);
-      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .hero-visual {
-      position: relative;
-      padding-bottom: 28px; /* Prostor pro vycentrované spodní okénko */
-    }
-
-    .hero-image-card {
-      position: relative;
-      border-radius: var(--radius-lg);
+      text-align: center;
+      color: #FFFFFF;
+      padding: 64px 20px;
       overflow: hidden;
-      box-shadow: var(--shadow-soft);
-      aspect-ratio: 4 / 4.4;
-      background: linear-gradient(145deg, #dfeae2, #f0eae1);
+      background-color: #232924;
     }
 
-    .hero-image-card img {
+    .hero-bg {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+      object-position: center;
+      filter: brightness(0.58) contrast(1.02);
+      transform: scale(1.02);
+      z-index: 1;
     }
 
-    /* OPRAVENÉ OKÉNKO: Přesně vycentrované na střed fotky */
-    .floating-notice {
+    .hero-overlay {
       position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(100% - 40px);
-      max-width: 430px;
-      background: var(--surface-white);
-      padding: 16px 20px;
-      border-radius: var(--radius-md);
-      box-shadow: 0 18px 40px rgba(31, 36, 33, 0.14);
-      border-left: 4px solid var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      inset: 0;
+      background: radial-gradient(
+        circle at center,
+        rgba(28, 38, 30, 0.35) 0%,
+        rgba(20, 26, 22, 0.68) 100%
+      );
       z-index: 2;
     }
 
-    .notice-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: var(--primary-light);
-      color: var(--primary);
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 720px;
+      margin: 0 auto;
       display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Vektorové logo stonožky bez pozadí (pro PC i mobil) */
+    .hero-centipede-logo {
+      margin-bottom: 10px;
+      color: rgba(255, 255, 255, 0.94);
+    }
+
+    .hero-centipede-svg {
+      width: 128px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .hero-brand-sub {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.95);
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+    }
+
+    .hero-swoosh {
+      width: 110px;
+      height: 10px;
+      margin-bottom: 24px;
+      color: #8CA87C;
+    }
+
+    .hero h1 {
+      color: #FFFFFF;
+      font-size: clamp(2.4rem, 5.2vw, 4.1rem);
+      font-weight: 500;
+      line-height: 1.12;
+      margin-bottom: 22px;
+      letter-spacing: -0.01em;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-services-line {
+      display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      font-size: 1.15rem;
+      gap: 8px 12px;
+      font-size: clamp(0.84rem, 1.5vw, 1rem);
+      color: rgba(255, 255, 255, 0.88);
+      font-weight: 400;
+      margin-bottom: 34px;
+      letter-spacing: 0.01em;
     }
 
-    .floating-notice p {
-      font-size: 0.83rem;
-      color: var(--text-muted);
-      line-height: 1.42;
+    .hero-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #8CA87C;
+      display: inline-block;
     }
 
-    .floating-notice strong {
-      color: var(--text-dark);
-      display: block;
-      margin-bottom: 2px;
-      font-size: 0.92rem;
+    .btn-hero-book {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 34px;
+      border-radius: 999px;
+      background-color: var(--sage-btn);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+      transition: var(--transition-smooth);
+      margin-bottom: 26px;
+    }
+
+    .btn-hero-book:hover {
+      background-color: var(--sage-btn-hover);
+      transform: translateY(-2px);
+    }
+
+    .hero-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .hero-location:hover {
+      color: #FFFFFF;
     }
 
     /* ========================
-       3. SERVICES SECTION
+       3. MINIMALISTICKÉ SLUŽBY
        ======================== */
-    .section-sand {
-      background: var(--bg-sand);
-      padding: 92px 0;
+    .services-section {
+      padding: 76px 0;
+      background: var(--bg-main);
     }
 
     .section-header {
       text-align: center;
-      max-width: 680px;
-      margin: 0 auto 52px;
+      max-width: 600px;
+      margin: 0 auto 44px;
     }
 
     .section-eyebrow {
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      font-size: 0.74rem;
       font-weight: 700;
       color: var(--primary);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: block;
     }
 
     .section-header h2 {
-      font-size: clamp(1.9rem, 3.4vw, 2.85rem);
-      margin-bottom: 12px;
+      font-size: clamp(1.9rem, 3.2vw, 2.65rem);
+      font-weight: 600;
+      margin-bottom: 10px;
     }
 
     .section-header p {
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     .services-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
+      gap: 22px;
     }
 
     .service-card {
       background: var(--surface-white);
       border-radius: var(--radius-md);
-      overflow: hidden;
+      padding: 28px;
+      border: 1px solid var(--border-soft);
       box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(46, 90, 68, 0.06);
       display: flex;
       flex-direction: column;
       transition: var(--transition-smooth);
     }
 
     .service-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px);
+      border-color: rgba(43, 83, 62, 0.28);
     }
 
-    .service-img-wrap {
-      height: 220px;
-      overflow: hidden;
-      position: relative;
-      background: #e7e2d8;
-      flex-shrink: 0;
-    }
-
-    .service-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .service-card:hover .service-img-wrap img {
-      transform: scale(1.05);
-    }
-
-    .service-tag {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      padding: 5px 12px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--primary);
-      backdrop-filter: blur(6px);
-    }
-
-    .service-tag.terracotta {
-      background: var(--terracotta);
-      color: #fff;
-    }
-
-    .service-body {
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .service-body h3 {
-      font-size: 1.65rem;
-      margin-bottom: 10px;
-    }
-
-    .service-body p {
-      color: var(--text-muted);
-      font-size: 0.94rem;
-      margin-bottom: 24px;
-      flex-grow: 1;
-    }
-
-    .service-footer {
-      padding-top: 16px;
-      border-top: 1px solid var(--border-soft);
+    .service-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      margin-bottom: 14px;
     }
 
-    .service-meta {
-      font-size: 0.82rem;
-      color: var(--text-muted);
+    .service-pill {
+      font-size: 0.73rem;
       font-weight: 600;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
     }
 
-    .service-link {
+    .service-time {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .service-card h3 {
+      font-size: 1.55rem;
+      margin-bottom: 8px;
+    }
+
+    .service-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .service-btn {
       background: none;
       border: none;
       color: var(--primary);
-      font-weight: 700;
-      font-size: 0.9rem;
+      font-weight: 600;
+      font-size: 0.88rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      padding: 0;
       font-family: inherit;
-      transition: gap 0.2s ease;
+      align-self: flex-start;
     }
 
-    .service-card:hover .service-link {
+    .service-btn:hover {
       gap: 10px;
     }
 
     /* ========================
-       4. BOOKING HUB (CAL.COM)
+       4. REZERVAČNÍ CENTRUM (CAL.COM)
        ======================== */
     .booking-section {
-      padding: 92px 0;
-    }
-
-    .live-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--primary-light);
-      color: var(--primary);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .pulse-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--primary);
-      position: relative;
-    }
-
-    .pulse-dot::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 2px solid var(--primary);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(0.8); opacity: 0.9; }
-      100% { transform: scale(1.9); opacity: 0; }
+      padding: 76px 0;
+      background: var(--bg-sand);
     }
 
     .booking-shell {
       background: var(--surface-white);
       border-radius: var(--radius-lg);
-      box-shadow: 0 20px 50px -12px rgba(31, 36, 33, 0.1);
+      box-shadow: var(--shadow-soft);
       border: 1px solid var(--border-soft);
       overflow: hidden;
     }
@@ -702,77 +522,64 @@
     .booking-tabs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      background: var(--bg-sand);
-      padding: 8px;
-      gap: 8px;
-      border-bottom: 1px solid var(--border-soft);
+      background: #E9E2D8;
+      padding: 6px;
+      gap: 6px;
     }
 
     .booking-tab {
-      padding: 14px 14px;
+      padding: 13px 12px;
       border-radius: var(--radius-sm);
       border: none;
       background: transparent;
       font-family: inherit;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
       cursor: pointer;
       transition: var(--transition-smooth);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
       text-align: center;
     }
 
     .booking-tab:hover {
       color: var(--text-dark);
-      background: rgba(255, 255, 255, 0.5);
     }
 
     .booking-tab.active {
       background: var(--primary);
-      color: #fff;
-      box-shadow: 0 6px 16px rgba(46, 90, 68, 0.25);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(43, 83, 62, 0.22);
     }
 
     .booking-content-area {
-      padding: 28px;
-      min-height: 560px;
+      padding: 24px;
+      min-height: 540px;
     }
 
     .cal-embed-wrapper {
       width: 100%;
-      min-height: 520px;
-      border-radius: var(--radius-md);
+      min-height: 500px;
     }
 
     /* Callback Form pro telefonické objednávky */
     .callback-panel {
       display: none;
-      max-width: 780px;
-      margin: 16px auto;
+      max-width: 740px;
+      margin: 12px auto;
       background: var(--bg-main);
-      padding: 36px;
+      padding: 32px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-soft);
     }
 
     .callback-panel.active {
       display: block;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .callback-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
+      gap: 28px;
       align-items: start;
     }
 
@@ -782,21 +589,19 @@
 
     .form-group label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-dark);
+      margin-bottom: 5px;
     }
 
     .form-control {
       width: 100%;
-      padding: 12px 15px;
+      padding: 11px 14px;
       border-radius: var(--radius-sm);
-      border: 1.5px solid rgba(31, 36, 33, 0.15);
+      border: 1px solid rgba(30, 36, 32, 0.18);
       background: #fff;
       font-family: inherit;
-      font-size: 0.95rem;
-      transition: border-color 0.2s ease;
+      font-size: 0.92rem;
     }
 
     .form-control:focus {
@@ -806,7 +611,7 @@
 
     .direct-call-box {
       background: var(--surface-white);
-      padding: 20px;
+      padding: 18px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-soft);
     }
@@ -815,14 +620,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 14px;
-      border-radius: 10px;
+      padding: 11px 14px;
+      border-radius: 8px;
       background: var(--bg-sand);
       color: var(--text-dark);
       text-decoration: none;
-      font-weight: 700;
-      font-size: 0.92rem;
-      margin-top: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 8px;
       transition: var(--transition-smooth);
     }
 
@@ -831,33 +636,51 @@
       color: #fff;
     }
 
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
     /* ========================
-       5. PRICING & RULES
+       5. KOMPAKTNÍ CENÍK
        ======================== */
     .pricing-section {
-      padding: 84px 0;
-      background: var(--bg-sand);
+      padding: 76px 0;
+      background: var(--bg-main);
     }
 
     .pricing-layout {
       display: grid;
       grid-template-columns: 1.35fr 0.65fr;
-      gap: 36px;
+      gap: 32px;
       align-items: start;
     }
 
     .price-card {
       background: var(--surface-white);
       border-radius: var(--radius-md);
-      padding: 34px;
+      padding: 32px;
+      border: 1px solid var(--border-soft);
       box-shadow: var(--shadow-soft);
     }
 
     .price-category-title {
-      font-size: 1.45rem;
-      margin: 22px 0 12px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--bg-sand);
+      font-size: 1.35rem;
+      margin: 20px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--bg-sand);
       color: var(--primary);
     }
 
@@ -869,8 +692,8 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      padding: 11px 0;
-      border-bottom: 1px dashed rgba(31, 36, 33, 0.12);
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(30, 36, 32, 0.1);
       gap: 16px;
     }
 
@@ -880,17 +703,17 @@
 
     .price-name strong {
       display: block;
-      font-size: 0.96rem;
+      font-size: 0.94rem;
     }
 
     .price-name span {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
     }
 
     .price-value {
-      font-weight: 700;
-      font-size: 1rem;
+      font-weight: 600;
+      font-size: 0.92rem;
       white-space: nowrap;
       color: var(--text-dark);
     }
@@ -898,21 +721,20 @@
     .rules-box {
       background: var(--primary);
       color: #fff;
-      padding: 32px;
+      padding: 30px;
       border-radius: var(--radius-md);
-      box-shadow: var(--shadow-soft);
     }
 
     .rules-box h3 {
       color: #fff;
-      font-size: 1.65rem;
-      margin-bottom: 16px;
+      font-size: 1.55rem;
+      margin-bottom: 14px;
     }
 
     .rule-item {
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .rule-item:last-child {
@@ -923,50 +745,50 @@
 
     .rule-item strong {
       display: block;
-      margin-bottom: 4px;
-      font-size: 0.94rem;
+      margin-bottom: 3px;
+      font-size: 0.9rem;
     }
 
     .rule-item p {
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.84);
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.82);
     }
 
     /* ========================
-       6. FOOTER & CONTACT
+       6. PATIČKA A KONTAKT
        ======================== */
     .footer {
-      background: #1B3327;
-      color: #FAF7F2;
-      padding: 72px 0 36px;
+      background: #192B21;
+      color: #FAF8F5;
+      padding: 64px 0 32px;
     }
 
     .footer-grid {
       display: grid;
       grid-template-columns: 1fr 1.1fr;
-      gap: 44px;
+      gap: 40px;
       align-items: center;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
 
     .footer h2 {
       color: #fff;
-      font-size: 2.2rem;
-      margin-bottom: 14px;
+      font-size: 2rem;
+      margin-bottom: 10px;
     }
 
     .contact-list {
       list-style: none;
       display: grid;
-      gap: 14px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 18px;
     }
 
     .contact-list li {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      font-size: 0.95rem;
+      gap: 10px;
+      font-size: 0.92rem;
     }
 
     .contact-list a {
@@ -975,16 +797,11 @@
       font-weight: 600;
     }
 
-    .contact-list a:hover {
-      color: var(--terracotta);
-    }
-
     .map-card {
       border-radius: var(--radius-md);
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      height: 320px;
-      background: #264234;
+      height: 280px;
+      background: #233B2E;
     }
 
     .map-card iframe {
@@ -994,18 +811,43 @@
     }
 
     .footer-bottom {
-      padding-top: 24px;
+      padding-top: 22px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
-      font-size: 0.82rem;
-      color: rgba(250, 247, 242, 0.65);
+      font-size: 0.8rem;
+      color: rgba(250, 248, 245, 0.6);
+    }
+
+    /* Plovoucí tlačítko telefonu vpravo dole (přesně podle mobilního návrhu) */
+    .floating-phone-fab {
+      position: fixed;
+      right: 20px;
+      bottom: 22px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(25, 43, 33, 0.38);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      text-decoration: none;
+      z-index: 990;
+      transition: var(--transition-smooth);
+    }
+
+    .floating-phone-fab:hover {
+      transform: scale(1.06);
+      background-color: var(--primary-hover);
     }
 
     /* ========================
-       KOMPAKTNÍ MOBILNÍ DESIGN (Oprava délky a ovládání)
+       MOBILNÍ MINIMALISMUS
        ======================== */
     @media (max-width: 992px) {
       .nav-links,
@@ -1013,184 +855,75 @@
         display: none;
       }
 
-      .mobile-nav-controls {
+      .hamburger-btn {
         display: flex;
       }
 
-      .navbar {
-        height: 68px;
-      }
-
-      .hero {
-        padding: 96px 0 48px;
-      }
-
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-
+      .services-grid,
       .pricing-layout,
       .footer-grid,
       .callback-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
       }
 
-      /* Na tabletu a mobilu jsou přepínače rezervací v mřížce 2x2 místo dlouhého sloupce */
       .booking-tabs {
         grid-template-columns: 1fr 1fr;
-        gap: 6px;
-        padding: 6px;
-      }
-
-      /* Kompaktní karty služeb pod sebou */
-      .services-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
       }
     }
 
     @media (max-width: 640px) {
       .container {
-        padding: 0 16px;
+        padding: 0 18px;
       }
 
-      .brand-logo-wrap {
-        width: 40px;
-        height: 40px;
+      .navbar {
+        height: 60px;
       }
 
       .brand-title {
-        font-size: 1.25rem;
+        font-size: 1.3rem;
       }
 
-      .brand-sub {
-        font-size: 0.62rem;
+      .hero {
+        margin-top: 60px;
+        min-height: calc(100svh - 60px);
+        padding: 44px 18px 56px;
       }
 
-      .badge-location {
-        font-size: 0.76rem;
-        padding: 5px 12px;
-        margin-bottom: 12px;
+      /* Na mobilu jemnější logo nad nadpisem */
+      .hero-centipede-svg {
+        width: 96px;
+      }
+
+      .hero-swoosh {
+        width: 80px;
+        margin-bottom: 18px;
       }
 
       .hero h1 {
-        font-size: 2.15rem;
-        margin-bottom: 12px;
+        font-size: 2.35rem;
+        margin-bottom: 16px;
       }
 
-      .hero-lead {
-        font-size: 0.95rem;
-        margin-bottom: 20px;
+      .hero-services-line {
+        font-size: 0.82rem;
+        gap: 6px 9px;
+        margin-bottom: 28px;
       }
 
-      /* Tlačítka v Hero sekci vedle sebe na šířku displeje, ať to není dlouhé */
-      .hero-cta-group {
-        display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
-        gap: 10px;
-        margin-bottom: 20px;
+      .btn-hero-book {
+        padding: 14px 28px;
+        font-size: 0.94rem;
       }
 
-      .hero-cta-group .btn-primary,
-      .hero-cta-group .btn-secondary {
-        padding: 12px 14px;
-        font-size: 0.86rem;
-      }
-
-      .trust-bar {
-        gap: 8px 14px;
-        padding-top: 14px;
-        font-size: 0.8rem;
-      }
-
-      /* Kompaktní fotka a vycentrované okénko na mobilu */
-      .hero-visual {
-        padding-bottom: 0;
-      }
-
-      .hero-image-card {
-        aspect-ratio: 16 / 10;
-        border-radius: 18px;
-      }
-
-      .floating-notice {
-        position: relative;
-        left: auto;
-        bottom: auto;
-        transform: none;
-        width: 94%;
-        margin: -22px auto 0;
-        padding: 13px 15px;
-        border-radius: 14px;
-      }
-
-      /* KOMPAKTNÍ HORIZONTÁLNÍ KARTY SLUŽEB NA MOBILU */
-      .section-sand,
+      .services-section,
       .booking-section,
       .pricing-section {
         padding: 52px 0;
       }
 
-      .section-header {
-        margin-bottom: 28px;
-      }
-
       .service-card {
-        display: grid;
-        grid-template-columns: 112px 1fr;
-        align-items: stretch;
-      }
-
-      .service-img-wrap {
-        height: 100%;
-        min-height: 145px;
-      }
-
-      .service-tag {
-        top: 8px;
-        left: 8px;
-        padding: 3px 8px;
-        font-size: 0.64rem;
-      }
-
-      .service-body {
-        padding: 14px 16px;
-      }
-
-      .service-body h3 {
-        font-size: 1.3rem;
-        margin-bottom: 4px;
-      }
-
-      .service-body p {
-        font-size: 0.82rem;
-        margin-bottom: 10px;
-        line-height: 1.4;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      .service-footer {
-        padding-top: 8px;
-      }
-
-      .service-meta {
-        font-size: 0.75rem;
-      }
-
-      .service-link {
-        font-size: 0.82rem;
-      }
-
-      /* Rezervační taby v mřížce 2x2 s kompaktním písmem */
-      .booking-tab {
-        padding: 11px 8px;
-        font-size: 0.8rem;
-        gap: 5px;
+        padding: 20px;
       }
 
       .booking-content-area {
@@ -1200,7 +933,6 @@
 
       .callback-panel {
         padding: 20px 16px;
-        margin: 8px auto;
       }
 
       .price-card,
@@ -1209,31 +941,26 @@
       }
 
       .map-card {
-        height: 230px;
+        height: 220px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- 1. STICKY NAVBAR -->
+  <!-- 1. MINIMALISTICKÁ HLAVIČKA (S ČISTÝM VEKTOROVÝM LOGEM BEZ POZADÍ) -->
   <header class="navbar" id="navbar">
     <div class="container nav-inner">
       <a href="#" class="brand">
-        <div class="brand-logo-wrap">
-          <!-- TVOJE NAHRANÉ LOGO STONOŽKY (pokud se soubor nenajde, zobrazí se záložní ikona) -->
-          <img 
-            src="D5745603-9E76-4D04-B39C-D70C6FE70EFF.png" 
-            alt="Logo Pedikúra u Stonožky" 
-            class="brand-logo-img"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <span style="display:none; width:100%; height:100%; align-items:center; justify-content:center; background:var(--primary); color:#fff; font-size:1.1rem;">🦶</span>
-        </div>
-        <div class="brand-text">
-          <span class="brand-title">Pedikúra u Stonožky</span>
-          <span class="brand-sub">Uherský Brod • Lucie Stožková</span>
-        </div>
+        <!-- Vektorová minimalistická stonožka (vlnovka s nožičkami z návrhu) -->
+        <svg class="brand-wave-svg" viewBox="0 0 64 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 15C9 7 15 7 20 15C25 23 31 23 36 15C41 7 47 7 52 15C55 19 58 18 60 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="12" cy="18" r="1.7" fill="currentColor"/>
+          <circle cx="28" cy="18" r="1.7" fill="currentColor"/>
+          <circle cx="44" cy="18" r="1.7" fill="currentColor"/>
+          <circle cx="57" cy="9" r="1.7" fill="currentColor"/>
+        </svg>
+        <span class="brand-title">Pedikúra <em>u Stonožky</em></span>
       </a>
 
       <!-- Desktop odkazy -->
@@ -1244,135 +971,146 @@
         <li><a href="#kontakt">Kontakt</a></li>
       </ul>
 
-      <!-- Desktop akční tlačítka -->
+      <!-- Desktop CTA -->
       <div class="nav-actions">
-        <a href="tel:+420704507123" class="btn-phone" title="Zavolat do salónu">
-          📞 <span>+420 704 507 123</span>
-        </a>
-        <a href="#rezervace" class="btn-primary">Objednat online</a>
+        <a href="#rezervace" class="btn-nav-book">Objednat se online ↗</a>
       </div>
 
-      <!-- Mobilní ovládání: Rychlé volání + Hamburger tlačítko -->
-      <div class="mobile-nav-controls">
-        <a href="tel:+420704507123" class="mobile-call-btn" aria-label="Zavolat do salónu">📞</a>
-        <button class="hamburger-btn" id="hamburger-btn" aria-label="Otevřít menu" onclick="toggleMobileMenu()">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
-      </div>
+      <!-- Mobilní Hamburger tlačítko -->
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Otevřít menu" onclick="toggleMobileMenu()">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </div>
   </header>
 
   <!-- Vysouvací Hamburger Menu pro telefon -->
   <nav class="mobile-menu-drawer" id="mobile-drawer">
     <ul class="mobile-menu-list">
-      <li><a href="#sluzby" onclick="closeMobileMenu()"><span>Naše služby</span><span>→</span></a></li>
+      <li><a href="#sluzby" onclick="closeMobileMenu()"><span>Služby</span><span>→</span></a></li>
       <li><a href="#rezervace" onclick="closeMobileMenu()"><span>Online rezervace</span><span>→</span></a></li>
-      <li><a href="#cenik" onclick="closeMobileMenu()"><span>Orientační ceník</span><span>→</span></a></li>
-      <li><a href="#kontakt" onclick="closeMobileMenu()"><span>Kde nás najdete</span><span>→</span></a></li>
+      <li><a href="#cenik" onclick="closeMobileMenu()"><span>Ceník</span><span>→</span></a></li>
+      <li><a href="#kontakt" onclick="closeMobileMenu()"><span>Kontakt a mapa</span><span>→</span></a></li>
     </ul>
-    <div class="mobile-menu-actions">
-      <a href="#rezervace" class="btn-primary" onclick="closeMobileMenu()" style="width:100%;">Rezervovat termín online</a>
-      <a href="tel:+420704507123" class="btn-phone" style="width:100%; justify-content:center;">Zavolat: +420 704 507 123</a>
-    </div>
+    <a href="#rezervace" class="btn-primary" onclick="closeMobileMenu()" style="width:100%;">Objednat se online ↗</a>
   </nav>
 
-  <!-- 2. HERO SECTION -->
+  <!-- 2. HERO SEKCE PODLE NOVÉHO NÁVRHU -->
   <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <div class="badge-location">
-          <span class="badge-dot"></span>
-          Náměstí 1. máje 1571, Uherský Brod
-        </div>
-        <h1>Zdravé kroky, upravené ruce a <span>omlazená pleť</span> na jednom místě.</h1>
-        <p class="hero-lead">
-          Dopřejte si šetrnou přístrojovou pedikúru, profesionální manikúru nebo relax v kolagenovém soláriu. Vyberte si svůj termín online za 30 vteřin – bez registrace, bez hesel a bez čekání na telefonu.
-        </p>
-        <div class="hero-cta-group">
-          <a href="#rezervace" class="btn-primary">Vybrat termín ↓</a>
-          <a href="#cenik" class="btn-secondary">Ceník služeb</a>
-        </div>
-        <div class="trust-bar">
-          <div class="trust-item"><span class="trust-check">✓</span> Suchá bezbolestná metoda</div>
-          <div class="trust-item"><span class="trust-check">✓</span> Okamžité potvrzení</div>
-          <div class="trust-item"><span class="trust-check">✓</span> Změna termínu online</div>
-        </div>
+    <img 
+      src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=1600&q=85" 
+      alt="Péče o nohy a ruce – Pedikúra u Stonožky" 
+      class="hero-bg"
+    />
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <!-- Čisté linkové logo stonožky bez pozadí -->
+      <div class="hero-centipede-logo">
+        <svg class="hero-centipede-svg" viewBox="0 0 180 86" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Tělo stonožky z jemných obloučků -->
+          <circle cx="42" cy="56" r="11" stroke="currentColor" stroke-width="2.2" fill="none"/>
+          <circle cx="62" cy="52" r="12" stroke="currentColor" stroke-width="2.2" fill="none"/>
+          <circle cx="84" cy="54" r="12.5" stroke="currentColor" stroke-width="2.2" fill="none"/>
+          <circle cx="106" cy="51" r="13" stroke="currentColor" stroke-width="2.2" fill="none"/>
+          <!-- Hlava s úsměvem -->
+          <circle cx="129" cy="39" r="15.5" stroke="currentColor" stroke-width="2.2" fill="none"/>
+          <circle cx="124" cy="35" r="1.6" fill="currentColor"/>
+          <circle cx="134" cy="35" r="1.6" fill="currentColor"/>
+          <path d="M124 43C126.5 46 131.5 46 134 43" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <!-- Tykadla -->
+          <path d="M124 24C121 15 116 12 113 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="112" cy="14" r="2.2" fill="currentColor"/>
+          <path d="M134 24C137 15 142 12 145 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="146" cy="14" r="2.2" fill="currentColor"/>
+          <!-- Nožičky -->
+          <path d="M36 66L31 74M45 67L42 75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M57 63L53 72M66 64L64 73" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M79 66L76 75M88 66L87 75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M102 63L100 73M112 63L112 72" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
       </div>
 
-      <div class="hero-visual">
-        <div class="hero-image-card">
-          <img src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=1000&q=80" alt="Salón Pedikúra u Stonožky Uherský Brod" />
-        </div>
-        <!-- Vycentrované okénko uprostřed pod fotkou -->
-        <div class="floating-notice">
-          <div class="notice-icon">🔕</div>
-          <div>
-            <strong>Věnuji se klientkám na 100 %</strong>
-            <p>Během ošetření nemohu zvedat telefon. Všechny volné termíny vidíte živě v kalendáři níže – rezervace je okamžitá.</p>
-          </div>
-        </div>
+      <div class="hero-brand-sub">Pedikúra u Stonožky</div>
+
+      <!-- Zelený oblouček pod názvem -->
+      <svg class="hero-swoosh" viewBox="0 0 120 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 9C38 2 82 2 116 9" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+
+      <h1>Péče o vaše nohy,<br />ruce i přirozenou krásu</h1>
+
+      <div class="hero-services-line">
+        <span>Přístrojová pedikúra</span>
+        <span class="hero-dot"></span>
+        <span>Manikúra</span>
+        <span class="hero-dot"></span>
+        <span>Gel lak</span>
+        <span class="hero-dot"></span>
+        <span>Kolagenové solárium</span>
       </div>
+
+      <a href="#rezervace" class="btn-hero-book">
+        <!-- Ikona kalendáře -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>Objednat se online</span>
+        <span>→</span>
+      </a>
+
+      <a href="#kontakt" class="hero-location">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <span>náměstí 1. máje 1571, Uherský Brod</span>
+      </a>
     </div>
   </section>
 
-  <!-- 3. SLUŽBY -->
-  <section class="section-sand" id="sluzby">
+  <!-- 3. ČISTÝ PŘEHLED SLUŽEB (BEZ ZBYTEČNÉHO BALASTU) -->
+  <section class="services-section" id="sluzby">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow">Kompletní péče v Uherském Brodě</span>
-        <h2>Naše služby pro vaše pohodlí a krásu</h2>
-        <p>Kliknutím na vybranou službu se vám rovnou otevře kalendář s volnými časy pro danou proceduru.</p>
+        <span class="section-eyebrow">Služby salónu</span>
+        <h2>Vyberte si svou péči</h2>
+        <p>Během ošetření se plně věnuji klientkám a nemohu zvedat telefon – volný termín si pohodlně vyberete online níže.</p>
       </div>
 
       <div class="services-grid">
-        <!-- Karta 1 -->
         <article class="service-card">
-          <div class="service-img-wrap">
-            <span class="service-tag">Nejžádanější</span>
-            <img src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=800&q=80" alt="Přístrojová pedikúra Uherský Brod" />
+          <div class="service-top">
+            <span class="service-pill">Suchá medicinální metoda</span>
+            <span class="service-time">45–60 min</span>
           </div>
-          <div class="service-body">
-            <h3>Přístrojová pedikúra</h3>
-            <p>Moderní medicinální ošetření chodidel nasucho pomocí vysokoobrátkové frézy. Zcela bezbolestné, maximálně hygienické a vhodné i pro diabetiky či zarůstající nehty.</p>
-            <div class="service-footer">
-              <span class="service-meta">⏱ 45–60 min</span>
-              <button class="service-link" onclick="selectBookingTab('pedikura')">Rezervovat →</button>
-            </div>
-          </div>
+          <h3>Přístrojová pedikúra</h3>
+          <p>Bezbolestné a maximálně hygienické ošetření chodidel a nehtů vysokoobrátkovou frézou. Vhodné i pro zarůstající nehty a diabetiky.</p>
+          <button class="service-btn" onclick="selectBookingTab('pedikura')">Vybrat termín →</button>
         </article>
 
-        <!-- Karta 2 -->
         <article class="service-card">
-          <div class="service-img-wrap">
-            <span class="service-tag">Péče o ruce</span>
-            <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=800&q=80" alt="Manikúra Uherský Brod" />
+          <div class="service-top">
+            <span class="service-pill">Manikúra & Gel lak</span>
+            <span class="service-time">30–60 min</span>
           </div>
-          <div class="service-body">
-            <h3>Manikúra</h3>
-            <p>Precizní úprava tvaru nehtů, šetrné ošetření nehtového okolí, výživa, leštění přírodních nehtů nebo odolné lakování pro dlouhodobě upravené ruce.</p>
-            <div class="service-footer">
-              <span class="service-meta">⏱ 30–60 min</span>
-              <button class="service-link" onclick="selectBookingTab('manikura')">Rezervovat →</button>
-            </div>
-          </div>
+          <h3>Manikúra a úprava nehtů</h3>
+          <p>Precizní tvarování nehtů, ošetření nehtového okolí, výživa a odolné lakování klasickým lakem nebo dlouhotrvajícím gel lakem.</p>
+          <button class="service-btn" onclick="selectBookingTab('manikura')">Vybrat termín →</button>
         </article>
 
-        <!-- Karta 3 -->
         <article class="service-card">
-          <div class="service-img-wrap">
-            <span class="service-tag terracotta">Kolagen</span>
-            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" alt="Kolagenové solárium Uherský Brod" />
+          <div class="service-top">
+            <span class="service-pill">Omlazení pokožky</span>
+            <span class="service-time">10–20 min</span>
           </div>
-          <div class="service-body">
-            <h3>Kolagenové solárium</h3>
-            <p>Speciální kolagenové trubice stimulují tvorbu vlastního kolagenu a elastinu v pokožce, zjemňují vrásky a dodávají pleti zdravý, přirozený tón a energii.</p>
-            <div class="service-footer">
-              <span class="service-meta">⏱ 10–20 min</span>
-              <button class="service-link" onclick="selectBookingTab('solarium')">Rezervovat →</button>
-            </div>
-          </div>
+          <h3>Kolagenové solárium</h3>
+          <p>Kolagenové trubice podporují přirozenou tvorbu kolagenu a elastinu, zjemňují pokožku a dodávají pleti zdravý tón.</p>
+          <button class="service-btn" onclick="selectBookingTab('solarium')">Vybrat termín →</button>
         </article>
       </div>
     </div>
@@ -1382,16 +1120,12 @@
   <section class="booking-section" id="rezervace">
     <div class="container">
       <div class="section-header">
-        <div class="live-indicator">
-          <span class="pulse-dot"></span>
-          Online rezervační systém otevřen 24/7
-        </div>
-        <h2>Vyberte si službu a volný termín</h2>
-        <p>Žádné zakládání účtu ani hesla. Vyberte proceduru, klikněte na volný čas a potvrzení vám ihned dorazí na e-mail.</p>
+        <span class="section-eyebrow">Online rezervace 24/7</span>
+        <h2>Rezervujte si termín bez čekání</h2>
+        <p>Klikněte na požadovanou službu, vyberte volný čas v kalendáři a potvrzení vám ihned dorazí na e-mail.</p>
       </div>
 
       <div class="booking-shell">
-        <!-- Přepínací záložky (na mobilu přehledná mřížka 2x2) -->
         <div class="booking-tabs" role="tablist">
           <button class="booking-tab active" data-tab="pedikura" onclick="selectBookingTab('pedikura', false)">
             Pedikúra
@@ -1415,28 +1149,27 @@
           <div id="callback-panel" class="callback-panel">
             <div class="callback-grid">
               <div>
-                <h3 class="serif-title" style="font-size: 1.85rem; margin-bottom: 10px;">Potřebujete individuální domluvu?</h3>
-                <p style="color: var(--text-muted); margin-bottom: 18px; font-size: 0.92rem;">
-                  Některé specifické nebo kombinované úkony objednávám po krátké telefonické domluvě. Pokud se mi právě nemůžete dovolat, věnuji se klientkám – <strong>zanechte mi zde své číslo a já vám zavolám zpět hned, jakmile skončím práci.</strong>
+                <h3 class="serif-title" style="font-size: 1.75rem; margin-bottom: 10px;">Potřebujete individuální domluvu?</h3>
+                <p style="color: var(--text-muted); margin-bottom: 18px; font-size: 0.9rem;">
+                  Některé specifické nebo kombinované úkony objednávám po krátké telefonické domluvě. Pokud se mi právě nemůžete dovolat, věnuji se klientkám – <strong>zanechte mi zde své číslo a zavolám vám zpět.</strong>
                 </p>
 
                 <div class="direct-call-box">
-                  <strong style="font-size: 0.86rem; color: var(--text-muted);">Chcete zkusit zavolat rovnou?</strong>
+                  <strong style="font-size: 0.84rem; color: var(--text-muted);">Telefonní kontakt:</strong>
                   <a href="tel:+420704507123" class="phone-card-link">
-                    <span>📞 Hlavní telefon</span>
+                    <span>Hlavní telefon</span>
                     <span>+420 704 507 123</span>
                   </a>
                   <a href="tel:+420608119153" class="phone-card-link">
-                    <span>📱 Druhý telefon</span>
+                    <span>Druhý telefon</span>
                     <span>+420 608 119 153</span>
                   </a>
                 </div>
               </div>
 
-              <!-- Formulář napojený na e-mail (Web3Forms) -->
               <form id="callback-form" onsubmit="handleCallbackSubmit(event)">
                 <div class="form-group">
-                  <label for="cb-name">Vaše jméno a příjmení *</label>
+                  <label for="cb-name">Jméno a příjmení *</label>
                   <input type="text" id="cb-name" name="Jmeno" class="form-control" placeholder="Např. Jana Nováková" required />
                 </div>
                 <div class="form-group">
@@ -1444,13 +1177,13 @@
                   <input type="tel" id="cb-phone" name="Telefon" class="form-control" placeholder="+420 777 123 456" required />
                 </div>
                 <div class="form-group">
-                  <label for="cb-service">O jakou službu máte zájem / Poznámka *</label>
-                  <textarea id="cb-service" name="Zprava" rows="3" class="form-control" placeholder="Napište, s čím potřebujete pomoci nebo kdy se vám hodí zavolat..." required></textarea>
+                  <label for="cb-service">O jakou službu máte zájem *</label>
+                  <textarea id="cb-service" name="Zprava" rows="3" class="form-control" placeholder="Napište, s čím potřebujete pomoci..." required></textarea>
                 </div>
                 <button type="submit" class="btn-primary" style="width: 100%;" id="cb-submit-btn">
                   Požádat o zavolání zpět
                 </button>
-                <p id="cb-status" style="margin-top: 12px; font-size: 0.88rem; text-align: center; display: none;"></p>
+                <p id="cb-status" style="margin-top: 12px; font-size: 0.86rem; text-align: center; display: none;"></p>
               </form>
             </div>
           </div>
@@ -1463,9 +1196,8 @@
   <section class="pricing-section" id="cenik">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow">Transparentní ceny</span>
-        <h2>Orientační ceník procedur</h2>
-        <p>Přesnou délku a rozsah ošetření vždy přizpůsobíme potřebám vašich nohou, rukou a pokožky.</p>
+        <span class="section-eyebrow">Přehled procedur</span>
+        <h2>Orientační ceník</h2>
       </div>
 
       <div class="pricing-layout">
@@ -1480,13 +1212,13 @@
           </div>
           <div class="price-row">
             <div class="price-name">
-              <strong>Přístrojová pedikúra + lakování / gellak</strong>
+              <strong>Přístrojová pedikúra + gel lak / lakování</strong>
               <span>Kompletní medicinální ošetření včetně úpravy a lakování nehtů</span>
             </div>
             <div class="price-value">dle rozsahu</div>
           </div>
 
-          <h3 class="price-category-title">Manikúra</h3>
+          <h3 class="price-category-title">Manikúra a Gel lak</h3>
           <div class="price-row">
             <div class="price-name">
               <strong>Klasická / přístrojová manikúra</strong>
@@ -1496,8 +1228,8 @@
           </div>
           <div class="price-row">
             <div class="price-name">
-              <strong>Manikúra s lakováním / gellakem</strong>
-              <span>Kompletní manikúra s odolným barevným nebo francouzským lakováním</span>
+              <strong>Manikúra s gel lakem</strong>
+              <span>Kompletní manikúra s odolným lakováním</span>
             </div>
             <div class="price-value">dle rozsahu</div>
           </div>
@@ -1506,25 +1238,25 @@
           <div class="price-row">
             <div class="price-name">
               <strong>Jednorázový vstup / Permanentka</strong>
-              <span>Šetrné kolagenové omlazení pokožky a opálení (cena za minutu / permanentku)</span>
+              <span>Šetrné kolagenové omlazení pokožky a opálení</span>
             </div>
-            <div class="price-value">na dotaz v salónu</div>
+            <div class="price-value">v salónu</div>
           </div>
         </div>
 
         <aside class="rules-box">
-          <h3>Jak to u nás chodí?</h3>
+          <h3>Dobré vědět</h3>
           <div class="rule-item">
-            <strong>Snadná změna nebo zrušení termínu</strong>
-            <p>V potvrzovacím e-mailu najdete přímé tlačítko pro přesunutí či zrušení rezervace. Nemusíte nikam volat ani psát SMS.</p>
+            <strong>Snadná změna termínu online</strong>
+            <p>V potvrzovacím e-mailu najdete přímé tlačítko pro přesunutí či zrušení rezervace bez nutnosti volat.</p>
           </div>
           <div class="rule-item">
             <strong>Zrušení nejpozději 24 h předem</strong>
-            <p>Pokud se nemůžete dostavit, uvolněte prosím termín online alespoň 24 hodin předem, aby jej mohla využít jiná klientka.</p>
+            <p>Pokud se nemůžete dostavit, uvolněte prosím termín online alespoň 24 hodin předem.</p>
           </div>
           <div class="rule-item">
             <strong>Maximální hygiena</strong>
-            <p>Mezi každou klientkou máme vyhrazený čas na důkladnou dezinfekci křesla a sterilizaci nástrojů. Prosíme o příchod na čas.</p>
+            <p>Mezi každou klientkou je vyhrazený čas na dezinfekci a sterilizaci nástrojů.</p>
           </div>
         </aside>
       </div>
@@ -1536,32 +1268,29 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <span class="section-eyebrow" style="color: var(--terracotta);">Kde nás najdete</span>
+          <span class="section-eyebrow" style="color: #8CA87C;">Kontakt</span>
           <h2>Pedikúra u Stonožky</h2>
-          <p style="color: rgba(250,247,242,0.8); max-width: 460px;">
-            Salón najdete přímo v centru Uherského Brodu na náměstí 1. máje. Těším se na vaši návštěvu – Lucie Stožková.
+          <p style="color: rgba(250,248,245,0.75); max-width: 420px; font-size: 0.92rem;">
+            Salón najdete v centru Uherského Brodu na náměstí 1. máje. Těším se na vaši návštěvu – Lucie Stožková.
           </p>
 
           <ul class="contact-list">
             <li>
               <span>📍</span>
               <div>
-                <strong>Adresa salónu:</strong><br />
-                náměstí 1. máje 1571, 688 01 Uherský Brod
+                <strong>Adresa:</strong> náměstí 1. máje 1571, 688 01 Uherský Brod
               </div>
             </li>
             <li>
               <span>📞</span>
               <div>
-                <strong>Hlavní telefon:</strong> <a href="tel:+420704507123">+420 704 507 123</a><br />
-                <strong>Druhý telefon:</strong> <a href="tel:+420608119153">+420 608 119 153</a>
+                <strong>Telefon:</strong> <a href="tel:+420704507123">+420 704 507 123</a> • <a href="tel:+420608119153">+420 608 119 153</a>
               </div>
             </li>
             <li>
               <span>✉️</span>
               <div>
-                <strong>E-mail:</strong><br />
-                <a href="mailto:lucie.stozkova.2301@seznam.cz">lucie.stozkova.2301@seznam.cz</a>
+                <strong>E-mail:</strong> <a href="mailto:lucie.stozkova.2301@seznam.cz">lucie.stozkova.2301@seznam.cz</a>
               </div>
             </li>
           </ul>
@@ -1578,11 +1307,18 @@
       </div>
 
       <div class="footer-bottom">
-        <span>© 2026 Pedikúra u Stonožky – Lucie Stožková. Všechna práva vyhrazena.</span>
-        <span>Náměstí 1. máje 1571, Uherský Brod</span>
+        <span>© 2026 Pedikúra u Stonožky – Lucie Stožková</span>
+        <span>náměstí 1. máje 1571, Uherský Brod</span>
       </div>
     </div>
   </footer>
+
+  <!-- Plovoucí tlačítko telefonu vpravo dole (jako na mobilním návrhu) -->
+  <a href="tel:+420704507123" class="floating-phone-fab" aria-label="Zavolat do salónu" title="Zavolat: +420 704 507 123">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </a>
 
   <!-- ==========================================
        JAVASCRIPT: HAMBURGER MENU, CAL.COM & FORMULÁŘ
@@ -1611,7 +1347,7 @@
       document.getElementById('mobile-drawer').classList.remove('open');
     }
 
-    // 3. KONFIGURACE CAL.COM (Zde jen vyměníš uživatelské jméno účtu!)
+    // 3. KONFIGURACE CAL.COM (Zůstává 100% zachovaná!)
     const CAL_USERNAME = "pedikura-stonozka"; 
 
     const CAL_LINKS = {
@@ -1663,7 +1399,7 @@
 
       Cal("ui", {
         theme: "light",
-        styles: { branding: { brandColor: "#2E5A44" } },
+        styles: { branding: { brandColor: "#2B533E" } },
         hideEventTypeDetails: false,
         layout: "month_view"
       });
@@ -1716,7 +1452,7 @@
         });
         if (res.ok) {
           status.style.display = "block";
-          status.style.color = "#2E5A44";
+          status.style.color = "#2B533E";
           status.textContent = "✓ Děkujeme! Vaše číslo jsme uložili, paní Stožková vám zavolá zpět.";
           e.target.reset();
         } else {
